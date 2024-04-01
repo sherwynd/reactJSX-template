@@ -1,5 +1,6 @@
 import App from "../App.jsx";
 import { Profile } from "../pages/profile/Profile.jsx";
+import { Discover } from "../pages/discover/Discover.jsx";
 import { Gathering } from "../pages/gathering/Gathering.jsx";
 import { Friend } from "../pages/friend/Friend.jsx";
 import { Notification } from "../pages/notification/Notification.jsx";
@@ -14,6 +15,10 @@ const routes = [
   {
     path: "profile",
     element: <Profile />,
+  },
+  {
+    path: "discover",
+    element: <Discover />,
   },
   {
     path: "gathering",
