@@ -1,8 +1,6 @@
-import GroupIcon from "@mui/icons-material/Group";
-
 export const mainNavbarItems = [
-  { id: 0, icon: "", label: "Profile", route: "profile" },
-  { id: 1, icon: "", label: "Gathering", route: "gathering" },
-  { id: 2, icon: "", label: "Friends", route: "friend" },
-  { id: 3, icon: "", label: "Notification", route: "notification" },
+  { id: 0, icon: "", label: "Profile Name", route: "profile" },
+  { id: 1, icon: "", label: "Coach", route: "coach" },
+  { id: 2, icon: "", label: "Shop", route: "shop" },
+  { id: 3, icon: "", label: "Purchase", route: "purchase" },
 ];
