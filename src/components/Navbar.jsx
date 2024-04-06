@@ -23,7 +23,7 @@ import { mainNavbarItems } from "../contexts/NavbarItems";
 const drawerWidth = 240;
 
 export function ResponsiveDrawer(props) {
-  const { window } = props;
+  const { window, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -142,6 +142,7 @@ export function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
+        {children}
       </Box>
     </Box>
   );
