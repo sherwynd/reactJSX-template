@@ -54,8 +54,21 @@ export function Login() {
     } else {
       setPasswordError("");
     }
-    const loginDetail = { email, password };
-    console.log(loginDetail);
+    const loginFormDetail = { email, password };
+
+    console.log(loginFormDetail);
+
+    const requestTestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(loginFormDetail),
+    };
+
+    // Perform the POST request
+    fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("There was an error!", error));
   };
   return (
     <>
