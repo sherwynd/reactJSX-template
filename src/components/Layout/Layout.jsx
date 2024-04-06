@@ -46,7 +46,10 @@ export function Layout({ children }) {
             {mainNavbarItems.map((text, index) => (
               <ListItem key={text.id} disablePadding>
                 <ListItemButton>
-                  <ListItemIcon>{index % 2 === 0}</ListItemIcon>
+                  {/* Issue happended */}
+                  <ListItemIcon>
+                    {index % 2 === 0 ? "logo" : "logo"}
+                  </ListItemIcon>
                   <ListItemText primary={text.label} />
                 </ListItemButton>
               </ListItem>
