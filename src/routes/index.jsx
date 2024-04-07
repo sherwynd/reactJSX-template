@@ -15,12 +15,10 @@ const routes = [
       { 
         path: 'coaching', 
         element: <Coaching />,
-        children: [
-          {
-            path: ':id',
-            element: <CoachingDetail/>,
-          },
-        ], 
+      },
+      { 
+        path: 'coaching/:id', 
+        element: <CoachingDetail />,
       },
       { path: 'friend', element: <Friend /> },
       { path: 'notification', element: <Notification /> },
