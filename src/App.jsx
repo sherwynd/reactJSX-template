@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { Layout } from "./components/Layout/Layout";
+import { Layout } from "./components/layout/Layout";
+import { TopNavBar } from "./components/layout/TopNavBar";
+import { Outlet } from "react-router-dom";
 import { Test } from "./components/Test";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -28,7 +30,8 @@ export default function App() {
     <>
       <ThemeProvider theme={outerTheme}>
         <CssBaseline />
-        <Layout />
+        <TopNavBar />
+        <Outlet />
       </ThemeProvider>
     </>
   );

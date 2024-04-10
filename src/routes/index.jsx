@@ -1,18 +1,25 @@
 import App from "../App.jsx";
-import { Profile } from "../pages/profile/Profile.jsx";
-import { Login } from "../pages/auth/Login.jsx";
-import { Register } from "../pages/auth/Register.jsx";
-import { ErrorPage } from "../pages/auth/ErrorPage.jsx";
+import { Profile } from "../pages/profile/Profile";
+import { Login } from "../pages/auth/Login";
+import { Register } from "../pages/auth/Register";
+import { ErrorPage } from "../pages/auth/ErrorPage";
+import { Test } from "../components/Test";
 
 const routes = [
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "profile",
-    element: <Profile />,
+    children: [
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "test",
+        element: <Test />,
+      },
+    ],
   },
   {
     path: "login",
