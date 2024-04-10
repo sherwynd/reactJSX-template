@@ -4,11 +4,9 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import { IconButton, Typography } from '@mui/material';
-import { Settings } from '@mui/icons-material';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
 
 
 export function PostCard({ post }) {

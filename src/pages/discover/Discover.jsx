@@ -1,6 +1,6 @@
-import { ResponsiveDrawer } from "../../components/Navbar";
-import { Container, Typography, Box, Toolbar, useTheme, Grid, Paper } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { PostCard } from "../../components/PostCard";
+import { ResponsiveDrawer } from "../../components/Navbar";
 
 export function Discover() {
     const posts = [
@@ -35,11 +35,6 @@ export function Discover() {
             id: 5
         }
     ];
-
-    // const [posts, setPosts] = useState([]);
-    // const theme = useTheme();
-    // const navbarWidth = theme.mixins.toolbar.minHeight;
-
     return (
         <Box sx={{
             display: "flex",
