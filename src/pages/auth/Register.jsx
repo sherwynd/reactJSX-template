@@ -7,10 +7,12 @@ import {
   Box,
   Button,
   Card,
+  Divider,
   FormControl,
   InputAdornment,
   IconButton,
   InputLabel,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -25,8 +27,11 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [nickname, setNickname] = useState("");
   const [email, setEmail] = useState("");
@@ -85,14 +90,24 @@ export function Register() {
     const registerDetail = { username, nickname, email, password };
     console.log(registerDetail);
   };
+  const handleNavigateToLogin = (e) => {
+    navigate("/login");
+  };
 
   return (
     <>
       <Box>
         <Box>Register mou</Box>
 
-        <Paper elevation={8}>
-          <Box>
+        <Paper sx={{ minWidth: "400px", maxWidth: "600px" }} elevation={8}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              mx: 5,
+              maxWidth: "100%",
+            }}
+          >
             <TextField
               required
               id="username"
@@ -123,26 +138,35 @@ export function Register() {
               helperText={emailError}
               margin="normal"
             />
-            <TextField
-              required
-              type={showPassword ? "text" : "password"}
-              id="password"
-              label="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={passwordError && passwordError.length ? true : false}
-              helperText={passwordError}
-              margin="normal"
-            />
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
+            <Box
+              sx={{
+                display: "flex",
+                flexGrow: 1,
+                alignItems: "center",
+                maxWidth: "100%",
+              }}
             >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-
+              <TextField
+                fullWidth
+                required
+                type={showPassword ? "text" : "password"}
+                id="password"
+                label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={passwordError && passwordError.length ? true : false}
+                helperText={passwordError}
+                margin="normal"
+              />
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </Box>
             <TextField
               required
               type="password"
@@ -157,9 +181,23 @@ export function Register() {
               margin="normal"
             />
 
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <Button
+              sx={{ my: 2 }}
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
               Submit
             </Button>
+            <Divider sx={{ mx: 2 }} />
+
+            <Link
+              sx={{ display: "flex", justifyContent: "center", my: 2 }}
+              href=""
+              onClick={handleNavigateToLogin}
+            >
+              Already Have an Account?
+            </Link>
           </Box>
         </Paper>
       </Box>

@@ -168,7 +168,7 @@ export function Login() {
 
             <Link
               sx={{ display: "flex", justifyContent: "center", my: 2 }}
-              href="#"
+              href=""
               onClick={handleNavigateToForgotPassword}
             >
               Forgot Password?
