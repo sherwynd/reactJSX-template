@@ -1,14 +1,37 @@
 import { useState, useEffect } from "react";
-
-import { ResponsiveDrawer } from "./components/Navbar";
 import { Outlet } from "react-router-dom";
+import { Test } from "./components/Test";
+import CssBaseline from "@mui/material/CssBaseline";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { green, orange } from "@mui/material/colors";
+import { TopNavBar } from "./components/Layout/TopNavBar";
 
+const theme = createTheme({});
+
+const outerTheme = createTheme({
+  palette: {
+    primary: {
+      main: "#dc8665",
+    },
+  },
+});
+
+const innerTheme = createTheme({
+  palette: {
+    primary: {
+      main: green[500],
+    },
+  },
+});
 
 export default function App() {
   return (
     <>
-      {/* <ResponsiveDrawer /> */}
-      <Outlet/>
+      <ThemeProvider theme={outerTheme}>
+        <CssBaseline />
+        <TopNavBar />
+        <Outlet />
+      </ThemeProvider>
     </>
   );
 }
