@@ -29,15 +29,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function Login() {
+export function ForgotPassword() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -53,38 +53,35 @@ export function Login() {
     } else {
       setEmailError("");
     }
-    if (!password || !password.length) {
-      setPasswordError("Password is required");
+    if (!newPassword || !newPassword.length) {
+      setNewPasswordError("New Password is required");
       return false;
     } else {
-      setPasswordError("");
+      setNewPasswordError("");
     }
-    const loginFormDetail = { email, password };
+    const forgotPasswordFormDetail = { email, newPassword };
 
-    console.log(loginFormDetail);
+    console.log(forgotPasswordFormDetail);
 
-    const requestTestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginFormDetail),
-    };
+    // const requestTestOptions = {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(loginFormDetail),
+    // };
 
-    // Perform the POST request
-    fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("There was an error!", error));
+    // // Perform the POST request
+    // fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
+    //   .then((response) => response.json())
+    //   .then((data) => console.log(data))
+    //   .catch((error) => console.error("There was an error!", error));
   };
-  const handleNavigateToRegister = (e) => {
-    navigate("/register");
-  };
-  const handleNavigateToForgotPassword = (e) => {
-    navigate("/forgotPassword");
+  const handleNavigateToLogin = (e) => {
+    navigate("/login");
   };
   return (
     <>
       <Box>
-        <Box>Login mou</Box>
+        <Box>Forgot Password mou</Box>
         <Paper sx={{ minWidth: "400px", maxWidth: "600px" }} elevation={8}>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box
@@ -124,12 +121,14 @@ export function Login() {
                 fullWidth
                 required
                 type={showPassword ? "text" : "password"}
-                id="password"
+                id="newPassword"
                 label="Password"
-                value={password}
+                value={newPassword}
                 onChange={(e) => setPassword(e.target.value)}
-                error={passwordError && passwordError.length ? true : false}
-                helperText={passwordError}
+                error={
+                  newPasswordError && newPasswordError.length ? true : false
+                }
+                helperText={newPasswordError}
                 margin="normal"
               />
               <IconButton
@@ -149,9 +148,9 @@ export function Login() {
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={handleSubmit}
+                onClick={handleNavigateToLogin}
               >
-                Login
+                Cancel
               </Button>
               <IconButton
                 sx={{
@@ -166,22 +165,14 @@ export function Login() {
               </IconButton>
             </Box>
 
-            <Link
-              sx={{ display: "flex", justifyContent: "center", my: 2 }}
-              href=""
-              onClick={handleNavigateToForgotPassword}
-            >
-              Forgot Password?
-            </Link>
-            <Divider sx={{ mx: 2 }} />
             <Box sx={{ display: "flex", mx: 5, my: 2 }}>
               <Button
                 fullWidth
                 variant="contained"
                 color="success"
-                onClick={handleNavigateToRegister}
+                onClick={handleSubmit}
               >
-                Register an Account
+                Submit
               </Button>
               <IconButton
                 sx={{
