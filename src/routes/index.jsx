@@ -4,6 +4,10 @@ import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
+import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
+import { BlogHistory } from "../pages/profile/BlogHistory";
+import { ReviewHistory } from "../pages/profile/ReviewHistory";
+
 import { Test } from "../components/Test";
 const routes = [
   {
@@ -14,6 +18,20 @@ const routes = [
       {
         path: "profile",
         element: <Profile />,
+        children: [
+          {
+            path: "purchaseHistory",
+            element: <PurchaseHistory />,
+          },
+          {
+            path: "blogHistory",
+            element: <BlogHistory />,
+          },
+          {
+            path: "reviewHistory",
+            element: <ReviewHistory />,
+          },
+        ],
       },
       {
         path: "test",
