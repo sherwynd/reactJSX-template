@@ -97,7 +97,14 @@ export function TopNavBar() {
                 >
                   <ListItemButton component={Link} to={item.route}>
                     {iconMap[item]}
-                    <ListItemText sx={{ width: 20 }} primary={item.label} />
+                    <ListItemText
+                      sx={{
+                        display: "flex",
+                        width: 20,
+                        justifyContent: "center",
+                      }}
+                      primary={item.label}
+                    />
                   </ListItemButton>
                 </ListItem>
               ))}
