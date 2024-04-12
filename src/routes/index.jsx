@@ -5,6 +5,12 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+// import { Profile } from "../pages/profile/Profile.jsx";
+// import { Friend } from "../pages/friend/Friend.jsx";
+// import { Notification } from "../pages/notification/Notification.jsx";
+import { Coaching } from "../pages/coaching/Coaching.jsx";
+import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+
 const routes = [
   {
     path: "/",
@@ -19,6 +25,22 @@ const routes = [
         path: "test",
         element: <Test />,
       },
+      {
+        path: "coaching",
+        element: <Coaching />,
+      },
+      {
+        path: "coaching/:id",
+        element: <CoachingDetail />,
+      },
+      // {
+      //   path: "friend",
+      //   element: <Friend />,
+      // },
+      // {
+      //   path: "notification",
+      //   element: <Notification />,
+      // },
     ],
   },
   {
