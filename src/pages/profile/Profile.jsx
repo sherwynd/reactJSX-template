@@ -27,42 +27,88 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
+import { Link, Outlet } from "react-router-dom";
 
 export function Profile() {
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
   return (
     <>
-      <CssBaseline />
-      <Box>
-        <Box>
-          <Avatar></Avatar>
-          <List>
-            {mainNavbarProfileHistory.map((text, index) => (
-              <ListItem key={text.id} disablePadding>
-                <ListItemButton>
-                  {/* Issue happended */}
-                  <ListItemIcon>
-                    {index % 2 === 0 ? "logo" : "logo"}
-                  </ListItemIcon>
-                  <ListItemText primary={text.label} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <Box>
-          <Typography>Avatar Nickname</Typography>
-          <Typography>Avatar Username</Typography>
-          <Rating
-            name="read-only"
-            value={ratingStarValue}
-            precision={0.5}
-            readOnly
+      <Box sx={{ mx: 10, display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            p: 2,
+            maxWidth: "300px",
+          }}
+        >
+          <Avatar
+            sx={{
+              display: "flex",
+              width: 200,
+              height: 200,
+              m: 2,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           />
-          <Typography>Avatar Phone Number</Typography>
-          <Typography>Avatar Description</Typography>
+
+          <Box>
+            {/* can be into contexts */}
+            <Typography variant="h5">Avatar Nickname</Typography>
+            <Typography>@Avatar Username</Typography>
+            <Rating
+              sx={{ my: 1 }}
+              name="read-only"
+              value={ratingStarValue}
+              precision={0.5}
+              readOnly
+            />
+            <Typography>+Avatar Phone Number</Typography>
+            <Typography>Avatar Description</Typography>
+          </Box>
         </Box>
-        Profile mou
+
+        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+          {" "}
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <List sx={{ display: "flex" }}>
+              {mainNavbarProfileHistory.map((item, index) => (
+                <ListItem
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                  }}
+                  key={item.id}
+                  disablePadding
+                >
+                  <ListItemButton component={Link} to={item.route}>
+                    <ListItemText
+                      sx={{
+                        display: "flex",
+                        width: 40,
+                        justifyContent: "center",
+                      }}
+                      primary={item.label}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                flexGrow: 1,
+              }}
+            >
+              <Button>Edit Profile</Button>
+            </Box>
+          </Box>
+          <Paper sx={{ display: "flex", flexGrow: 1 }}>
+            <Outlet />
+          </Paper>
+        </Box>
       </Box>
     </>
   );
