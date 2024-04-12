@@ -1,36 +1,38 @@
 import App from "../App.jsx";
-import { Profile } from "../pages/profile/Profile.jsx";
-import { Discover } from "../pages/discover/Discover.jsx";
-import { Gathering } from "../pages/gathering/Gathering.jsx";
-import { Friend } from "../pages/friend/Friend.jsx";
-import { Notification } from "../pages/notification/Notification.jsx";
-import { ErrorPage } from "../pages/auth/ErrorPage.jsx";
+import { Profile } from "../pages/profile/Profile";
+import { Discover } from "../pages/discover/Discover";
+import { Login } from "../pages/auth/Login";
+import { Register } from "../pages/auth/Register";
+import { ErrorPage } from "../pages/auth/ErrorPage";
+import { Test } from "../components/Test";
 
 const routes = [
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "discover",
+        element: <Discover />,
+      },
+      {
+        path: "test",
+        element: <Test />,
+      },
+    ],
   },
   {
-    path: "profile",
-    element: <Profile />,
+    path: "login",
+    element: <Login />,
   },
   {
-    path: "discover",
-    element: <Discover />,
-  },
-  {
-    path: "gathering",
-    element: <Gathering />,
-  },
-  {
-    path: "friend",
-    element: <Friend />,
-  },
-  {
-    path: "notification",
-    element: <Notification />,
+    path: "register",
+    element: <Register />,
   },
 ];
 

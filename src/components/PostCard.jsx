@@ -35,7 +35,8 @@ export function PostCard({ post }) {
           subheader="Chiam Yin Kia"
         />
         <CardContent>
-          <Typography variant='h6' marginY={-2}>{post.title}</Typography>
+          <Typography variant='h6' marginTop={-2}>{post.title}</Typography>
+          <Typography>RM{post.price}</Typography>
         </CardContent>
       </Card>
     </div>
