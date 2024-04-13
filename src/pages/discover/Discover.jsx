@@ -1,5 +1,6 @@
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Button } from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
+import { Link } from "react-router-dom";
 
 export function Discover() {
     const products = [

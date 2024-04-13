@@ -1,6 +1,8 @@
 import React, {createContext, useState} from "react";
 import uuid from "uuid";
 
+//no use dao gok
+
 export const ProductContext = createContext();
 
 const ProductContextProvider = (props) => {

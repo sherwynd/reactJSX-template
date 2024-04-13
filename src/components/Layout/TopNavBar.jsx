@@ -102,6 +102,9 @@ export function TopNavBar() {
                 </ListItem>
               ))}
             </List>
+            <Link to={`/sell`}>
+              <Button variant="contained" color="error" >Sell</Button>
+            </Link>
             <Box
               sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
             >
