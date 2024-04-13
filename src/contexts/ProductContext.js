@@ -1,8 +1,10 @@
-import { Grid, Box } from "@mui/material";
-import { ProductCard } from "../../components/ProductCard";
+import React, {createContext, useState} from "react";
+import uuid from "uuid";
 
-export function Discover() {
-    const products = [
+export const ProductContext = createContext();
+
+const ProductContextProvider = (props) => {
+    const [products, setProducts] = useState([
         {
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit 1",
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -53,19 +55,18 @@ export function Discover() {
             brand: "not apple",
             id: 5
         }
-    ];
+    ]);
+    const addProduct = (title, description, price, condition, category, brand, acquisition, img) => {
+        setProducts([...products, {title, description, price, condition, category, brand, acquisition, img, id: uuid()}]);
+    }
+    const removeProduct = (id) => {
+        setProducts(products.filter(product => product.id !== id));
+    };
     return (
-        <Box sx={{
-            margin: 5,
-            // minWidth: 350
-        }}>
-            <Grid container spacing={3}>
-                {products.map(product => (
-                    <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
-                        <ProductCard product={product} />
-                    </Grid>
-                ))}
-            </Grid>
-        </Box>
+        <ProductContext.Provider value={{products, addProduct, removeProduct}}>
+            {props.children}
+        </ProductContext.Provider>
     );
 }
+
+export default ProductContextProvider;

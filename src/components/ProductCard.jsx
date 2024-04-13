@@ -7,19 +7,21 @@ import { IconButton, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Link } from 'react-router-dom';
 
+export function ProductCard({ product }) {
 
-export function PostCard({ post }) {
   return (
     <div>
       <Card>
         <CardContent sx={{ p: 0 }}>
           <CardMedia
             component="img"
-            image={post.img}
+            image={product.img}
             alt="media"
           />
         </CardContent>
+
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
@@ -35,8 +37,10 @@ export function PostCard({ post }) {
           subheader="Chiam Yin Kia"
         />
         <CardContent>
-          <Typography variant='h6' marginTop={-2}>{post.title}</Typography>
-          <Typography>RM{post.price}</Typography>
+          <Link to={`/discover/${product.id}`} style={{ textDecoration: 'none', color: 'black' }} >
+            <Typography variant='h6' marginTop={-2}>{product.title}</Typography>
+            <Typography>RM{product.price}</Typography>
+          </Link>
         </CardContent>
       </Card>
     </div>

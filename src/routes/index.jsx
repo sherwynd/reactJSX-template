@@ -6,6 +6,8 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+import ProductDetail from "../pages/discover/ProductDetail.jsx";
+
 const routes = [
   {
     path: "/",
@@ -19,6 +21,10 @@ const routes = [
       {
         path: "discover",
         element: <Discover />,
+      },
+      {
+        path: "discover/:id",
+        element: <ProductDetail />,
       },
       {
         path: "test",
