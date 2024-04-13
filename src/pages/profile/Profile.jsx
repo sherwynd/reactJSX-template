@@ -27,10 +27,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 export function Profile() {
+  const navigate = useNavigate();
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
+  const handleSetting = () => {
+    navigate("/setting");
+  };
   return (
     <>
       <Box sx={{ mx: 10, display: "flex", flexDirection: "row" }}>
@@ -102,7 +106,7 @@ export function Profile() {
                 flexGrow: 1,
               }}
             >
-              <Button>Edit Profile</Button>
+              <Button onClick={handleSetting}>Edit Profile</Button>
             </Box>
           </Box>
           <Paper sx={{ display: "flex", flexGrow: 1 }}>
