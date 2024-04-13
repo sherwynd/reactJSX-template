@@ -10,6 +10,10 @@ import { ReviewHistory } from "../pages/profile/ReviewHistory";
 import { Setting } from "../pages/profile/Setting";
 
 import { Test } from "../components/Test";
+import { Cart } from "../pages/cart/Cart";
+import { Coaching } from "../pages/coaching/Coaching.jsx";
+import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+
 const routes = [
   {
     path: "/",
@@ -37,6 +41,18 @@ const routes = [
       {
         path: "test",
         element: <Test />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
+      },
+      {
+        path: "coaching",
+        element: <Coaching />,
+      },
+      {
+        path: "coaching/:id",
+        element: <CoachingDetail />,
       },
       {
         path: "setting",
