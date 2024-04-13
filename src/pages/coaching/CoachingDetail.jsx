@@ -64,7 +64,7 @@ export default function CoachingDetail() {
         <EventDescriptionCard />
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={5}>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={3}>
               <Card
                 sx={{
                   minWidth: 275,
@@ -75,46 +75,57 @@ export default function CoachingDetail() {
                 }}
               >
                 <CardContent>
+                  <Typography
+                    sx={{ fontWeight: 700 }}
+                    variant="h4"
+                    component="div"
+                  >
+                    Details
+                  </Typography>
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      mt: 3,
                     }}
                   >
-                    <CalendarMonth />
-                    <Typography>24th Nov 2024</Typography>
+                    <CalendarMonth sx={{ width: 30, height: 30, mr: 2 }} />
+                    <Typography sx={{ fontSize: 20 }}>24th Nov 2024</Typography>
                   </Box>
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      mt: 1,
                     }}
                   >
-                    <AccessTime />
-                    <Typography>8.00 - 10.00</Typography>
+                    <AccessTime sx={{ width: 30, height: 30, mr: 2 }} />
+                    <Typography sx={{ fontSize: 20 }}>8.00 - 10.00</Typography>
                   </Box>
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      mt: 1,
                     }}
                   >
-                    <Place />
-                    <Typography>FSCIT Block a</Typography>
+                    <Place sx={{ width: 30, height: 30, mr: 2 }} />
+                    <Typography sx={{ fontSize: 20 }}>FSCIT Block a</Typography>
                   </Box>
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
+                      mt: 1,
                     }}
                   >
-                    <AttachMoney />
-                    <Typography>100.00 MYR</Typography>
+                    <AttachMoney sx={{ width: 30, height: 30, mr: 2 }} />
+                    <Typography sx={{ fontSize: 20 }}>100.00 MYR</Typography>
                   </Box>
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item xs={12} sm={6} md={8}>
+            <Grid item xs={12} sm={6} md={9}>
               <Card
                 sx={{
                   minWidth: 275,
