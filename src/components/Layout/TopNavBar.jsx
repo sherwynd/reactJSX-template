@@ -21,6 +21,7 @@ import {
 import LogoutIcon from "@mui/icons-material/Logout";
 import { styled } from "@mui/system";
 import { mainNavbarItems } from "../../contexts/NavbarItems";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as React from "react";
 
@@ -60,21 +61,23 @@ const iconMap = {
 };
 
 export function TopNavBar() {
+  const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
-    console.log("handle");
+    navigate("/profile");
     setAnchorEl(null);
   };
   const handleSetting = () => {
-    console.log("Setting");
+    navigate("/setting");
     setAnchorEl(null);
   };
   const handleLogOut = () => {
-    console.log("Log Out");
+    navigate("/login");
     setAnchorEl(null);
   };
   return (
