@@ -5,6 +5,7 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+import { Cart } from "../pages/cart/Cart";
 // import { Profile } from "../pages/profile/Profile.jsx";
 // import { Friend } from "../pages/friend/Friend.jsx";
 // import { Notification } from "../pages/notification/Notification.jsx";
@@ -26,6 +27,9 @@ const routes = [
         element: <Test />,
       },
       {
+        path: "cart",
+        element: <Cart />,
+      },
         path: "coaching",
         element: <Coaching />,
       },
