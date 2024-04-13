@@ -7,6 +7,7 @@ import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
 import { BlogHistory } from "../pages/profile/BlogHistory";
 import { ReviewHistory } from "../pages/profile/ReviewHistory";
+import { Setting } from "../pages/profile/Setting";
 
 import { Test } from "../components/Test";
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
       {
         path: "test",
         element: <Test />,
+      },
+      {
+        path: "setting",
+        element: <Setting />,
       },
     ],
   },
