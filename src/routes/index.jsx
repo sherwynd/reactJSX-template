@@ -5,6 +5,8 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+import { Cart } from "../pages/cart/Cart";
+
 const routes = [
   {
     path: "/",
@@ -18,6 +20,10 @@ const routes = [
       {
         path: "test",
         element: <Test />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
     ],
   },
