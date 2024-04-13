@@ -68,6 +68,9 @@ export function TopNavBar() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleReturn = () => {
+    navigate("/");
+  };
   const handleClose = () => {
     navigate("/profile");
     setAnchorEl(null);
@@ -85,7 +88,10 @@ export function TopNavBar() {
       <Box sx={{ display: "flex", flexGrow: 1 }}>
         <AppBar position="static" color="primary">
           <Toolbar>
-            <Avatar sx={{ m: 1 }} src="../assets/images/Fake-Jordan.png" />
+            <IconButton onClick={handleReturn}>
+              <Avatar sx={{ m: 1 }} src="../assets/images/Fake-Jordan.png" />
+            </IconButton>
+
             <Typography variant="h6" sx={{ flexGrow: 1 }} component="div">
               Sport Mou
             </Typography>
