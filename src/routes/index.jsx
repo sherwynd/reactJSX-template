@@ -1,5 +1,6 @@
 import App from "../App.jsx";
 import { Profile } from "../pages/profile/Profile";
+import { Discover } from "../pages/discover/Discover";
 import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
@@ -12,6 +13,9 @@ import { Cart } from "../pages/cart/Cart";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
 
+import ProductDetail from "../pages/discover/ProductDetail.jsx";
+import ProductForm from "../pages/discover/ProductForm.jsx";
+
 const routes = [
   {
     path: "/",
@@ -23,13 +27,25 @@ const routes = [
         element: <Profile />,
       },
       {
+        path: "discover",
+        element: <Discover />,
+      },
+      {
+        path: "discover/:id",
+        element: <ProductDetail />,
+      },
+      {
+        path: "sell",
+        element: <ProductForm />,
+      },
+      {
         path: "test",
         element: <Test />,
       },
       {
         path: "cart",
         element: <Cart />,
-      }, 
+      },
       {
         path: "coaching",
         element: <Coaching />,
