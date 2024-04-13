@@ -14,7 +14,6 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -24,7 +23,7 @@ import { mainNavbarItems } from "../contexts/NavbarItems";
 const drawerWidth = 240;
 
 export function ResponsiveDrawer(props) {
-  const { window } = props;
+  const { window, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -45,10 +44,6 @@ export function ResponsiveDrawer(props) {
     }
   };
 
-  function handleClick() {
-    alert('Button clicked!');
-  }
-
   const drawer = (
     <div>
       <Toolbar />
@@ -67,15 +62,6 @@ export function ResponsiveDrawer(props) {
           </ListItem>
         ))}
       </List>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-        <Button variant="outlined" onClick={handleClick}>
-          Create
-        </Button>
-      </Box>
     </div>
   );
 
@@ -156,6 +142,7 @@ export function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
+        {children}
       </Box>
     </Box>
   );

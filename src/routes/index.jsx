@@ -6,6 +6,13 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+import { Cart } from "../pages/cart/Cart";
+// import { Profile } from "../pages/profile/Profile.jsx";
+// import { Friend } from "../pages/friend/Friend.jsx";
+// import { Notification } from "../pages/notification/Notification.jsx";
+import { Coaching } from "../pages/coaching/Coaching.jsx";
+import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 
 const routes = [
@@ -30,6 +37,26 @@ const routes = [
         path: "test",
         element: <Test />,
       },
+      {
+        path: "cart",
+        element: <Cart />,
+      }, 
+      {
+        path: "coaching",
+        element: <Coaching />,
+      },
+      {
+        path: "coaching/:id",
+        element: <CoachingDetail />,
+      },
+      // {
+      //   path: "friend",
+      //   element: <Friend />,
+      // },
+      // {
+      //   path: "notification",
+      //   element: <Notification />,
+      // },
     ],
   },
   {
