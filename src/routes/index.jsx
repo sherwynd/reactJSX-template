@@ -29,7 +29,8 @@ const routes = [
       {
         path: "cart",
         element: <Cart />,
-      },
+      }, 
+      {
         path: "coaching",
         element: <Coaching />,
       },

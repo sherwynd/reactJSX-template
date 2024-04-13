@@ -6,7 +6,6 @@ import { Test } from "./components/Test";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { green, orange } from "@mui/material/colors";
-import { TopNavBar } from "./components/Layout/TopNavBar";
 
 const theme = createTheme({});
 
