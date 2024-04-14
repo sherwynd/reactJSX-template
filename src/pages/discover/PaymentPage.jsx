@@ -6,6 +6,7 @@ const PaymentPage = () => {
 
     return (
         <div>
+            <Typography variant="h1">chotto matte ne, this page not in use, will route to other page later</Typography>
             <BottomNavigation component={Paper} elevation={10} sx={{ position: "fixed", bottom: 0, justifyContent: "flex-end", width: "100%"}}>
                 <Box sx={{ display: "flex" }}>
                     <Box sx={{ mx: 2 }}>
