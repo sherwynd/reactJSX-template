@@ -11,6 +11,7 @@ import { Cart } from "../pages/cart/Cart";
 // import { Notification } from "../pages/notification/Notification.jsx";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
 
 const routes = [
   {
@@ -29,7 +30,7 @@ const routes = [
       {
         path: "cart",
         element: <Cart />,
-      }, 
+      },
       {
         path: "coaching",
         element: <Coaching />,
@@ -37,6 +38,10 @@ const routes = [
       {
         path: "coaching/:id",
         element: <CoachingDetail />,
+      },
+      {
+        path: "coaching/create",
+        element: <CoachingCreate />,
       },
       // {
       //   path: "friend",
