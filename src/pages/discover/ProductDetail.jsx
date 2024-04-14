@@ -4,6 +4,7 @@ import Carousel from 'react-material-ui-carousel'
 import { Paper, Grid, Box, Avatar, Typography, Rating, Button } from '@mui/material'
 import { red } from '@mui/material/colors';
 import { CommentCard } from "../../components/CommentCard";
+import { Link } from 'react-router-dom';
 
 
 export default function ProductDetail() {
@@ -75,7 +76,9 @@ export default function ProductDetail() {
                 value="4.5"
                 precision="0.5"
                 readOnly />
-              <Button variant="contained" color="primary">Buy Now</Button>
+              <Link to={`/payment/${id}`} >
+                <Button variant="contained" color="primary">Buy Now</Button>
+              </Link>
             </Grid>
             <Grid item xs={12}>
               <Typography variant='h5' sx={{ m: 2 }}>
@@ -127,6 +130,14 @@ export default function ProductDetail() {
                   <Typography>
                     Meetup<br />
                     Delivery
+                  </Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant='h6'>
+                    Location
+                  </Typography>
+                  <Typography>
+                    Hokkaido
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
