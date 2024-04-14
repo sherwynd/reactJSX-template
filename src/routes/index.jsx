@@ -15,6 +15,7 @@ import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
 
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
+import PaymentPage from "../pages/discover/PaymentPage.jsx";
 
 const routes = [
   {
@@ -37,6 +38,10 @@ const routes = [
       {
         path: "sell",
         element: <ProductForm />,
+      },
+      {
+        path: "payment/:id",
+        element: <PaymentPage />,
       },
       {
         path: "test",

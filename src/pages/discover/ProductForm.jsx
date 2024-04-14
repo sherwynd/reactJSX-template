@@ -13,7 +13,7 @@ const ProductForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const product = { title, price, description, category, brand, condition, img };
+        const product = { title, price, description, category, brand, condition, img, location };
         console.log(product);
     }
 
@@ -55,12 +55,21 @@ const ProductForm = () => {
                 />
 
                 <FormControl required sx={{ m: 1, width: '100vh' }}>
+                    <InputLabel htmlFor="location">Location</InputLabel>
+                    <OutlinedInput
+                        id="location"
+                        label="location"
+                    />
+                </FormControl>
+
+                <FormControl required sx={{ m: 1, width: '100vh' }}>
                     <InputLabel htmlFor="brand">Brand</InputLabel>
                     <OutlinedInput
                         id="brand"
                         label="Brand"
                     />
                 </FormControl>
+
                 <div>
                     <FormControl required sx={{ m: 1, width: '32vh' }}>
                         <InputLabel id="category">Category</InputLabel>

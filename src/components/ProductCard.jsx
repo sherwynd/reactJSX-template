@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, Box } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -39,7 +39,10 @@ export function ProductCard({ product }) {
         <CardContent>
           <Link to={`/discover/${product.id}`} style={{ textDecoration: 'none', color: 'black' }} >
             <Typography variant='h6' marginTop={-2}>{product.title}</Typography>
-            <Typography>RM{product.price}</Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography>RM{product.price}</Typography>
+              <Typography>{product.listed}</Typography>
+            </Box>
           </Link>
         </CardContent>
       </Card>
