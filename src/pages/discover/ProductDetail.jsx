@@ -9,7 +9,9 @@ import { Link } from 'react-router-dom';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const items = [
+
+  const imgs = [
+    //sample
     {
       img: "../src/assets/images/image1.png"
     },
@@ -25,6 +27,7 @@ export default function ProductDetail() {
   ]
 
   const comments = [
+    //sample
     {
       id: 1,
       name: "Chiam Yin Kia",
@@ -45,6 +48,37 @@ export default function ProductDetail() {
     }
   ]
 
+  const product = {
+    //sample
+    title: "Ipsum amet, consectetur adipiscing elit 1",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    price: 100,
+    img: "src\\assets\\images\\image1.png",
+    condition: "New",
+    category: "Electronics",
+    brand: "Apple",
+    listed: "2021-10-10",
+    location: "Malaysia",
+    acquisition: "Meetup or Delivery",
+    id: 1
+  };
+
+  const profile = {
+    //sample
+    name: "Chiam Yin Kia",
+    username: "@chiamyinkia",
+    rating: 4.5,
+    id: 6699
+  }
+
+  const ownProfile = {
+    name: "Chiam Yin Kia",
+    username: "@chiamyinkia",
+    rating: 4.5,
+    //match the id to see the 'update button'
+    id: 669
+  }
+
   return (
     <div>
       <Typography variant='h4' sx={{ mx: 8, my: 3 }}>Product Detail</Typography>
@@ -52,7 +86,7 @@ export default function ProductDetail() {
         <Grid item xs={12} sm={12} md={5}>
           <Carousel>
             {
-              items.map((item, i) => <Item key={i} item={item} />)
+              imgs.map((img, i) => <Item key={i} item={img} />)
             }
           </Carousel>
         </Grid>
@@ -64,31 +98,34 @@ export default function ProductDetail() {
               </Avatar>
               <Box>
                 <Typography variant='h6'>
-                  Chiam Yin Kia
+                  {profile.name}
                 </Typography>
                 <Typography>
-                  @chiamyinkia
+                  {profile.username}
                 </Typography>
               </Box>
               <Rating
                 sx={{ my: .3, mx: 2 }}
                 name="user-rating"
-                value="4.5"
-                precision="0.5"
+                value={profile.rating}
+                precision={0.5}
                 readOnly />
               <Link to={`/payment/${id}`} >
-                <Button variant="contained" color="primary">Buy Now</Button>
+                {profile.id != ownProfile.id && <Button variant="contained" color="primary">Buy Now</Button>}
+              </Link>
+              <Link to={`/discover/${id}/update`} >
+                {profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2 }} >Update</Button>}
               </Link>
             </Grid>
             <Grid item xs={12}>
               <Typography variant='h5' sx={{ m: 2 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit
+                {product.title}
               </Typography>
               <Typography variant='h6' sx={{ m: 2 }}>
                 RM69
               </Typography>
               <Typography sx={{ m: 2 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {product.description}
               </Typography>
               <Grid container sx={{ m: 2 }}>
                 <Grid item xs={6}>
@@ -96,7 +133,7 @@ export default function ProductDetail() {
                     Condition
                   </Typography>
                   <Typography>
-                    Like New
+                    {product.condition}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -104,7 +141,7 @@ export default function ProductDetail() {
                     Category
                   </Typography>
                   <Typography>
-                    Tower
+                    {product.category}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -112,7 +149,7 @@ export default function ProductDetail() {
                     Brand
                   </Typography>
                   <Typography>
-                    Japan
+                    {product.brand}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -120,7 +157,7 @@ export default function ProductDetail() {
                     Listed
                   </Typography>
                   <Typography>
-                    11-11-2024
+                    {product.listed}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -128,8 +165,7 @@ export default function ProductDetail() {
                     Acquisition
                   </Typography>
                   <Typography>
-                    Meetup<br />
-                    Delivery
+                    {product.acquisition}
                   </Typography>
                 </Grid>
                 <Grid item xs={6}>
@@ -137,7 +173,7 @@ export default function ProductDetail() {
                     Location
                   </Typography>
                   <Typography>
-                    Hokkaido
+                    {product.location}
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>

@@ -23,8 +23,8 @@ export function CommentCard({ comment }) {
                         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                             <Rating
                                 name="user-rating"
-                                value="4.5"
-                                precision="0.5"
+                                value={4.5}
+                                precision={0.5}
                                 readOnly />
                             <Typography>{comment.date}</Typography>
                         </Box>

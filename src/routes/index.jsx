@@ -14,6 +14,7 @@ import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
 
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
+import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
 
@@ -28,6 +29,10 @@ const routes = [
         element: <Profile />,
       },
       {
+        path: "sell",
+        element: <ProductForm />,
+      },
+      {
         path: "discover",
         element: <Discover />,
       },
@@ -36,8 +41,8 @@ const routes = [
         element: <ProductDetail />,
       },
       {
-        path: "sell",
-        element: <ProductForm />,
+        path: "discover/:id/update",
+        element: <ProductFormUpdate />,
       },
       {
         path: "payment/:id",
