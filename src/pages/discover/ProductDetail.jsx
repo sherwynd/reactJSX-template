@@ -14,51 +14,61 @@ export default function ProductDetail() {
     },
     {
       img: "../src/assets/images/image2.png"
-    }
+    },
+    {
+      img: "../src/assets/images/Fake-Jordan.png"
+    },
+    {
+      img: "../src/assets/images/avatar.png"
+    },
   ]
 
   const comments = [
     {
       id: 1,
       name: "Chiam Yin Kia",
-      text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+      text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      date: "2021-10-10"
     },
     {
       id: 2,
       name: "Chiam Yin Kia",
-      text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+      text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+      date: "2022-11-11"
     },
     {
       id: 3,
       name: "Chiam Yin Kia",
-      text: "Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit."
+      text: "Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      date: "2023-12-12"
     }
   ]
+
   return (
     <div>
       <Typography variant='h4' sx={{ mx: 8, my: 3 }}>Product Detail</Typography>
       <Grid container overflow="hidden">
-        <Grid item xs={5}>
+        <Grid item xs={12} sm={12} md={5}>
           <Carousel>
             {
               items.map((item, i) => <Item key={i} item={item} />)
             }
           </Carousel>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12} sm={12} md={7}>
           <Grid container>
-            <Grid item display="flex" xs={12}>
+            <Grid item sx={{ my: 3, display: "flex", justifyContent: "space-between" }}>
               <Avatar sx={{ bgcolor: red[500], height: 60, width: 60, mx: 2 }} aria-label="avatar">
                 C
               </Avatar>
-              <div>
+              <Box>
                 <Typography variant='h6'>
                   Chiam Yin Kia
                 </Typography>
                 <Typography>
                   @chiamyinkia
                 </Typography>
-              </div>
+              </Box>
               <Rating
                 sx={{ my: .3, mx: 2 }}
                 name="user-rating"
@@ -67,7 +77,7 @@ export default function ProductDetail() {
                 readOnly />
               <Button variant="contained" color="primary">Buy Now</Button>
             </Grid>
-            <Grid item>
+            <Grid item xs={12}>
               <Typography variant='h5' sx={{ m: 2 }}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit
               </Typography>
@@ -125,7 +135,7 @@ export default function ProductDetail() {
                   </Typography>
                   <Grid container spacing={2}>
                     {comments.map(comment => (
-                      <Grid item key={comment.id} xs={12} sx={{mr: 5}}>
+                      <Grid item key={comment.id} xs={12} sx={{ mr: 5 }}>
                         <CommentCard comment={comment} />
                       </Grid>
                     ))}
