@@ -12,6 +12,7 @@ import { Cart } from "../pages/cart/Cart";
 // import { Notification } from "../pages/notification/Notification.jsx";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
 
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
@@ -63,6 +64,10 @@ const routes = [
       {
         path: "coaching/:id",
         element: <CoachingDetail />,
+      },
+      {
+        path: "coaching/create",
+        element: <CoachingCreate />,
       },
       // {
       //   path: "friend",
