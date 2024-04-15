@@ -30,7 +30,7 @@ export default function App() {
     <>
       {/* <ThemeProvider theme={outerTheme}> */}
       <CssBaseline />
-      {/* <TopNavBar /> */}
+      <TopNavBar />
       <Outlet />
       {/* </ThemeProvider> */}
     </>
