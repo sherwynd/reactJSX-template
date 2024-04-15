@@ -17,7 +17,12 @@ export function Coaching() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-        <Button onClick={handleCreateClick} variant="outlined" color="primary">
+        <Button
+          sx={{ borderRadius: 5 }}
+          onClick={handleCreateClick}
+          variant="outlined"
+          color="primary"
+        >
           Create
         </Button>
       </Box>
