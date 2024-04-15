@@ -37,7 +37,7 @@ export function Profile() {
   };
   return (
     <>
-      <Box sx={{ mx: 10, display: "flex", flexDirection: "row" }}>
+      <Box sx={{ my: 2, display: "flex", flexDirection: "row" }}>
         <Box
           sx={{
             display: "flex",
