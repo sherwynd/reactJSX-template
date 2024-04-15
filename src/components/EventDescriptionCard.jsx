@@ -33,10 +33,15 @@ export default function EventDescriptionCard() {
             Crazy SweatJam Event FCSIT
           </Typography>
           <Button variant="outlined" size="small">
-            View
+            Subscribe
           </Button>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="justify" sx={{ ml: 1}}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="justify"
+          sx={{ ml: 1 }}
+        >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla viverra
           purus mauris, vel venenatis velit ornare elementum. Mauris tempor arcu
           id massa molestie, a hendrerit lacus mattis. Ut lacinia sed est non

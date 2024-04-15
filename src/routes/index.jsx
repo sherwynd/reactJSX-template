@@ -1,5 +1,6 @@
 import App from "../App.jsx";
 import { Profile } from "../pages/profile/Profile";
+import { Discover } from "../pages/discover/Discover";
 import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
@@ -11,6 +12,12 @@ import { Cart } from "../pages/cart/Cart";
 // import { Notification } from "../pages/notification/Notification.jsx";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
+
+import ProductDetail from "../pages/discover/ProductDetail.jsx";
+import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
+import ProductForm from "../pages/discover/ProductForm.jsx";
+import PaymentPage from "../pages/discover/PaymentPage.jsx";
 
 const routes = [
   {
@@ -23,13 +30,33 @@ const routes = [
         element: <Profile />,
       },
       {
+        path: "sell",
+        element: <ProductForm />,
+      },
+      {
+        path: "discover",
+        element: <Discover />,
+      },
+      {
+        path: "discover/:id",
+        element: <ProductDetail />,
+      },
+      {
+        path: "discover/:id/update",
+        element: <ProductFormUpdate />,
+      },
+      {
+        path: "payment/:id",
+        element: <PaymentPage />,
+      },
+      {
         path: "test",
         element: <Test />,
       },
       {
         path: "cart",
         element: <Cart />,
-      }, 
+      },
       {
         path: "coaching",
         element: <Coaching />,
@@ -37,6 +64,10 @@ const routes = [
       {
         path: "coaching/:id",
         element: <CoachingDetail />,
+      },
+      {
+        path: "coaching/create",
+        element: <CoachingCreate />,
       },
       // {
       //   path: "friend",
