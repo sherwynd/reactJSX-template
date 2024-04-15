@@ -51,7 +51,12 @@ export default function EventCard({ id }) {
           <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
             8/10
           </Typography>
-          <Button onClick={handleViewClick} variant="outlined" size="small">
+          <Button
+            sx={{ width: 100, height: 35, borderRadius: 5 }}
+            onClick={handleViewClick}
+            variant="outlined"
+            size="small"
+          >
             View
           </Button>
         </Box>
@@ -63,7 +68,7 @@ export default function EventCard({ id }) {
     <Box sx={{ minWidth: 275 }}>
       <Card
         variant="outlined"
-        sx={{ backgroundColor: "#F2F2F2", borderRadius: 5, boxShadow: 2 }}
+        sx={{ backgroundColor: "#FFF9EF", borderRadius: 5, boxShadow: 2 }}
       >
         {card}
       </Card>

@@ -39,7 +39,7 @@ export default function CoachingCreate() {
         <Typography variant="h4" gutterBottom>
           Create New Event
         </Typography>
-        <Card sx={{ borderRadius: 5, boxShadow: 2 }}>
+        <Card sx={{ mx: 10, borderRadius: 5, boxShadow: 2 }}>
           <CardContent>
             <Grid container spacing={3}>
               {/* Event Details */}
@@ -109,6 +109,9 @@ export default function CoachingCreate() {
                     />
                   </Grid>
                   <Grid item xs={6} sm={3}>
+                    <Typography variant="subtitle2" gutterBottom>
+                      Intensity
+                    </Typography>
                     <Tooltip title="Select Intensity">
                       <StyledRating
                         name={`${label.toLowerCase()}-intensity`}
@@ -134,6 +137,9 @@ export default function CoachingCreate() {
                   </Grid>
                   <Grid item xs={6} sm={3}>
                     <Tooltip title="Select Complexity">
+                      <Typography variant="subtitle2" gutterBottom>
+                        Complexity
+                      </Typography>
                       <StyledRating
                         name={`${label.toLowerCase()}-complexity`}
                         defaultValue={2}
@@ -159,6 +165,16 @@ export default function CoachingCreate() {
                 </>
               ))}
             </Grid>
+            <Box component="label" htmlFor="create-event" sx={{ width: "50%" }}>
+              <Button
+                variant="outlined"
+                color="primary"
+                component="span"
+                sx={{ mt: 5, width: "100%" }}
+              >
+                Create Event
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       </Box>
