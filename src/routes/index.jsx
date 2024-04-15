@@ -5,13 +5,16 @@ import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
+import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
+import { BlogHistory } from "../pages/profile/BlogHistory";
+import { ReviewHistory } from "../pages/profile/ReviewHistory";
+import { Setting } from "../pages/profile/Setting";
+
 import { Test } from "../components/Test";
 import { Cart } from "../pages/cart/Cart";
-// import { Profile } from "../pages/profile/Profile.jsx";
-// import { Friend } from "../pages/friend/Friend.jsx";
-// import { Notification } from "../pages/notification/Notification.jsx";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
 
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
@@ -27,6 +30,40 @@ const routes = [
       {
         path: "profile",
         element: <Profile />,
+        children: [
+          {
+            path: "purchaseHistory",
+            element: <PurchaseHistory />,
+          },
+          {
+            path: "blogHistory",
+            element: <BlogHistory />,
+          },
+          {
+            path: "reviewHistory",
+            element: <ReviewHistory />,
+          },
+        ],
+      },
+      {
+        path: "sell",
+        element: <ProductForm />,
+      },
+      {
+        path: "discover",
+        element: <Discover />,
+      },
+      {
+        path: "discover/:id",
+        element: <ProductDetail />,
+      },
+      {
+        path: "discover/:id/update",
+        element: <ProductFormUpdate />,
+      },
+      {
+        path: "payment/:id",
+        element: <PaymentPage />,
       },
       {
         path: "sell",
@@ -64,14 +101,14 @@ const routes = [
         path: "coaching/:id",
         element: <CoachingDetail />,
       },
-      // {
-      //   path: "friend",
-      //   element: <Friend />,
-      // },
-      // {
-      //   path: "notification",
-      //   element: <Notification />,
-      // },
+      {
+        path: "coaching/create",
+        element: <CoachingCreate />,
+      },
+      {
+        path: "setting",
+        element: <Setting />,
+      },
     ],
   },
   {

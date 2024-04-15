@@ -1,6 +1,5 @@
 import React from "react";
 import { Routes, Route, useParams } from "react-router-dom";
-import { ResponsiveDrawer } from "../../components/Navbar";
 import { Box, Button } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -22,6 +21,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../theme/color";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -58,7 +59,7 @@ export default function CoachingDetail() {
   const { id } = useParams();
 
   return (
-    <ResponsiveDrawer>
+    <ThemeProvider theme={theme}>
       <Box sx={{ mt: 2, px: 5 }}>
         {/* <div>CoachingDetail for ID: {id}</div> */}
         <EventDescriptionCard />
@@ -364,6 +365,6 @@ export default function CoachingDetail() {
           </Card>
         </Box>
       </Box>
-    </ResponsiveDrawer>
+    </ThemeProvider>
   );
 }
