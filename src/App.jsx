@@ -28,11 +28,11 @@ const innerTheme = createTheme({
 export default function App() {
   return (
     <>
-      <ThemeProvider theme={outerTheme}>
-        <CssBaseline />
-        <TopNavBar />
-        <Outlet />
-      </ThemeProvider>
+      {/* <ThemeProvider theme={outerTheme}> */}
+      <CssBaseline />
+      <TopNavBar />
+      <Outlet />
+      {/* </ThemeProvider> */}
     </>
   );
 }
