@@ -22,7 +22,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: "Monoton, sans-serif",
+          fontFamily: "Rock Salt, sans-serif",
+          fontWeight: "bold",
+          fontSize: "0.7rem",
           backgroundColor: "#FFC876",
           color: "#000",
         },
