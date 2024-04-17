@@ -15,11 +15,11 @@ import { Cart } from "../pages/cart/Cart";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
 import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
-
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
+import { BlogPost } from "../pages/blog/Blog";
 
 const routes = [
   {
@@ -108,6 +108,10 @@ const routes = [
       {
         path: "setting",
         element: <Setting />,
+      },
+      {
+        path: "blog",
+        element: <BlogPost />,
       },
     ],
   },
