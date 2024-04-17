@@ -5,6 +5,7 @@ import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
+import { BlogPost } from "../pages/blog/Blog";
 const routes = [
   {
     path: "/",
@@ -18,6 +19,10 @@ const routes = [
       {
         path: "test",
         element: <Test />,
+      },
+      {
+        path: "blog",
+        element: <BlogPost />,
       },
     ],
   },
