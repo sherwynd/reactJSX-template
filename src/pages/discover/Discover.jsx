@@ -87,16 +87,13 @@ export function Discover() {
     const breakpointColumnsObj = {
         default: 4,
         1500: 4,
-        1100: 3,
-        800: 2,
-        500: 1
+        1200: 3,
+        1000: 2,
+        800: 1
     };
 
     return (
-        <Box sx={{
-            margin: 5,
-            // minWidth: 350
-        }}>
+        <Box>
             <Box component="form" sx={{ display: "flex", my: 3 }}>
                 <FormControl required fullWidth>
                     <InputLabel htmlFor="outlined-adornment-search">Search</InputLabel>
