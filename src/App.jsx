@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { NavBar } from "./components/Navbar";
-import { Layout } from "./components/Layout/Layout";
-import { TopNavBar } from "./components/Layout/TopNavBar";
 import { Outlet } from "react-router-dom";
 import { Test } from "./components/Test";
 import CssBaseline from "@mui/material/CssBaseline";
