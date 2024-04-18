@@ -25,16 +25,30 @@ export const Cart = () => {
     },
   ]);
 
+  const [addresses, setAddresses] = useState([
+    { id: 1, name: "Name 1", phone: "0123456789", line1: "Address Line 1", line2: "Address Line 2", city: "Selangor", zip: "45801" },
+    { id: 2, name: "Name 2", phone: "9876543210", line1: "Address Line 1", line2: "Address Line 2", city: "KL", zip: "45202" },
+    { id: 3, name: "Name 3", phone: "1234567890", line1: "Address Line 1", line2: "Address Line 2", city: "Kedah", zip: "48614" }
+  ]);
+  const [selectedAddressId, setSelectedAddressId] = useState(addresses[0].id);
+
+  const selectedAddress = addresses.find(address => address.id === selectedAddressId);
+
   return (
-    <div className="container mx-auto mt-6 p-5 bg-white shadow-md">
+    <div className="container mx-auto mt-6 p-5 ">
       <h1 className="text-2xl font-bold mb-4">My Cart</h1>
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
-          <DeliveryAddress />
+          <DeliveryAddress
+            addresses={addresses}
+            selectedAddressId={selectedAddressId}
+            setSelectedAddressId={setSelectedAddressId}
+            setAddresses={setAddresses}
+          />
         </div>
         <div className="md:col-span-2">
           <CartProductList products={products} setProducts={setProducts} />
-          <OrderSummary products={products} />
+          <OrderSummary products={products} address={selectedAddress} />
         </div>
       </div>
     </div>

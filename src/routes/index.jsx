@@ -15,11 +15,13 @@ import { Cart } from "../pages/cart/Cart";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
 import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
-
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
+import { BlogPost } from "../pages/blog/Blog";
+import { Favorites } from "../pages/favourites/Favourites";
+import { Rating } from "../pages/rating/Rating";
 
 const routes = [
   {
@@ -94,6 +96,14 @@ const routes = [
         element: <Cart />,
       },
       {
+        path: "favorites",
+        element: <Favorites />,
+      },
+      {
+        path: "rating",
+        element: <Rating />,
+      },
+      {
         path: "coaching",
         element: <Coaching />,
       },
@@ -108,6 +118,10 @@ const routes = [
       {
         path: "setting",
         element: <Setting />,
+      },
+      {
+        path: "blog",
+        element: <BlogPost />,
       },
     ],
   },
