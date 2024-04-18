@@ -20,6 +20,8 @@ import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
+import { Favorites } from "../pages/favourites/Favourites";
+import { Rating } from "../pages/rating/Rating";
 
 const routes = [
   {
@@ -92,6 +94,14 @@ const routes = [
       {
         path: "cart",
         element: <Cart />,
+      },
+      {
+        path: "favorites",
+        element: <Favorites />,
+      },
+      {
+        path: "rating",
+        element: <Rating />,
       },
       {
         path: "coaching",
