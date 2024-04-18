@@ -6,11 +6,13 @@ import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { Test } from "../components/Test";
 import { Cart } from "../pages/cart/Cart";
+import { Favorites } from "../pages/favourites/Favourites";
 // import { Profile } from "../pages/profile/Profile.jsx";
 // import { Friend } from "../pages/friend/Friend.jsx";
 // import { Notification } from "../pages/notification/Notification.jsx";
 import { Coaching } from "../pages/coaching/Coaching.jsx";
 import CoachingDetail from "../pages/coaching/CoachingDetail.jsx";
+import { Rating } from "../pages/rating/Rating";
 
 const routes = [
   {
@@ -29,7 +31,15 @@ const routes = [
       {
         path: "cart",
         element: <Cart />,
-      }, 
+      },
+      {
+        path: "favorites",
+        element: <Favorites />,
+      },
+      {
+        path: "rating",
+        element: <Rating />,
+      },
       {
         path: "coaching",
         element: <Coaching />,
