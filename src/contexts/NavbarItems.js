@@ -1,7 +1,7 @@
 export const mainNavbarItems = [
-  { id: 0, icon: "", label: "Profile", route: "profile" },
-  { id: 1, icon: "", label: "Coaching", route: "coaching" },
-  { id: 2, icon: "", label: "Friends", route: "friend" },
-  { id: 3, icon: "", label: "Notification", route: "notification" },
+  { id: 0, label: "Profile", route: "profile" },
+  { id: 1, label: "Coaching", route: "coaching" },
+  { id: 2, label: "Blog", route: "blog" },
+  { id: 3, label: "Discover", route: "discover" },
   { id: 4, label: "Favorites", route: "favorites" },
 ];

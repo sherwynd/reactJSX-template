@@ -32,11 +32,20 @@ export default function EventDescriptionCard() {
           <Typography sx={{ fontWeight: 700 }} variant="h3" component="div">
             Crazy SweatJam Event FCSIT
           </Typography>
-          <Button variant="outlined" size="small">
-            View
+          <Button
+            sx={{ width: 200, height: 35, borderRadius: 5 }}
+            variant="outlined"
+            size="small"
+          >
+            Subscribe
           </Button>
         </Box>
-        <Typography variant="body2" color="text.secondary" align="justify" sx={{ ml: 1}}>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          align="justify"
+          sx={{ ml: 1 }}
+        >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla viverra
           purus mauris, vel venenatis velit ornare elementum. Mauris tempor arcu
           id massa molestie, a hendrerit lacus mattis. Ut lacinia sed est non
@@ -57,7 +66,7 @@ export default function EventDescriptionCard() {
     <Box sx={{ minWidth: 275 }}>
       <Card
         variant="outlined"
-        sx={{ backgroundColor: "#F2F2F2", borderRadius: 5, boxShadow: 2 }}
+        sx={{ backgroundColor: "#FFF9EF", borderRadius: 5, boxShadow: 2 }}
       >
         {card}
       </Card>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Layout } from "./components/Layout/Layout";
-import { TopNavBar } from "./components/Layout/TopNavBar";
+import { NavBar } from "./components/Navbar";
 import { Outlet } from "react-router-dom";
 import { Test } from "./components/Test";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -28,11 +27,12 @@ const innerTheme = createTheme({
 export default function App() {
   return (
     <>
-      <ThemeProvider theme={outerTheme}>
-        <CssBaseline />
-        <TopNavBar />
+      {/* <ThemeProvider theme={outerTheme}> */}
+      <CssBaseline />
+      <NavBar>
         <Outlet />
-      </ThemeProvider>
+      </NavBar>
+      {/* </ThemeProvider> */}
     </>
   );
 }

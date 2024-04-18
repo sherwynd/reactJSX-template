@@ -1,6 +1,6 @@
 export const mainNavbarProfileHistory = [
-  { id: 0, icon: "", label: "Profile Name", route: "profile" },
-  { id: 1, icon: "", label: "Coach", route: "coach" },
-  { id: 2, icon: "", label: "Shop", route: "shop" },
+  { id: 0, label: "Listing", route: "purchaseHistory" },
+  { id: 1, label: "Posts", route: "blogHistory" },
+  { id: 2, label: "Reviews", route: "reviewHistory" },
   { id: 3, icon: "", label: "Favorites", route: "favorites" },
 ];

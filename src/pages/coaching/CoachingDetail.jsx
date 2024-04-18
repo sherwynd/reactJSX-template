@@ -1,12 +1,21 @@
 import React from "react";
 import { Routes, Route, useParams } from "react-router-dom";
-import { ResponsiveDrawer } from "../../components/Navbar";
-import { Box, Button } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import EventDescriptionCard from "../../components/EventDescriptionCard";
-import Grid from "@mui/material/Grid";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  styled,
+  IconButton,
+} from "@mui/material";
 import {
   AccessTime,
   AttachMoney,
@@ -14,18 +23,14 @@ import {
   FitnessCenter,
   Place,
 } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
+import EventDescriptionCard from "../../components/EventDescriptionCard";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../theme/color";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "#FFA31A",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -58,7 +63,7 @@ export default function CoachingDetail() {
   const { id } = useParams();
 
   return (
-    <ResponsiveDrawer>
+    <ThemeProvider theme={theme}>
       <Box sx={{ mt: 2, px: 5 }}>
         {/* <div>CoachingDetail for ID: {id}</div> */}
         <EventDescriptionCard />
@@ -70,7 +75,7 @@ export default function CoachingDetail() {
                   minWidth: 275,
                   mt: 3,
                   boxShadow: 3,
-                  backgroundColor: "#F5F5F5",
+                  backgroundColor: "#FFF9EF",
                   borderRadius: 5,
                 }}
               >
@@ -131,7 +136,7 @@ export default function CoachingDetail() {
                   minWidth: 275,
                   mt: 3,
                   boxShadow: 3,
-                  backgroundColor: "#F5F5F5",
+                  backgroundColor: "#FFF9EF",
                   borderRadius: 5,
                 }}
               >
@@ -310,7 +315,7 @@ export default function CoachingDetail() {
               margin: 2,
               boxShadow: 3,
               borderRadius: 5,
-              backgroundColor: "#F5F5F5",
+              backgroundColor: "#FFF9EF",
             }}
           >
             <CardContent>
@@ -364,6 +369,6 @@ export default function CoachingDetail() {
           </Card>
         </Box>
       </Box>
-    </ResponsiveDrawer>
+    </ThemeProvider>
   );
 }

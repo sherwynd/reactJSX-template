@@ -6,10 +6,10 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      light: "#757ce8",
-      main: "#3f50b5",
+      light: "#FFA31A",
+      main: "#FFC876",
       dark: "#002884",
-      contrastText: "#fff",
+      contrastText: "#000",
     },
     secondary: {
       light: "#ff7961",
@@ -19,6 +19,29 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Rock Salt, sans-serif",
+          fontWeight: "bold",
+          fontSize: "0.7rem",
+          backgroundColor: "#FFC876",
+          color: "#000",
+        },
+        outlinedPrimary: {
+          "&:hover": {
+            backgroundColor: "#FFEDD1",
+          },
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#FFF9EF",
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {
