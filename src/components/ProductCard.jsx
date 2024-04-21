@@ -35,10 +35,11 @@ export function ProductCard({ product }) {
             </IconButton>
           }
           subheader="Chiam Yin Kia"
+          sx={{ bgcolor: "secondary.main" }}
         />
-        <CardContent>
+        <CardContent sx={{ bgcolor: "secondary.main" }}>
           <Link to={`/discover/${product.id}`} style={{ textDecoration: 'none', color: 'black' }} >
-            <Typography variant='h6' marginTop={-2}>{product.title}</Typography>
+            <Typography variant='subtitle2' marginTop={-2}>{product.title}</Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography>RM{product.price}</Typography>
               <Typography>{product.listed}</Typography>
