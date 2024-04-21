@@ -27,6 +27,9 @@ const theme = createTheme({
           fontSize: "0.7rem",
           backgroundColor: "#FFC876",
           color: "#000",
+          "&:hover": {
+            backgroundColor: "#FFA31A",
+          },
         },
         outlinedPrimary: {
           "&:hover": {

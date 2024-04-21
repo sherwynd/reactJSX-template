@@ -82,7 +82,7 @@ export default function ProductDetail() {
   return (
     // <div>
     <Grid container>
-      <Grid item xs={12} sm={12} md={12} lg={5} sx={{mb: 1}}>
+      <Grid item xs={12} sm={12} md={12} lg={5} sx={{ mb: 1 }}>
         <Typography variant='h4' sx={{ mx: 8, my: 1 }}>Product Detail</Typography>
         <Carousel>
           {
@@ -110,11 +110,14 @@ export default function ProductDetail() {
               value={profile.rating}
               precision={0.5}
               readOnly />
-            <Link to={`/payment/${id}`} >
-              {profile.id != ownProfile.id && <Button variant="contained" color="primary">Buy Now</Button>}
+            <Link to={`/cart`} >
+              {profile.id != ownProfile.id && <Button variant="outlined" color="primary">Buy Now</Button>}
             </Link>
             <Link to={`/discover/${id}/update`} >
               {profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2 }} >Update</Button>}
+            </Link>
+            <Link to={`/favorites`} >
+              <Button variant="outlined" sx={{ mx: 2 }} >Save to Favourite</Button>
             </Link>
           </Grid>
           <Grid item xs={12}>
