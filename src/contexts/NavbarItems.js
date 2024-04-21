@@ -3,4 +3,5 @@ export const mainNavbarItems = [
   { id: 1, label: "Coaching", route: "coaching" },
   { id: 2, label: "Blog", route: "blog" },
   { id: 3, label: "Discover", route: "discover" },
+  { id: 4, label: "Favorites", route: "favorites" },
 ];
