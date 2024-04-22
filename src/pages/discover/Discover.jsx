@@ -1,4 +1,4 @@
-import { Box, FormControl, InputLabel, OutlinedInput, InputAdornment, Button } from "@mui/material";
+import { Box, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Typography } from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
 import Masonry from "react-masonry-css";
 import SearchIcon from '@mui/icons-material/Search';
@@ -87,16 +87,13 @@ export function Discover() {
     const breakpointColumnsObj = {
         default: 4,
         1500: 4,
-        1100: 3,
-        800: 2,
-        500: 1
+        1200: 3,
+        1000: 2,
+        800: 1
     };
 
     return (
-        <Box sx={{
-            margin: 5,
-            // minWidth: 350
-        }}>
+        <Box>
             <Box component="form" sx={{ display: "flex", my: 3 }}>
                 <FormControl required fullWidth>
                     <InputLabel htmlFor="outlined-adornment-search">Search</InputLabel>
@@ -108,7 +105,7 @@ export function Discover() {
                 </FormControl>
                 <Button variant="contained" color="success" type="submit" sx={{ mx: 1, width: "20vh" }}>Search</Button>
             </Box>
-
+            <Typography variant="h3" sx={{ my: 2 }}>Discover</Typography>
             <Masonry
                 breakpointCols={breakpointColumnsObj}
                 className="my-masonry-grid"

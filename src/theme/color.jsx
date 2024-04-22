@@ -13,7 +13,7 @@ const theme = createTheme({
     },
     secondary: {
       light: "#ff7961",
-      main: "#f44336",
+      main: "#FFF9EF",
       dark: "#ba000d",
       contrastText: "#000",
     },
@@ -27,6 +27,9 @@ const theme = createTheme({
           fontSize: "0.7rem",
           backgroundColor: "#FFC876",
           color: "#000",
+          "&:hover": {
+            backgroundColor: "#FFA31A",
+          },
         },
         outlinedPrimary: {
           "&:hover": {
