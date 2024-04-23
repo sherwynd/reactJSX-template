@@ -35,6 +35,10 @@ const routes = [
         element: <Profile />,
         children: [
           {
+            path: "",
+            element: <PurchaseHistory />,
+          },
+          {
             path: "purchaseHistory",
             element: <PurchaseHistory />,
           },
@@ -51,6 +55,10 @@ const routes = [
             element: <RatingHistory />,
           },
         ],
+      },
+      {
+        path: "",
+        element: <Discover />,
       },
       {
         path: "sell",

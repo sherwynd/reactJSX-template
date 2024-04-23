@@ -28,10 +28,12 @@ import {
 import { useState } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import AvatarA from "../../assets/images/Lebron.jpg";
 
 export function Profile() {
   const navigate = useNavigate();
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
+  const [reviewValue, setReviewValue] = useState(10);
   const handleSetting = () => {
     navigate("/setting");
   };
@@ -40,7 +42,6 @@ export function Profile() {
       <Box sx={{ my: 2, display: "flex", flexDirection: "row" }}>
         <Box
           sx={{
-            display: "flex",
             flexDirection: "column",
             p: 2,
             maxWidth: "300px",
@@ -55,22 +56,48 @@ export function Profile() {
               alignItems: "center",
               justifyContent: "center",
             }}
+            src={AvatarA}
           />
-
-          <Box>
-            {/* can be into contexts */}
-            <Typography variant="h5">Sapnu Puas</Typography>
-            <Typography>@sapnupuas</Typography>
+          {/* can be into contexts */}
+          <Typography
+            sx={{
+              my: 0.7,
+            }}
+            variant="h5"
+          >
+            Sapnu Puas
+          </Typography>
+          <Typography
+            sx={{
+              my: 0.7,
+            }}
+          >
+            @sapnupuas
+          </Typography>
+          <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
+            <Typography sx={{ mx: 1, pt: 0.2 }}>{ratingStarValue}</Typography>
             <Rating
-              sx={{ my: 1 }}
               name="read-only"
               value={ratingStarValue}
               precision={0.5}
               readOnly
             />
-            <Typography>+60123456789</Typography>
-            <Typography>When people need me, remember sapnu puas</Typography>
+            <Typography sx={{ mx: 0.3, pt: 0.2 }}>({reviewValue})</Typography>
           </Box>
+          <Typography
+            sx={{
+              my: 0.7,
+            }}
+          >
+            +60123456789
+          </Typography>
+          <Typography
+            sx={{
+              my: 0.7,
+            }}
+          >
+            When people need me, remember sapnu puas
+          </Typography>
         </Box>
 
         <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
