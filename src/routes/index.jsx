@@ -64,10 +64,6 @@ const routes = [
         element: <ProductFormUpdate />,
       },
       {
-        path: "payment/:id",
-        element: <PaymentPage />,
-      },
-      {
         path: "sell",
         element: <ProductForm />,
       },
@@ -82,10 +78,6 @@ const routes = [
       {
         path: "discover/:id/update",
         element: <ProductFormUpdate />,
-      },
-      {
-        path: "payment/:id",
-        element: <PaymentPage />,
       },
       {
         path: "test",
