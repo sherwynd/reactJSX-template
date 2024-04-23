@@ -7,10 +7,10 @@ export const Cart = () => {
   const [products, setProducts] = useState([
     {
       id: 1,
-      name: 'LDNIO SC5319 Power Socket',
-      description: '2500W Power Socket with Surge Protector',
-      price: 43.00, // As a number for easier calculations
-      image: 'https://img.lazcdn.com/g/p/650b6fda8badf95bae363e7d55b11ae1.jpg_720x720q80.jpg',
+      name: 'Asics Novablast 4 Mens Running Shoes',
+      description: 'Product code: 212960',
+      price: 549.00, // As a number for easier calculations
+      image: 'https://cdn.media.amplience.net/i/frasersdev/21296048_o?fmt=auto&w=1200&h=1200&sm=scaleFit&$h-ttl$',
       quantity: 1,
       isChecked: false
     },
