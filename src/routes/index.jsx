@@ -7,7 +7,8 @@ import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
 import { BlogHistory } from "../pages/profile/BlogHistory";
-import { ReviewHistory } from "../pages/profile/ReviewHistory";
+import { CoachingHistory } from "../pages/profile/CoachingHistory";
+import { RatingHistory } from "../pages/profile/RatingHistory";
 import { Setting } from "../pages/profile/Setting";
 
 import { Test } from "../components/Test";
@@ -42,8 +43,12 @@ const routes = [
             element: <BlogHistory />,
           },
           {
-            path: "reviewHistory",
-            element: <ReviewHistory />,
+            path: "coachingHistory",
+            element: <CoachingHistory />,
+          },
+          {
+            path: "ratingHistory",
+            element: <RatingHistory />,
           },
         ],
       },

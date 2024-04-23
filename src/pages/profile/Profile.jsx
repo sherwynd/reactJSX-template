@@ -59,8 +59,8 @@ export function Profile() {
 
           <Box>
             {/* can be into contexts */}
-            <Typography variant="h5">Avatar Nickname</Typography>
-            <Typography>@Avatar Username</Typography>
+            <Typography variant="h5">Sapnu Puas</Typography>
+            <Typography>@sapnupuas</Typography>
             <Rating
               sx={{ my: 1 }}
               name="read-only"
@@ -68,8 +68,8 @@ export function Profile() {
               precision={0.5}
               readOnly
             />
-            <Typography>+Avatar Phone Number</Typography>
-            <Typography>Avatar Description</Typography>
+            <Typography>+60123456789</Typography>
+            <Typography>When people need me, remember sapnu puas</Typography>
           </Box>
         </Box>
 
