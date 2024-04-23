@@ -21,7 +21,7 @@ import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
 import { Favorites } from "../pages/favourites/Favourites";
-import { Rating } from "../pages/rating/Rating";
+import { Rate } from "../pages/rating/Rating";
 
 const routes = [
   {
@@ -93,7 +93,7 @@ const routes = [
       },
       {
         path: "rating",
-        element: <Rating />,
+        element: <Rate />,
       },
       {
         path: "coaching",
