@@ -1,4 +1,5 @@
-import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Box, Grid, Paper } from '@mui/material';
+import { Label } from '@mui/icons-material';
+import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Box, Grid, Paper, Input, FormLabel } from '@mui/material';
 import { useState } from 'react';
 
 const ProductForm = () => {
@@ -21,10 +22,31 @@ const ProductForm = () => {
         console.log(product);
     }
 
-    // function handleImage(e) {
-    //     console.log(e.target.files);
-    //     setImg(URL.createObjectURL(e.target.files[0]));
-    // }
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const handleImageChange = (e) => {
+        // console.log(e.target.files[])
+        if (e.target.files) {
+            const filesArray = Array.from(e.target.files).map((file) =>
+                URL.createObjectURL(file)
+            );
+
+            // console.log("filesArray: ", filesArray);
+            setSelectedFiles((prevImages) => prevImages.concat(filesArray));
+            Array.from(e.target.files).map(
+                (file) => URL.revokeObjectURL(file)
+            );
+        }
+    };
+    const renderPhotos = (source) => {
+        console.log("source: ", source);
+        return source.map((photo) => {
+            return (
+                <Grid item lg={2}>
+                    <Box component="img" src={photo} key={photo} sx={{ width: "20vh", height: "20vh", m: 1, objectFit: "contain" }} alt="" />
+                </Grid>
+            )
+        });
+    };
 
     return (
         <>
@@ -78,16 +100,6 @@ const ProductForm = () => {
                             onChange={(e) => setBrand(e.target.value)}
                         />
                     </FormControl>
-
-                    {/* <TextField required type="text" placeholder="Image URL" value={img} onChange={(e) => setImg(e.target.value)} sx={{ m: 1, width: "100vh" }} /> */}
-                    <input
-                        // required
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id="image-upload"
-                        multiple
-                        type="file"
-                    />
 
                     <Grid container sx={{ width: "50%", justifyContent: "center", alignItems: "center" }}>
                         <Grid item xs={12} md={3} sx={{ m: 1 }}>
@@ -145,11 +157,16 @@ const ProductForm = () => {
                         </Grid>
                     </Grid>
 
-                    <Box component="label" htmlFor="image-upload" sx={{ m: 1, width: "50%" }}>
-                        <Button variant="outlined" color='primary' component="span" sx={{ width: "100%" }}>
-                            Upload Images
-                        </Button>
+                    <Box sx={{ width: "50%" }}>
+                        <Box component={Input} type="file" id="file" multiple onChange={handleImageChange} sx={{ display: 'none' }} />
+                        <Box className="label-holder">
+                            <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%" }}>
+                                Upload Images
+                            </Button>
+                        </Box>
                     </Box>
+                    <Grid container sx={{ display: "flex", justifyContent: "center", alignItems: "center", px: "5vh" }}>{renderPhotos(selectedFiles)}
+                    </Grid>
 
                     <Button onSubmit={handleSubmit} variant="outlined" color="primary" type="submit" sx={{ m: 1, width: "50%" }}>Submit</Button>
                 </Stack >
