@@ -130,10 +130,13 @@ export function Profile() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
+                alignItems: "center",
                 flexGrow: 1,
               }}
             >
-              <Button onClick={handleSetting}>Edit Profile</Button>
+              <Button sx={{ maxHeight: "50px" }} onClick={handleSetting}>
+                Edit Profile
+              </Button>
             </Box>
           </Box>
           <Paper sx={{ display: "flex", flexGrow: 1 }}>

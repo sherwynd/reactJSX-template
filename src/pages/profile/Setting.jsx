@@ -78,7 +78,7 @@ export function Setting() {
     const profileFormDetail = { username, nickname, phoneNumber, description };
 
     console.log(profileFormDetail);
-    navigate("/profile");
+    navigate("/profile/:id");
     // const requestTestOptions = {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
@@ -92,7 +92,7 @@ export function Setting() {
     //   .catch((error) => console.error("There was an error!", error));
   };
   const handleBack = () => {
-    navigate("/profile");
+    navigate("/profile/:id");
   };
   return (
     <>
