@@ -3,58 +3,49 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import { Typography, Box } from "@mui/material";
-
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CommentIcon from "@mui/icons-material/Comment";
 import { Link } from "react-router-dom";
 
-export function BlogHistoryCard({ product }) {
+export function BlogHistoryCard({ blog }) {
   return (
     <Card sx={{ flexGrow: 1 }}>
       <CardContent sx={{ p: 0 }}>
         <CardMedia
           sx={{ height: 250 }}
           component="img"
-          image={product.img}
+          image={blog.img}
           alt="media"
         />
       </CardContent>
 
       <CardContent sx={{ bgcolor: "secondary.main" }}>
         <Link
-          to={`/discover/${product.id}`}
+          to={`/blog-details/${blog.id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
           <Typography noWrap variant="h6" marginTop={-1}>
-            {product.title}
+            {blog.title}
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>RM{product.price}</Typography>
-              <Box
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+                <FavoriteIcon color="primary" />
+                <Typography>{blog.like}</Typography>
+              </Box>
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <CommentIcon color="primary" />
+                <Typography>{blog.comments}</Typography>
+              </Box>
+              <Typography
                 sx={{
                   display: "flex",
                   flexGrow: 1,
-                  flexDirection: "row",
+                  justifyContent: "flex-end",
                 }}
               >
-                <Typography
-                  sx={{
-                    display: "flex",
-                    flexGrow: 1,
-                    justifyContent: "flex-start",
-                  }}
-                >
-                  RM{product.price}
-                </Typography>
-                <Typography
-                  sx={{
-                    display: "flex",
-                    flexGrow: 1,
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  {product.listed}
-                </Typography>
-              </Box>
+                {blog.listed}
+              </Typography>
             </Box>
           </Box>
         </Link>

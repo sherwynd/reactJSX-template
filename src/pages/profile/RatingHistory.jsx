@@ -36,40 +36,34 @@ export function RatingHistory() {
     //sample
     {
       id: 1,
-      name: "Chiam Yin Kia",
+      name: "Sherwynd Liew",
       text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       date: "2021-10-10",
     },
     {
       id: 2,
-      name: "Chiam Yin Kia",
+      name: "Xian Heng",
       text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
       date: "2022-11-11",
     },
     {
       id: 3,
-      name: "Chiam Yin Kia",
+      name: "Carrot Hong",
       text: "Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       date: "2023-12-12",
     },
 
     {
       id: 4,
-      name: "Chiam Yin Kia",
+      name: "Neville Teh",
       text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       date: "2021-10-10",
     },
     {
       id: 5,
-      name: "Chiam Yin Kia",
+      name: "Tian Sien",
       text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
       date: "2022-11-11",
-    },
-    {
-      id: 6,
-      name: "Chiam Yin Kia",
-      text: "Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      date: "2023-12-12",
     },
   ];
   return (
