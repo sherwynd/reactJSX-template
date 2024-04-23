@@ -20,6 +20,7 @@ import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
+import { BlogDetails } from "../pages/blog/BlogDetail";
 
 const routes = [
   {
@@ -113,6 +114,14 @@ const routes = [
         path: "blog",
         element: <BlogPost />,
       },
+      {
+        path: "blog-details/:id",
+        element: <BlogDetails />,
+      },
+      // {
+      //   path: "blog-details",
+      //   element: <BlogDetails />,
+      // },
     ],
   },
   {
