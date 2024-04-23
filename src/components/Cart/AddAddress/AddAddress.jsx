@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
 
 export const AddAddress = ({ addAddress }) => {
     const [newAddress, setNewAddress] = useState({
@@ -41,9 +42,9 @@ export const AddAddress = ({ addAddress }) => {
                     className="col-span-2 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
                 <input type="text" name="zip" placeholder="ZIP Code" value={newAddress.zip} onChange={handleInputChange}
                     className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-                <button type="submit" className="mt-4 col-span-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <Button type="submit" className="mt-4 col-span-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Add Address
-                </button>
+                </Button>
             </form>
         </div>
     );

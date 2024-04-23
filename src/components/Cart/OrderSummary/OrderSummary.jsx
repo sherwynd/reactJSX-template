@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PaymentOptions } from '../Payment/PaymentOptions';
+import Button from '@mui/material/Button';
 
 export const OrderSummary = ({ products, address }) => {
   const navigate = useNavigate();
-  const [selectedMethod, setSelectedMethod] = useState('Online Banking'); // Default selected method
+  const [selectedMethod, setSelectedMethod] = useState(''); // Default selected method
 
   const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
   const shipping = 5;
   const total = subtotal + shipping;
 
   const proceedToBuy = () => {
-    navigate('/rating');
+    if (!selectedMethod) {
+      window.alert('Please select a payment method.');
+    } else {
+      // Confirmation dialog to make sure the user wants to proceed
+      if (window.confirm('Are you sure you want to proceed with your purchase?')) {
+        navigate('/rating');
+      }
+    }
   };
 
   return (
@@ -38,10 +46,10 @@ export const OrderSummary = ({ products, address }) => {
         )}
       </div>
       <PaymentOptions selectedMethod={selectedMethod} onPaymentMethodChange={setSelectedMethod} />
-      <button className="w-full mt-4 bg-yellow-600 text-white py-2 rounded hover:bg-yellow-700 transition-colors"
+      <Button className="w-full mt-4 bg-yellow-600 text-white py-2 rounded hover:bg-yellow-700 transition-colors"
         onClick={proceedToBuy}>
         Proceed to Buy
-      </button>
+      </Button>
     </div>
   );
 };
