@@ -13,7 +13,7 @@ const theme = createTheme({
     },
     secondary: {
       light: "#ff7961",
-      main: "#f44336",
+      main: "#FFF9EF",
       dark: "#ba000d",
       contrastText: "#000",
     },
@@ -22,11 +22,14 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: "Rock Salt, sans-serif",
+          fontFamily: "Mohave, sans-serif",
           fontWeight: "bold",
-          fontSize: "0.7rem",
+          fontSize: "1rem",
           backgroundColor: "#FFC876",
           color: "#000",
+          "&:hover": {
+            backgroundColor: "#FFA31A",
+          },
         },
         outlinedPrimary: {
           "&:hover": {

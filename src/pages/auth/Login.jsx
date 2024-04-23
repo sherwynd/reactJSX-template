@@ -83,9 +83,25 @@ export function Login() {
   };
   return (
     <>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+        }}
+      >
         <Box>Login mou</Box>
-        <Paper sx={{ minWidth: "400px", maxWidth: "600px" }} elevation={8}>
+        <Paper
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minWidth: "400px",
+            maxWidth: "600px",
+          }}
+          elevation={8}
+        >
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box
               sx={{

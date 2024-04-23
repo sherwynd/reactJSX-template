@@ -8,12 +8,23 @@ import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export function ProductCard({ product }) {
 
+  const [favourite, setFavourite] = useState(false);
+  const handleFavourite = () => { 
+    setFavourite(!favourite)
+    product.favouriteCount = favourite ? product.favouriteCount - 1 : product.favouriteCount + 1;
+   };
+
+  // const profile = {
+  //   name: "Sherwynd Liew",
+  // }
+
   return (
     <div>
-      <Card>
+      <Card elevation={3}>
         <CardContent sx={{ p: 0 }}>
           <CardMedia
             component="img"
@@ -25,22 +36,23 @@ export function ProductCard({ product }) {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-              C
+              {product.profile.name.charAt(0)}
             </Avatar>
           }
           action={
-            <IconButton aria-label="Love">
-              <FavoriteIcon />
-              <Typography m={0.3}>10</Typography>
+            <IconButton aria-label="Love" onClick={handleFavourite}>
+              {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
+              <Typography m={0.3}>{product.favouriteCount}</Typography>
             </IconButton>
           }
-          subheader="Chiam Yin Kia"
+          subheader={product.profile.name}
+          sx={{ bgcolor: "secondary.main" }}
         />
-        <CardContent>
-          <Link to={`/discover/${product.id}`} style={{ textDecoration: 'none', color: 'black' }} >
-            <Typography variant='h6' marginTop={-2}>{product.title}</Typography>
+        <CardContent sx={{ bgcolor: "secondary.main" }}>
+          <Link to={`/discover/${product.id}` } style={{ textDecoration: 'none', color: 'black' }} >
+            <Typography variant='subtitle2' marginTop={-2}>{product.title}</Typography>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography>RM{product.price}</Typography>
+              <Typography>RM{product.price.toFixed(2)}</Typography>
               <Typography>{product.listed}</Typography>
             </Box>
           </Link>
