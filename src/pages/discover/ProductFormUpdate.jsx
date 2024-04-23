@@ -80,7 +80,7 @@ const ProductForm = () => {
   return (
     <>
       <Paper elevation={2} sx={{ bgcolor: "secondary.main", p: 5 }}>
-        <Typography variant='h4' sx={{ m: 5 }}>Sell your Item</Typography>
+        <Typography variant='h4' sx={{ m: 2 }}>Sell your Item</Typography>
         <Stack spacing={2} component="form" onSubmit={handleUpdate} sx={{ justifyContent: "center", alignItems: "center", display: "flex", mb: 5 }}>
 
           <FormControl required sx={{ m: 1, width: "50%" }} >

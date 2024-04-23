@@ -119,7 +119,7 @@ const ProductDetail = () => {
 
             <Box>
               {product.profile.id != ownProfile.id &&
-                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, pb: .2 }} variant='outlined'>
+                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9 }} variant='outlined'>
                   {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
                   <Typography>{favouriteCount}</Typography>
                 </Button>

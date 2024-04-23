@@ -1,15 +1,10 @@
 import {
   Box,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
   Button,
   Typography,
 } from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
 import Masonry from "react-masonry-css";
-import SearchIcon from '@mui/icons-material/Search';
 import { useState } from "react";
 
 export function Discover() {
@@ -302,7 +297,7 @@ export function Discover() {
         <Box>
             <Box sx={{ display: 'flex', overflowX: "auto", '&::-webkit-scrollbar': { display: 'none' } }}>
                 {categories.map((category, index) => (
-                    <Button key={index} sx={{ mx: 1, width: "350px", height: "5vh", fontSize: 8 }} onClick={() => filterProducts(category)}>
+                    <Button key={index} sx={{ mx: 1, width: "350px", height: "8vh", fontSize: 14 }} onClick={() => filterProducts(category)}>
                         {category}
                     </Button>
                 ))}
