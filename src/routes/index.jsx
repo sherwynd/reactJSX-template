@@ -7,7 +7,8 @@ import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
 import { BlogHistory } from "../pages/profile/BlogHistory";
-import { ReviewHistory } from "../pages/profile/ReviewHistory";
+import { CoachingHistory } from "../pages/profile/CoachingHistory";
+import { RatingHistory } from "../pages/profile/RatingHistory";
 import { Setting } from "../pages/profile/Setting";
 
 import { Test } from "../components/Test";
@@ -21,7 +22,7 @@ import ProductForm from "../pages/discover/ProductForm.jsx";
 import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
 import { Favorites } from "../pages/favourites/Favourites";
-import { Rating } from "../pages/rating/Rating";
+import { Rate } from "../pages/rating/Rating";
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
         element: <Profile />,
         children: [
           {
+            path: "",
+            element: <PurchaseHistory />,
+          },
+          {
             path: "purchaseHistory",
             element: <PurchaseHistory />,
           },
@@ -42,10 +47,18 @@ const routes = [
             element: <BlogHistory />,
           },
           {
-            path: "reviewHistory",
-            element: <ReviewHistory />,
+            path: "coachingHistory",
+            element: <CoachingHistory />,
+          },
+          {
+            path: "ratingHistory",
+            element: <RatingHistory />,
           },
         ],
+      },
+      {
+        path: "",
+        element: <Discover />,
       },
       {
         path: "sell",
@@ -93,7 +106,7 @@ const routes = [
       },
       {
         path: "rating",
-        element: <Rating />,
+        element: <Rate />,
       },
       {
         path: "coaching",

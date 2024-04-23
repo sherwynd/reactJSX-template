@@ -14,15 +14,15 @@ export const Cart = () => {
       quantity: 1,
       isChecked: false
     },
-    {
-      id: 2,
-      name: 'LDNIO SC5319 Power Socket',
-      description: '2500W Power Socket with Surge Protector',
-      price: 43.00, // As a number for easier calculations
-      image: 'https://img.lazcdn.com/g/p/650b6fda8badf95bae363e7d55b11ae1.jpg_720x720q80.jpg',
-      quantity: 1,
-      isChecked: false
-    },
+    // {
+    //   id: 2,
+    //   name: 'LDNIO SC5319 Power Socket',
+    //   description: '2500W Power Socket with Surge Protector',
+    //   price: 43.00, // As a number for easier calculations
+    //   image: 'https://img.lazcdn.com/g/p/650b6fda8badf95bae363e7d55b11ae1.jpg_720x720q80.jpg',
+    //   quantity: 1,
+    //   isChecked: false
+    // },
   ]);
 
   const [addresses, setAddresses] = useState([

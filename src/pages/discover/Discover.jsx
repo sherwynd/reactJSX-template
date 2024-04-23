@@ -1,4 +1,12 @@
-import { Box, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Typography } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  Button,
+  Typography,
+} from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
 import Masonry from "react-masonry-css";
 import SearchIcon from '@mui/icons-material/Search';
@@ -272,13 +280,13 @@ export function Discover() {
         },
     ];
 
-    const breakpointColumnsObj = {
-        default: 4,
-        1500: 4,
-        1200: 3,
-        1000: 2,
-        800: 1
-    };
+  const breakpointColumnsObj = {
+    default: 4,
+    1500: 4,
+    1200: 3,
+    1000: 2,
+    800: 1,
+  };
 
     const categories = ['All', 'Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', ];
     const [filteredProducts, setFilteredProducts] = useState(products);

@@ -22,9 +22,9 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          fontFamily: "Rock Salt, sans-serif",
+          fontFamily: "Mohave, sans-serif",
           fontWeight: "bold",
-          fontSize: "0.7rem",
+          fontSize: "1rem",
           backgroundColor: "#FFC876",
           color: "#000",
           "&:hover": {
