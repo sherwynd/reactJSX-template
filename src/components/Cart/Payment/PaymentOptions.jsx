@@ -12,7 +12,7 @@ export const PaymentOptions = ({ selectedMethod, onPaymentMethodChange }) => {
 
   return (
     <div className="payment-options">
-      <h2 className="text-lg font-semibold mb-2">Payment Method</h2>
+      <h2 className="text-lg font-semibold mt-5">Payment Method</h2>
       {paymentMethods.map((method, index) => (
         <button
           key={index}
