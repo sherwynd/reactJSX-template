@@ -24,15 +24,17 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import { mainNavbarItems } from "../contexts/NavbarItems";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/color";
 import { styled } from "@mui/system";
-
+import FakeJordan from "../assets/images/Lebron.jpg";
+import LogoImage from "../assets/images/Logo.webp";
+import { SearchBar } from "./common/SearchBar";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const drawerWidth = 240;
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -135,6 +137,7 @@ export function NavBar(props) {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: "flex", flexGrow: 1 }}>
         <CssBaseline />
+        {/* Top Bar */}
         <AppBar
           position="fixed"
           elevation={0}
@@ -145,22 +148,45 @@ export function NavBar(props) {
           }}
         >
           <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+                flexGrow: 1,
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-            <IconButton sx={{ m: 1 }} onClick={handleReturn}>
-              <Avatar src="../assets/images/Fake-Jordan.png" />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Sport Mou
-            </Typography>
-
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: "none" } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <IconButton sx={{ m: 1 }} onClick={handleReturn}>
+                <Avatar src={LogoImage} />
+              </IconButton>
+              <Typography
+                sx={{ flexGrow: 1 }}
+                variant="h5"
+                noWrap
+                component="div"
+              >
+                Sport Mou
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexGrow: 1,
+              }}
+            >
+              <SearchBar />
+            </Box>
             <Box
               sx={{
                 display: "flex",
@@ -170,7 +196,7 @@ export function NavBar(props) {
               }}
             >
               <Link to={`/sell`}>
-                <Button variant="contained" color="error">
+                <Button sx={{ mr: 1 }} variant="contained" color="error">
                   Sell
                 </Button>
               </Link>
@@ -185,7 +211,7 @@ export function NavBar(props) {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar src="../assets/images/Fake-Jordan.png" />
+                  <Avatar src={FakeJordan} />
                 </StyledBadge>
               </IconButton>
 
@@ -198,22 +224,26 @@ export function NavBar(props) {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleClose}>
-                  <LogoutIcon />
+                <MenuItem
+                  sx={{ justifyContent: "center" }}
+                  onClick={handleClose}
+                >
+                  <AccountCircleIcon sx={{ mr: 0.3 }} />
                   Account
                 </MenuItem>
                 <MenuItem onClick={handleSetting}>
-                  <LogoutIcon />
+                  <SettingsIcon sx={{ mr: 0.3 }} />
                   Setting
                 </MenuItem>
                 <MenuItem onClick={handleLogOut}>
-                  <LogoutIcon />
+                  <LogoutIcon sx={{ mr: 0.3 }} />
                   Logout
                 </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
         </AppBar>
+        {/* Side Bar */}
         <Box
           component="nav"
           sx={{

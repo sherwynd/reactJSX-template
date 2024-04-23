@@ -26,20 +26,39 @@ import {
   useTheme,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import FakeJordan from "../../assets/images/Lebron.jpg";
 
 export function Setting() {
   const navigate = useNavigate();
+  const inputFileRef = useRef(null);
 
-  const [username, setUsername] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [description, setDescription] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("sanupuas");
+  const [nickname, setNickname] = useState("Sapnu Puas");
+  const [imageProfile, setImageProfile] = useState(FakeJordan);
+  const [phoneNumber, setPhoneNumber] = useState("0123456789");
+  const [description, setDescription] = useState(
+    "When people need me, remember sapnu puas"
+  );
 
   const [usernameError, setUsernameError] = useState("");
   const [nicknameError, setNicknameError] = useState("");
+
+  const handleAvatarClick = () => {
+    inputFileRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageProfile(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,10 +74,11 @@ export function Setting() {
     } else {
       setNicknameError("");
     }
+
     const profileFormDetail = { username, nickname, phoneNumber, description };
 
     console.log(profileFormDetail);
-
+    navigate("/profile");
     // const requestTestOptions = {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
@@ -76,13 +96,12 @@ export function Setting() {
   };
   return (
     <>
-      <Container>
-        <Paper sx={{ display: "flex", flexDirection: "column", my: 2 }}>
+      <Container sx={{ display: "flex" }}>
+        <Paper
+          sx={{ display: "flex", flexDirection: "column", my: 2, flexGrow: 1 }}
+        >
           <Box>
-            <IconButton
-              sx={{ justifyContent: "flex-start", mx: 2 }}
-              onClick={handleBack}
-            >
+            <IconButton sx={{ mx: 2, mt: 2 }} onClick={handleBack}>
               <ArrowBackIcon />
             </IconButton>
           </Box>
@@ -109,7 +128,27 @@ export function Setting() {
             variant="filled"
             margin="normal"
           />
-
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: 160,
+                height: 160,
+                m: 1,
+                cursor: "pointer",
+              }}
+              src={imageProfile}
+              onClick={handleAvatarClick}
+              alt="none"
+            />
+            <input
+              type="file"
+              ref={inputFileRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+          </Box>
           <TextField
             sx={{ mx: 2 }}
             id="phoneNumber"
