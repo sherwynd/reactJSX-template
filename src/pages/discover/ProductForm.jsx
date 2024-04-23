@@ -160,7 +160,7 @@ const ProductForm = () => {
                     <Box sx={{ width: "50%" }}>
                         <Box component={Input} type="file" id="file" multiple onChange={handleImageChange} sx={{ display: 'none' }} />
                         <Box className="label-holder">
-                            <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%" }}>
+                            <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%",borderRadius: 3 }} variant="outlined" >
                                 Upload Images
                             </Button>
                         </Box>
@@ -168,7 +168,7 @@ const ProductForm = () => {
                     <Grid container sx={{ display: "flex", justifyContent: "center", alignItems: "center", px: "5vh" }}>{renderPhotos(selectedFiles)}
                     </Grid>
 
-                    <Button onSubmit={handleSubmit} variant="outlined" color="primary" type="submit" sx={{ m: 1, width: "50%" }}>Submit</Button>
+                    <Button onSubmit={handleSubmit} variant="outlined" color="primary" type="submit" sx={{ m: 1, width: "50%",borderRadius: 3 }}>Submit</Button>
                 </Stack >
             </Paper>
         </>
