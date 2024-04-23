@@ -15,10 +15,10 @@ export function CommentCard({ comment }) {
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-                            C
+                            {comment.name.charAt(0)}
                         </Avatar>
                     }
-                    title="Yua Mikami"
+                    title={comment.name}
                     subheader={
                         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                             <Rating
