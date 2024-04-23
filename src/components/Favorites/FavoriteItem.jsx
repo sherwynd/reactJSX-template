@@ -27,8 +27,8 @@ const FavoriteItem = ({ name, description, price, image, type }) => {
             {/* Buttons */}
             {type !== 'rating' && (
               <div className="flex space-x-2 mt-2 sm:mt-0">
-                <Button className="bg-orange-300 text-black px-4 py-2 rounded-xl border border-black text-lg font-normal" onClick={navigateCart}>BUY</Button>
-                <Button className="bg-orange-300 text-black px-4 py-2 rounded-xl border border-black text-lg font-normal">REMOVE</Button>
+                <Button className="px-4 py-2 rounded-xl border border-solid text-lg" variant="outlined" onClick={navigateCart}>BUY</Button>
+                <Button className="px-4 py-2 rounded-xl border border-solid text-lg" variant="outlined">REMOVE</Button>
               </div>
             )}
           </div>
