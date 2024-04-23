@@ -18,10 +18,6 @@ export function ProductCard({ product }) {
     product.favouriteCount = favourite ? product.favouriteCount - 1 : product.favouriteCount + 1;
    };
 
-  // const profile = {
-  //   name: "Sherwynd Liew",
-  // }
-
   return (
     <div>
       <Card elevation={3}>
