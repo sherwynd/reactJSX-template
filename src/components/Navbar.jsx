@@ -24,14 +24,14 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-
 import { mainNavbarItems } from "../contexts/NavbarItems";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/color";
 import { styled } from "@mui/system";
+
+import { SearchBar } from "./common/SearchBar";
 
 const drawerWidth = 240;
 
@@ -157,7 +157,12 @@ export function NavBar(props) {
             <IconButton sx={{ m: 1 }} onClick={handleReturn}>
               <Avatar src="../assets/images/Fake-Jordan.png" />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography
+              sx={{ flexGrow: 1 }}
+              variant="h5"
+              noWrap
+              component="div"
+            >
               Sport Mou
             </Typography>
 
@@ -169,6 +174,7 @@ export function NavBar(props) {
                 flexGrow: 1,
               }}
             >
+              <SearchBar />
               <Link to={`/sell`}>
                 <Button variant="contained" color="error">
                   Sell
@@ -214,6 +220,7 @@ export function NavBar(props) {
             </Box>
           </Toolbar>
         </AppBar>
+        {/* Side Bar */}
         <Box
           component="nav"
           sx={{
