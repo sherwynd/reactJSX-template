@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function EventDescriptionCard() {
   const navigate = useNavigate();
@@ -32,13 +32,16 @@ export default function EventDescriptionCard() {
           <Typography sx={{ fontWeight: 700 }} variant="h3" component="div">
             Crazy SweatJam Event FCSIT
           </Typography>
-          <Button
-            sx={{ width: 200, height: 35, borderRadius: 5 }}
-            variant="outlined"
-            size="small"
-          >
-            Subscribe
-          </Button>
+
+          <Link to={`/cart`}>
+            <Button
+              sx={{ width: 200, height: 35, borderRadius: 5 }}
+              variant="outlined"
+              size="small"
+            >
+              Subscribe
+            </Button>
+          </Link>
         </Box>
         <Typography
           variant="body2"
