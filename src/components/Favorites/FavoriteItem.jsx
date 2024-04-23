@@ -7,14 +7,17 @@ const FavoriteItem = ({ name, description, price, image, type }) => {
   const navigateCart = () => {
     navigate('/cart');
   };
+  const navToProduct = () => {
+    navigate('/discover/1');
+  }
 
   return (
     <div className='pb-3'>
-      <div className="w-full max-w-5xl mx-auto h-auto sm:h-64 flex flex-col sm:flex-row items-center bg-orange-50 rounded-2xl shadow p-4">
-        <img className="w-full sm:w-52 h-48 sm:h-52 rounded-2xl object-cover mb-4 sm:mb-0" src={image} alt={name} />
+      <div className="w-full max-w-5xl mx-auto h-auto sm:h-64 flex flex-col sm:flex-row items-center bg-orange-50 rounded-2xl shadow p-5">
+        <img className="w-full sm:w-52 h-48 sm:h-52 rounded-2xl object-cover mb-4 sm:mb-0" src={image} alt={name} onClick={navToProduct} />
 
         <div className="flex flex-col justify-between ml-0 sm:ml-4 w-full">
-          <div>
+          <div onClick={navToProduct}>
             <div className="text-xl font-bold">{name}</div>
             <div className="text-md text-gray-700">{description}</div>
           </div>
