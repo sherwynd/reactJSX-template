@@ -23,7 +23,7 @@ import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
 import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";
-
+import { BlogDetails } from "../pages/blog/BlogDetail";
 const routes = [
   {
     path: "/",
@@ -128,6 +128,14 @@ const routes = [
         path: "blog",
         element: <BlogPost />,
       },
+      {
+        path: "blog-details/:id",
+        element: <BlogDetails />,
+      },
+      // {
+      //   path: "blog-details",
+      //   element: <BlogDetails />,
+      // },
     ],
   },
   {
