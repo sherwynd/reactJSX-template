@@ -42,7 +42,7 @@ import {
 export function CoachingHistoryCard({ coaching }) {
   return (
     <>
-      <Card>
+      <Card sx={{ display: "flex" }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Link
@@ -51,9 +51,31 @@ export function CoachingHistoryCard({ coaching }) {
             >
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardHeader title={coaching.title} />
-                <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                <Typography>{coaching.date}</Typography>
-                <Typography>RM{coaching.price}</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", p: 2 }}>
+                  <Typography>{coaching.location}</Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flexGrow: 1,
+                    }}
+                  >
+                    <Typography>2 Activities</Typography>
+                    <Typography>{coaching.time}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      flexGrow: 1,
+                    }}
+                  >
+                    <Typography>RM{coaching.price}</Typography>
+                    <Typography>{coaching.date}</Typography>
+                  </Box>
+                </Box>
               </Box>
             </Link>
           </Box>
