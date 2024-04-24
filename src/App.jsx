@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
 import { NavBar } from "./components/Navbar";
 import { Outlet } from "react-router-dom";
 import { Test } from "./components/Test";
-import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  Alert,
+  AlertTitle,
+  Collapse,
+  CssBaseline,
+  IconButton,
+} from "@mui/material";
 import { green, orange } from "@mui/material/colors";
+import * as React from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { useLocation } from "react-router-dom";
 
 const theme = createTheme({});
 
@@ -25,11 +33,33 @@ const innerTheme = createTheme({
 });
 
 export default function App() {
+  const location = useLocation();
+  const alertOpen = location.state?.alertOpen;
   return (
     <>
       {/* <ThemeProvider theme={outerTheme}> */}
       <CssBaseline />
       <NavBar>
+        <Collapse in={alertOpen}>
+          <Alert
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setAlertOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+            sx={{ mb: 2 }}
+            severity="info"
+          >
+            Reminder! Coaching Class will start soon!
+          </Alert>
+        </Collapse>
         <Outlet />
       </NavBar>
       {/* </ThemeProvider> */}
