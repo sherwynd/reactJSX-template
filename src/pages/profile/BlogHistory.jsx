@@ -26,95 +26,51 @@ import {
   useTheme,
 } from "@mui/material";
 import { BlogHistoryCard } from "../../components/BlogHistoryCard";
-import AvatarA from "../../assets/images/image1.png";
-import AvatarB from "../../assets/images/Fake-Jordan.png";
-import AvatarC from "../../assets/images/image2.png";
-import AvatarD from "../../assets/images/avatar.png";
+import AvatarA from "../../assets/images/cutie.png";
+import AvatarB from "../../assets/images/cutie2.png";
+import AvatarC from "../../assets/images/cutie3.png";
+import AvatarD from "../../assets/images/cutie4.png";
 export function BlogHistory() {
-  const products = [
+  const blogs = [
     {
-      title: "Ipsum amet, consectetur adipiscing elit 1",
+      title: "First Post",
       description:
         "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 100,
+      like: 10,
+      comments: 2899,
       img: AvatarA,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
       listed: "2021-10-10",
       id: 1,
     },
     {
-      title: "Lorem  dolor sit amet, adipiscing elit 2",
+      title: "Second Post",
       description:
         "Dolor sit eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 69,
+      like: 10,
+      comments: 2899,
       img: AvatarB,
-      condition: "not new",
-      category: "shoe",
-      brand: "pineapple",
       listed: "2021-10-10",
       id: 2,
     },
     {
-      title: "Lorem ipsum dolor adipiscing elit 3",
+      title: "Third Post",
       description:
         "Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      price: 777,
+      like: 10,
+      comments: 2899,
       img: AvatarC,
-      condition: "like new",
-      category: "sports",
-      brand: "nike",
       listed: "2021-10-10",
       id: 3,
     },
     {
-      title: "Lorem ipsum dolor sit amet, consectetur elit 2",
+      title: "Fourth Post",
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua.",
-      price: 1010,
-      img: AvatarD,
-      condition: "old",
-      category: "fruit",
-      brand: "orange",
+      like: 10,
+      comments: 2899,
+      img: AvatarA,
       listed: "2021-10-10",
       id: 4,
-    },
-    {
-      title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 9,
-      img: AvatarC,
-      condition: "very new",
-      category: "not electronics",
-      brand: "not apple",
-      listed: "2021-10-10",
-      id: 5,
-    },
-    {
-      title: "Dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 666,
-      img: AvatarA,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
-      listed: "2021-10-10",
-      id: 6,
-    },
-    {
-      title: "Lorem dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 111,
-      img: AvatarC,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
-      listed: "2021-10-10",
-      id: 7,
     },
   ];
   return (
@@ -123,9 +79,9 @@ export function BlogHistory() {
         sx={{ display: "flex", justifyContent: "center", m: 1, flexGrow: 1 }}
       >
         <Grid container spacing={1}>
-          {products.map((product) => (
-            <Grid item xs={4} key={product.id}>
-              <BlogHistoryCard product={product} />
+          {blogs.map((blog) => (
+            <Grid item xs={4} key={blog.id}>
+              <BlogHistoryCard blog={blog} />
             </Grid>
           ))}
         </Grid>

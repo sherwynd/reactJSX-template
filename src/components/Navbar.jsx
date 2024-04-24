@@ -97,7 +97,7 @@ export function NavBar(props) {
     navigate("/");
   };
   const handleClose = () => {
-    navigate("/profile");
+    navigate("/profile/:id");
     setAnchorEl(null);
   };
   const handleSetting = () => {

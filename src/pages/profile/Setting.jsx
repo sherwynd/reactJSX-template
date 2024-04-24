@@ -34,12 +34,12 @@ export function Setting() {
   const navigate = useNavigate();
   const inputFileRef = useRef(null);
 
-  const [username, setUsername] = useState("sanupuas");
+  const [username, setUsername] = useState("mrsunshine");
   const [nickname, setNickname] = useState("Sapnu Puas");
   const [imageProfile, setImageProfile] = useState(FakeJordan);
   const [phoneNumber, setPhoneNumber] = useState("0123456789");
   const [description, setDescription] = useState(
-    "When people need me, remember sapnu puas"
+    "You are my sunshine, my only sunshine"
   );
 
   const [usernameError, setUsernameError] = useState("");
@@ -78,7 +78,7 @@ export function Setting() {
     const profileFormDetail = { username, nickname, phoneNumber, description };
 
     console.log(profileFormDetail);
-    navigate("/profile");
+    navigate("/profile/:id");
     // const requestTestOptions = {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
@@ -92,7 +92,7 @@ export function Setting() {
     //   .catch((error) => console.error("There was an error!", error));
   };
   const handleBack = () => {
-    navigate("/profile");
+    navigate("/profile/:id");
   };
   return (
     <>
@@ -104,6 +104,28 @@ export function Setting() {
             <IconButton sx={{ mx: 2, mt: 2 }} onClick={handleBack}>
               <ArrowBackIcon />
             </IconButton>
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: 160,
+                height: 160,
+                m: 1,
+                cursor: "pointer",
+              }}
+              src={imageProfile}
+              onClick={handleAvatarClick}
+              alt="none"
+            />
+            <input
+              type="file"
+              ref={inputFileRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
           </Box>
 
           <TextField
@@ -128,27 +150,7 @@ export function Setting() {
             variant="filled"
             margin="normal"
           />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Avatar
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                width: 160,
-                height: 160,
-                m: 1,
-                cursor: "pointer",
-              }}
-              src={imageProfile}
-              onClick={handleAvatarClick}
-              alt="none"
-            />
-            <input
-              type="file"
-              ref={inputFileRef}
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-            />
-          </Box>
+
           <TextField
             sx={{ mx: 2 }}
             id="phoneNumber"
