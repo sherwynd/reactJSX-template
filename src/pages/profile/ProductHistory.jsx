@@ -1,9 +1,9 @@
 import { Box, Grid, Paper, styled } from "@mui/material";
 import { ProductHistoryCard } from "../../components/ProductHistoryCard";
-import AvatarA from "../../assets/images/image1.png";
-import AvatarB from "../../assets/images/Fake-Jordan.png";
-import AvatarC from "../../assets/images/image2.png";
-import AvatarD from "../../assets/images/avatar.png";
+import AvatarA from "../../assets/images/shoe1.jpg";
+import AvatarB from "../../assets/images/basket1.jpeg";
+import AvatarC from "../../assets/images/shoe6.webp";
+import AvatarD from "../../assets/images/ball2.jpg";
 export function ProductHistory() {
   const products = [
     {

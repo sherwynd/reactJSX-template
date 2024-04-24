@@ -26,10 +26,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { BlogHistoryCard } from "../../components/BlogHistoryCard";
-import AvatarA from "../../assets/images/image1.png";
-import AvatarB from "../../assets/images/Fake-Jordan.png";
-import AvatarC from "../../assets/images/image2.png";
-import AvatarD from "../../assets/images/avatar.png";
+import AvatarA from "../../assets/images/cutie.png";
+import AvatarB from "../../assets/images/cutie2.png";
+import AvatarC from "../../assets/images/cutie3.png";
+import AvatarD from "../../assets/images/cutie4.png";
 export function BlogHistory() {
   const blogs = [
     {
@@ -48,7 +48,7 @@ export function BlogHistory() {
         "Dolor sit eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       like: 10,
       comments: 2899,
-      img: AvatarA,
+      img: AvatarB,
       listed: "2021-10-10",
       id: 2,
     },
@@ -58,7 +58,7 @@ export function BlogHistory() {
         "Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
       like: 10,
       comments: 2899,
-      img: AvatarA,
+      img: AvatarC,
       listed: "2021-10-10",
       id: 3,
     },
