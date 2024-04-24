@@ -33,7 +33,7 @@ export default function EventDescriptionCard() {
             Crazy SweatJam Event FCSIT
           </Typography>
 
-          <Link to={`/cart`}>
+          <Link to={`/coachingCart`}>
             <Button
               sx={{ width: 200, height: 35, borderRadius: 5 }}
               variant="outlined"
