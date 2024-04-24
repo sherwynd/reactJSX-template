@@ -36,6 +36,22 @@ const theme = createTheme({
             backgroundColor: "#FFEDD1",
           },
         },
+        outlinedWarning: {
+          backgroundColor: "red",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "#FFEDD1",
+            color: "black",
+          },
+        },
+        outlinedSuccess: {
+          backgroundColor: "green",
+          color: "white",
+          "&:hover": {
+            backgroundColor: "#FFEDD1",
+            color: "black",
+          },
+        },
       },
     },
     MuiDrawer: {

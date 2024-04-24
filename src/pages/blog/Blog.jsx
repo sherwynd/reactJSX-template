@@ -8,7 +8,6 @@ import Carousel from 'react-material-ui-carousel';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'; 
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export const BlogPost = () => {
   const navigate = useNavigate();
@@ -39,22 +38,22 @@ export const BlogPost = () => {
         name: 'Sherwynd (Me)',
       },
       like: 10,
-      comments: 2899
+      comments: 2
     },
     {
       id: 2,
-      description: "TianSien Happy Birthday!",
+      description: "I love FOOTBALL!",
       timestamp: "3 hours ago",
       images: [
-        "../src/assets/images/bd1.png",
-        "../src/assets/images/bd2.png",
+        "../src/assets/images/football.png",
+        "../src/assets/images/football2.png",
       ],
       user: {
         id: 1,
         name: 'Neville',
       },
       like: 20,
-      comments: 9000
+      comments: 9
     },
   ]);
 
@@ -119,13 +118,13 @@ export const BlogPost = () => {
         <Card key={post.id} onClick={() => handleNavigateToDetails(post.id)} style={{ cursor: 'pointer' , marginBottom: '20px'}}>
           <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1}}>
             <Avatar sx={{ m: 2, justifyContent: "center", alignItems: "center" }} alt={post.user.name} src={currentUser.profilePic} />
-            
             <Box sx={{ m: 2, flexDirection: "column" }}>
               <Typography variant="subtitle1">{post.user.name}</Typography>
               <Typography variant="subtitle2">{post.timestamp}</Typography>
-              
             </Box>
-            <VisibilityOffIcon variant="contained" color="primary" sx={{height:40, justifyContent:"flex-end", alignItems:"flex-end", m:1}}></VisibilityOffIcon>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1}}>
+              <VisibilityOffIcon variant="contained" color="primary" sx={{height:40, alignItems:"flex-end", m:2}}></VisibilityOffIcon>
+            </Box>
           </Box>
           <Box sx={{ mx: 3, display: "flex", flexDirection: "column" }}>
             <Typography variant="h5" style={{ }} sx={{ mx: 8 }}>{post.description}</Typography>

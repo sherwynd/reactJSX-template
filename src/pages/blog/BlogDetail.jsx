@@ -17,8 +17,8 @@ export const BlogDetails = () => {
         name: 'Sherwynd',
         avatar: 'https://via.placeholder.com/150',
       },
-      heading: 'First Post',
-      description: 'Today marathon so tired!',
+      heading: 'I Love Marathon!',
+      description: 'Today marathon so tired! But so fun!',
       images: [
         "../src/assets/images/cutie.png",
         "../src/assets/images/cutie2.png",
@@ -27,8 +27,8 @@ export const BlogDetails = () => {
       ],
       timestamp: '2 hours ago',
       comments: [
-        { id: 1, text: 'Great job!', user: 'Alice' },
-        { id: 2, text: 'Wow!', user: 'Bob' },
+        { id: 1, text: 'Great job!', user: 'Carrot' },
+        { id: 2, text: 'Wow!', user: 'XianHeng' },
       ],
     },
   ];
@@ -135,7 +135,7 @@ export const BlogDetails = () => {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
               />
-              <Button startIcon={<SendIcon />} onClick={handleAddComment}>
+              <Button sx={{m:2}}startIcon={<SendIcon />} onClick={handleAddComment}>
                 Send
               </Button>
             </>

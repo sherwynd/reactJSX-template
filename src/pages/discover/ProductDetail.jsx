@@ -15,7 +15,7 @@ const ProductDetail = () => {
   //sample
   const product = {
     title: "Ipsum amet, consectetur adipiscing elit 1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
     price: 249.00,
     img: "src\\assets\\images\\shoe1.jpg",
     condition: "Like New",
@@ -110,16 +110,16 @@ const ProductDetail = () => {
               precision={0.5}
               readOnly />
             <Link to={`/cart`} >
-              {product.profile.id != ownProfile.id && <Button variant="outlined" color="primary">Buy Now</Button>}
+              {product.profile.id != ownProfile.id && <Button variant="outlined" color="primary" sx={{borderRadius: 3}}>Buy Now</Button>}
             </Link>
 
             <Link to={`/discover/${product.id}/update`} >
-              {product.profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2 }} >Update</Button>}
+              {product.profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2, borderRadius: 3 }} >Update</Button>}
             </Link>
 
             <Box>
               {product.profile.id != ownProfile.id &&
-                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9 }} variant='outlined'>
+                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
                   {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
                   <Typography>{favouriteCount}</Typography>
                 </Button>
