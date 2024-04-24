@@ -143,9 +143,6 @@ export const BlogPost = () => {
           </Card>
         )}
       </div>
-      <Typography variant="h3" sx={{ mt: 3, ml: 1 }}>
-        Discover
-      </Typography>
 
       {posts.map((post) => (
         <Card
