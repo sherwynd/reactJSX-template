@@ -65,14 +65,14 @@ export function Profile() {
             }}
             variant="h5"
           >
-            Sapnu Puas
+            Lebron Jam
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            @sapnupuas
+            @mrsunshine
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
             <Typography sx={{ mx: 1, pt: 0.2 }}>{ratingStarValue}</Typography>
@@ -96,7 +96,7 @@ export function Profile() {
               my: 0.7,
             }}
           >
-            When people need me, remember sapnu puas
+            You are my sunshine, my only sunshine
           </Typography>
         </Box>
 
