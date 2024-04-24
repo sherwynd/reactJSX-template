@@ -112,11 +112,13 @@ export const BlogDetails = () => {
             <>
               <Typography variant="h4">{selectedPost.heading}</Typography>
               <Typography variant="body1">{selectedPost.description}</Typography>
+              <Box sx={{ mx: 50, display: "flex", flexDirection: "column", alignItems: "centre", justifyContent: "centre" }}>
               <Carousel>
                 {selectedPost.images.map((image, index) => (
                   <img key={index} src={image} alt={`Image ${index + 1}`} style={{ width: '100%' }} />
                 ))}
               </Carousel>
+              </Box>
               <Typography variant="h6">Comments:</Typography>
               <List>
                 {selectedPost.comments.map((comment) => (
