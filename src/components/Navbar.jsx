@@ -291,6 +291,7 @@ export function NavBar(props) {
         <Box
           component="main"
           sx={{
+            backgroundColor: "#F5FEFD",
             flexGrow: 1,
             p: 3,
             width: { sm: `calc(100% - ${drawerWidth}px)` },
