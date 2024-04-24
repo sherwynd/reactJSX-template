@@ -22,6 +22,7 @@ import {
   useTheme,
 } from "@mui/material";
 
+import FavoritIcon from "@mui/icons-material/Favorite";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
@@ -196,7 +197,7 @@ export function NavBar(props) {
               }}
             >
               <Link to={`/sell`}>
-                <Button sx={{ mr: 1 }} variant="contained" color="error">
+                <Button sx={{ mr: 1, borderRadius: 3 }} variant="outlined" color="warning">
                   Sell
                 </Button>
               </Link>

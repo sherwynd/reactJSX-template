@@ -8,13 +8,13 @@ const ProductForm = () => {
     //sample
     title: "Ipsum amet, consectetur adipiscing elit 1",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    price: 100,
+    price: 249,
     img: "src\\assets\\images\\image1.png",
     condition: "New",
-    category: "Racquets",
-    brand: "Apple",
+    category: "Shoes",
+    brand: "Asics",
     listed: "2021-10-10",
-    location: "Malaysia",
+    location: "Cyberjaya",
     acquisition: "Meet-up or Delivery",
     id: id
   };
@@ -205,7 +205,7 @@ const ProductForm = () => {
           <Box sx={{ width: "50%" }}>
             <Box component={Input} type="file" id="file" multiple onChange={handleImageChange} sx={{ display: 'none' }} />
             <Box className="label-holder">
-              <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%" }}>
+              <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%",borderRadius: 3 }} variant="outlined" >
                 Upload Images
               </Button>
             </Box>
@@ -214,8 +214,8 @@ const ProductForm = () => {
           </Grid>
 
           <Box sx={{ display: "flex", width: "50%" }}>
-            <Button variant="outlined" type="submit" sx={{ m: 1, width: "100%" }}>Save and Update</Button>
-            <Button onClick={handleRemove} variant="outlined" sx={{ m: 1, width: "100%" }}>Remove Item</Button>
+            <Button variant="outlined" color="success" type="submit" sx={{ m: 1, width: "100%",borderRadius: 3 }}>Save and Update</Button>
+            <Button onClick={handleRemove} variant="outlined" color="warning" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Remove Item</Button>
           </Box>
         </Stack >
       </Paper>
