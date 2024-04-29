@@ -36,7 +36,7 @@ export const CoachingOrderSummary = ({ products, address }) => {
   };
 
   const handlePurchaseConfirmation = () => {
-    navigate("/discover");
+    navigate("/coaching");
   };
 
   const alertModalBody = (

@@ -57,7 +57,7 @@ export default function App() {
             sx={{ mb: 2 }}
             severity="info"
           >
-            Reminder! Coaching Class will start soon!
+            Reminder! The subscription receipt has been sent to your email!
           </Alert>
         </Collapse>
         <Outlet />
