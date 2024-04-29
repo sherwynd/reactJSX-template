@@ -42,7 +42,7 @@ import {
 export function CoachingHistoryCard({ coaching }) {
   return (
     <>
-      <Card sx={{ display: "flex" }}>
+      <Card sx={{ backgroundColor: "#FFF9EF", display: "flex", flexGrow: 1 }}>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Link
