@@ -5,11 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Place from "@mui/icons-material/Place";
-import { ThemeProvider } from "@emotion/react";
-//TODO: Import the font file
 import { useNavigate } from "react-router-dom";
 
-export default function EventCard({ id }) {
+export default function EventCard({ event }) {
   const navigate = useNavigate();
 
   const bull = (
@@ -22,17 +20,19 @@ export default function EventCard({ id }) {
   );
 
   const handleViewClick = () => {
-    navigate(`/coaching/${id}`);
+    navigate(`/coaching/${event.id}`);
   };
 
   const card = (
     <React.Fragment>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} gutterBottom>
-          Wed{bull}Nov 24{bull}2024{bull}8:00 PM
+          {new Date(event.eventDate).toLocaleDateString()}
+          {bull}
+          {event.eventTime}
         </Typography>
         <Typography sx={{ fontWeight: 700 }} variant="h4" component="div">
-          Crazy SweatJam Event FCSIT
+          {event.eventName}
         </Typography>
         <Box
           sx={{
@@ -45,11 +45,11 @@ export default function EventCard({ id }) {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Place />
             <Typography variant="body2" color="text.secondary" sx={{ ml: 1 }}>
-              FCSIT
+              {event.eventLocation}
             </Typography>
           </Box>
           <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-            8/10
+            {`${event.currentParticipants}/${event.participants}`}
           </Typography>
           <Button
             sx={{ width: 100, height: 35, borderRadius: 5 }}

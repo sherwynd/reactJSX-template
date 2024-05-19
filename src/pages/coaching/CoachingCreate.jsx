@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -33,6 +33,78 @@ const StyledRating = styled(Rating)({
 });
 
 export default function CoachingCreate() {
+  const [formData, setFormData] = useState({
+    eventName: "",
+    eventDescription: "",
+    eventDate: dayjs(),
+    eventTime: dayjs(),
+    eventLocation: "",
+    eventPrice: "",
+    participantLimit: 0,
+    activities: [
+      { name: "", intensity: 2, complexity: 2 },
+      { name: "", intensity: 2, complexity: 2 },
+    ],
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (date) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      eventDate: date,
+    }));
+  };
+
+  const handleTimeChange = (time) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      eventTime: time,
+    }));
+  };
+
+  const handleActivityChange = (index, field, value) => {
+    const updatedActivities = formData.activities.map((activity, i) =>
+      i === index ? { ...activity, [field]: value } : activity
+    );
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      activities: updatedActivities,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log("Form data submitted:", formData);
+
+    try {
+      const response = await fetch("http://localhost:3000/event", {
+        // Ensure the endpoint matches your backend route
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create event");
+      }
+
+      const data = await response.json();
+      console.log("Event created:", data);
+      // Optionally, you can reset the form or navigate to another page
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ padding: 3 }}>
@@ -41,140 +113,178 @@ export default function CoachingCreate() {
         </Typography>
         <Card sx={{ mx: 10, borderRadius: 5, boxShadow: 2 }}>
           <CardContent>
-            <Grid container spacing={3}>
-              {/* Event Details */}
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="event-name"
-                  label="Event Name"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="event-description"
-                  label="Event Description"
-                  variant="outlined"
-                  multiline
-                  rows={4}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                {/* Event Details */}
+                <Grid item xs={12}>
+                  <TextField
                     fullWidth
-                    label="Pick your date"
-                    renderInput={(params) => <TextField {...params} />}
+                    id="event-name"
+                    name="eventName"
+                    label="Event Name"
+                    variant="outlined"
+                    value={formData.eventName}
+                    onChange={handleChange}
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimePicker
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
                     fullWidth
-                    label="Choose Time"
-                    defaultValue={dayjs()}
-                    renderInput={(params) => <TextField {...params} />}
+                    id="event-description"
+                    name="eventDescription"
+                    label="Event Description"
+                    variant="outlined"
+                    multiline
+                    rows={4}
+                    value={formData.eventDescription}
+                    onChange={handleChange}
                   />
-                </LocalizationProvider>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="event-location"
-                  label="Event Location"
-                  variant="outlined"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="event-price"
-                  label="Set Your Price (RM)"
-                  variant="outlined"
-                />
-              </Grid>
-
-              {/* Activity Details with Rating Icons for Intensity and Complexity */}
-              {["First", "Second"].map((label, index) => (
-                <>
-                  <Grid item xs={12} sm={6}>
-                    <TextField
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
                       fullWidth
-                      id={`${label.toLowerCase()}-activity-name`}
-                      label={`${label} Activity Name`}
-                      variant="outlined"
+                      label="Pick your date"
+                      value={formData.eventDate}
+                      onChange={handleDateChange}
+                      renderInput={(params) => <TextField {...params} />}
                     />
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <Typography variant="subtitle2" gutterBottom>
-                      Intensity
-                    </Typography>
-                    <Tooltip title="Select Intensity">
-                      <StyledRating
-                        name={`${label.toLowerCase()}-intensity`}
-                        defaultValue={2}
-                        getLabelText={(value) =>
-                          `${value} Heart${value !== 1 ? "s" : ""}`
-                        }
-                        precision={1}
-                        icon={
-                          <FitnessCenter
-                            sx={{ mr: 2, rotate: "135deg" }}
-                            fontSize="inherit"
-                          />
-                        }
-                        emptyIcon={
-                          <FitnessCenter
-                            sx={{ mr: 2, rotate: "135deg" }}
-                            fontSize="inherit"
-                          />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <TimePicker
+                      fullWidth
+                      label="Choose Time"
+                      value={formData.eventTime}
+                      onChange={handleTimeChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="event-location"
+                    name="eventLocation"
+                    label="Event Location"
+                    variant="outlined"
+                    value={formData.eventLocation}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="event-price"
+                    name="eventPrice"
+                    label="Set Your Price (RM)"
+                    variant="outlined"
+                    value={formData.eventPrice}
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    fullWidth
+                    id="participant-limit"
+                    name="participantLimit"
+                    label="Set Participant Limit"
+                    variant="outlined"
+                    value={formData.participantLimit}
+                    onChange={handleChange}
+                  />
+                </Grid>
+
+                {/* Activity Details with Rating Icons for Intensity and Complexity */}
+                {formData.activities.map((activity, index) => (
+                  <React.Fragment key={index}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        id={`activity-name-${index}`}
+                        label={`${index + 1} Activity Name`}
+                        variant="outlined"
+                        value={activity.name}
+                        onChange={(e) =>
+                          handleActivityChange(index, "name", e.target.value)
                         }
                       />
-                    </Tooltip>
-                  </Grid>
-                  <Grid item xs={6} sm={3}>
-                    <Tooltip title="Select Complexity">
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
                       <Typography variant="subtitle2" gutterBottom>
-                        Complexity
+                        Intensity
                       </Typography>
-                      <StyledRating
-                        name={`${label.toLowerCase()}-complexity`}
-                        defaultValue={2}
-                        getLabelText={(value) =>
-                          `${value} Heart${value !== 1 ? "s" : ""}`
-                        }
-                        precision={1}
-                        icon={
-                          <FitnessCenter
-                            sx={{ mr: 2, rotate: "135deg" }}
-                            fontSize="inherit"
-                          />
-                        }
-                        emptyIcon={
-                          <FitnessCenter
-                            sx={{ mr: 2, rotate: "135deg" }}
-                            fontSize="inherit"
-                          />
-                        }
-                      />
-                    </Tooltip>
-                  </Grid>
-                </>
-              ))}
-            </Grid>
-            <Box component="label" htmlFor="create-event" sx={{ width: "50%" }}>
-              <Button
-                variant="outlined"
-                color="primary"
-                component="span"
-                sx={{ mt: 5, width: "100%" }}
-              >
-                Create Event
-              </Button>
-            </Box>
+                      <Tooltip title="Select Intensity">
+                        <StyledRating
+                          name={`intensity-${index}`}
+                          value={activity.intensity}
+                          onChange={(event, newValue) =>
+                            handleActivityChange(index, "intensity", newValue)
+                          }
+                          getLabelText={(value) =>
+                            `${value} Heart${value !== 1 ? "s" : ""}`
+                          }
+                          precision={1}
+                          icon={
+                            <FitnessCenter
+                              sx={{ mr: 2, rotate: "135deg" }}
+                              fontSize="inherit"
+                            />
+                          }
+                          emptyIcon={
+                            <FitnessCenter
+                              sx={{ mr: 2, rotate: "135deg" }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={6} sm={3}>
+                      <Tooltip title="Select Complexity">
+                        <Typography variant="subtitle2" gutterBottom>
+                          Complexity
+                        </Typography>
+                        <StyledRating
+                          name={`complexity-${index}`}
+                          value={activity.complexity}
+                          onChange={(event, newValue) =>
+                            handleActivityChange(index, "complexity", newValue)
+                          }
+                          getLabelText={(value) =>
+                            `${value} Heart${value !== 1 ? "s" : ""}`
+                          }
+                          precision={1}
+                          icon={
+                            <FitnessCenter
+                              sx={{ mr: 2, rotate: "135deg" }}
+                              fontSize="inherit"
+                            />
+                          }
+                          emptyIcon={
+                            <FitnessCenter
+                              sx={{ mr: 2, rotate: "135deg" }}
+                              fontSize="inherit"
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    </Grid>
+                  </React.Fragment>
+                ))}
+              </Grid>
+              <Box component="div" sx={{ width: "50%" }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  type="submit"
+                  sx={{ mt: 5, width: "100%" }}
+                >
+                  Create Event
+                </Button>
+              </Box>
+            </form>
           </CardContent>
         </Card>
       </Box>
