@@ -18,7 +18,7 @@ export const ProductContextProvider = (props) => {
             }
         };
         fetchProducts()
-    }, [])
+    }, [products])
 
     const getProduct = (id) => {
         return products.find(product => product._id === id);

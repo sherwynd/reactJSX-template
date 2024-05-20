@@ -59,6 +59,8 @@ const ProductForm = () => {
         body: JSON.stringify(product),
       });
       const json = await response.json();
+      alert("The product is updated.");
+      navigate(`/discover/${id}`);
       if (!response.ok) {
         setError(json.message);
       }

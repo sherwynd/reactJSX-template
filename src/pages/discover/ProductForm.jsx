@@ -44,7 +44,7 @@ const ProductForm = () => {
         }
         if (response.ok) {
             addProduct(json);
-            console.log("A new product is created.", json);
+            alert("A new product is created.");
 
             setTitle('');
             setPrice(0);
