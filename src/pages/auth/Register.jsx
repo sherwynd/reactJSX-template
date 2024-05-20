@@ -1,33 +1,19 @@
 import {
-  AppBar,
-  Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
   Button,
-  Card,
-  Divider,
-  FormControl,
-  InputAdornment,
   IconButton,
-  InputLabel,
-  Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  OutlinedInput,
   Paper,
   TextField,
-  Toolbar,
   Typography,
-  useTheme,
+  Link,
+  Divider,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/Logo.webp"; // Update the path if necessary
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../theme/color";
 
 export function Register() {
   const navigate = useNavigate();
@@ -46,161 +32,178 @@ export function Register() {
   const [repeatPasswordError, setRepeatPasswordError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
+  const handleMouseDownPassword = (event) => event.preventDefault();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!username || !username.length) {
+    let valid = true;
+    if (!username) {
       setUsernameError("Username is required");
-      return false;
+      valid = false;
     } else {
       setUsernameError("");
     }
-    if (!nickname || !nickname.length) {
+    if (!nickname) {
       setNicknameError("Nickname is required");
-      return false;
+      valid = false;
     } else {
       setNicknameError("");
     }
-    if (!email || !email.length) {
+    if (!email) {
       setEmailError("Email is required");
-      return false;
+      valid = false;
     } else {
       setEmailError("");
     }
-    if (!password || !password.length) {
+    if (!password) {
       setPasswordError("Password is required");
-      return false;
+      valid = false;
     } else {
       setPasswordError("");
     }
-    if (!repeatPassword || !repeatPassword.length) {
+    if (!repeatPassword) {
       setRepeatPasswordError("Repeat Password is required");
-      return false;
-    } else if (password != repeatPassword) {
-      setPasswordError("Both passowrd does not match");
-      setRepeatPasswordError("Both passowrd does not match");
-      return false;
+      valid = false;
+    } else if (password !== repeatPassword) {
+      setPasswordError("Passwords do not match");
+      setRepeatPasswordError("Passwords do not match");
+      valid = false;
     } else {
       setRepeatPasswordError("");
     }
-    const registerDetail = { username, nickname, email, password };
-    console.log(registerDetail);
+    if (valid) {
+      const registerDetail = { username, nickname, email, password };
+      console.log(registerDetail);
+      // Here you would usually send the registration details to the server.
+    }
   };
-  const handleNavigateToLogin = (e) => {
+  const handleNavigateToLogin = () => {
     navigate("/login");
   };
 
   return (
-    <>
-      <Box>
-        <Box>Register mou</Box>
-
-        <Paper sx={{ minWidth: "400px", maxWidth: "600px" }} elevation={8}>
-          <Box
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Paper
+          sx={{
+            p: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            minWidth: 400,
+            maxWidth: 600,
+          }}
+          elevation={8}
+        >
+          <img
+            src={logo}
+            alt="Sport Mou Logo"
+            style={{ width: 150, marginBottom: 5 }}
+          />
+          <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
+            Register
+          </Typography>
+          <TextField
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            error={!!usernameError}
+            helperText={usernameError}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            id="nickname"
+            label="Nickname"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            error={!!nicknameError}
+            helperText={nicknameError}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
+            margin="normal"
+          />
+          <TextField
+            required
+            fullWidth
+            type={showPassword ? "text" : "password"}
+            id="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError}
+            helperText={passwordError}
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              ),
+            }}
+          />
+          <TextField
+            required
+            fullWidth
+            type="password"
+            id="repeatPassword"
+            label="Repeat Password"
+            value={repeatPassword}
+            onChange={(e) => setRepeatPassword(e.target.value)}
+            error={!!repeatPasswordError}
+            helperText={repeatPasswordError}
+            margin="normal"
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            Submit
+          </Button>
+          <Divider sx={{ width: "100%", my: 2 }} />
+          <Link
             sx={{
               display: "flex",
-              flexDirection: "column",
-              mx: 5,
-              maxWidth: "100%",
+              justifyContent: "center",
+              cursor: "pointer",
             }}
+            onClick={handleNavigateToLogin}
           >
-            <TextField
-              required
-              id="username"
-              label="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              error={usernameError && usernameError.length ? true : false}
-              helperText={usernameError}
-              margin="normal"
-            />
-            <TextField
-              required
-              id="nickname"
-              label="Nickname"
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              error={nicknameError && nicknameError.length ? true : false}
-              helperText={nicknameError}
-              margin="normal"
-            />
-            <TextField
-              required
-              id="email"
-              label="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={emailError && emailError.length ? true : false}
-              helperText={emailError}
-              margin="normal"
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                alignItems: "center",
-                maxWidth: "100%",
-              }}
-            >
-              <TextField
-                fullWidth
-                required
-                type={showPassword ? "text" : "password"}
-                id="password"
-                label="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={passwordError && passwordError.length ? true : false}
-                helperText={passwordError}
-                margin="normal"
-              />
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Box>
-            <TextField
-              required
-              type="password"
-              id="repeatPassword"
-              label="Repeat Password"
-              value={repeatPassword}
-              onChange={(e) => setRepeatPassword(e.target.value)}
-              error={
-                repeatPasswordError && repeatPasswordError.length ? true : false
-              }
-              helperText={repeatPasswordError}
-              margin="normal"
-            />
-
-            <Button
-              sx={{ my: 2 }}
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
-            <Divider sx={{ mx: 2 }} />
-
-            <Link
-              sx={{ display: "flex", justifyContent: "center", my: 2 }}
-              href=""
-              onClick={handleNavigateToLogin}
-            >
-              Already Have an Account?
-            </Link>
-          </Box>
+            Already Have an Account?
+          </Link>
         </Paper>
       </Box>
-    </>
+    </ThemeProvider>
   );
 }

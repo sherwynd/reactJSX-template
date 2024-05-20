@@ -5,6 +5,7 @@ import { Login } from "../pages/auth/Login";
 import { Register } from "../pages/auth/Register";
 import { ErrorPage } from "../pages/common/ErrorPage.jsx";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
+import { ProductHistory } from "../pages/profile/ProductHistory";
 import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
 import { BlogHistory } from "../pages/profile/BlogHistory";
 import { CoachingHistory } from "../pages/profile/CoachingHistory";
@@ -23,7 +24,8 @@ import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
 import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";
-
+import { BlogDetails } from "../pages/blog/BlogDetail";
+import { CoachingCart } from "../pages/cart/CoachingCart.jsx";
 const routes = [
   {
     path: "/",
@@ -31,16 +33,16 @@ const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "profile",
+        path: "profile/:id",
         element: <Profile />,
         children: [
           {
             path: "",
-            element: <PurchaseHistory />,
+            element: <ProductHistory />,
           },
           {
-            path: "purchaseHistory",
-            element: <PurchaseHistory />,
+            path: "productHistory",
+            element: <ProductHistory />,
           },
           {
             path: "blogHistory",
@@ -53,6 +55,10 @@ const routes = [
           {
             path: "ratingHistory",
             element: <RatingHistory />,
+          },
+          {
+            path: "purchaseHistory",
+            element: <PurchaseHistory />,
           },
         ],
       },
@@ -97,6 +103,10 @@ const routes = [
         element: <Cart />,
       },
       {
+        path: "coachingCart",
+        element: <CoachingCart />,
+      },
+      {
         path: "favorites",
         element: <Favorites />,
       },
@@ -124,6 +134,14 @@ const routes = [
         path: "blog",
         element: <BlogPost />,
       },
+      {
+        path: "blog-details/:id",
+        element: <BlogDetails />,
+      },
+      // {
+      //   path: "blog-details",
+      //   element: <BlogDetails />,
+      // },
     ],
   },
   {

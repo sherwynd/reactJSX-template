@@ -1,199 +1,231 @@
-import React, { useState } from 'react';
-import { Card, CardHeader, CardContent, CardActions, Avatar, Typography, IconButton, TextField, Button, MenuItem, Select } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-//import { useHistory } from 'react-router-dom';
-import EditIcon from '@mui/icons-material/Edit';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CommentIcon from '@mui/icons-material/Comment';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import SendIcon from '@mui/icons-material/Send';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Avatar,
+  Typography,
+  IconButton,
+  TextField,
+  Button,
+  MenuItem,
+  Select,
+  Grid,
+  Paper,
+  Box,
+  NativeSelect,
+  InputLabel,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CommentIcon from "@mui/icons-material/Comment";
+import SendIcon from "@mui/icons-material/Send";
+import { useNavigate } from "react-router-dom";
+import Carousel from "react-material-ui-carousel";
+import { Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 export const BlogPost = () => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedText, setEditedText] = useState('');
-    const [isMuted, setIsMuted] = useState(false);
-    const [commentText, setCommentText] = useState('');
-    const [liked, setLiked] = useState(false);
-    const [comments, setComments] = useState([]);
-    const [showPostForm, setShowPostForm] = useState(true);
-    const [hidden, setHidden] = useState(false);
-
-    const post = {
+  const navigate = useNavigate();
+  const [showPostForm, setShowPostForm] = useState(true);
+  const [hidden, setHidden] = useState(false);
+  const [heading, setHeading] = useState("");
+  const [description, setDescription] = useState("");
+  const [currentUser, setCurrentUser] = useState({
+    id: 1,
+    name: "Sherwynd",
+    avatar: "../src/assets/images/avatar.png",
+    profilePic: "../src/assets/images/profile.png",
+    timestamp: "Just now",
+  });
+  const [posts, setPosts] = useState([
+    {
       id: 1,
+      description: "I Love Marathon!",
+      timestamp: "2 hours ago",
+      images: [
+        "../src/assets/images/cutie.png",
+        "../src/assets/images/cutie2.png",
+        "../src/assets/images/cutie3.png",
+        "../src/assets/images/cutie4.png",
+      ],
       user: {
         id: 1,
-        name: 'Teh Ying Wah',
-        avatar: 'https://via.placeholder.com/150',
+        name: "Sherwynd (Me)",
       },
-      text: 'Sherwynd and YingWah You Yi Chang Cun',
-      photo: 'https://via.placeholder.com/400',
-      timestamp: '24 hours ago',
-      likes: 10
-    };
-  
-    const currentUser = {
-      id: 1,
-      name: 'YingWah',
-    };
-    
-    //const history = useHistory();
+      like: 10,
+      comments: 2,
+    },
+    {
+      id: 2,
+      description: "I love FOOTBALL!",
+      timestamp: "3 hours ago",
+      images: [
+        "../src/assets/images/football.png",
+        "../src/assets/images/football2.png",
+      ],
+      user: {
+        id: 1,
+        name: "Neville",
+      },
+      like: 20,
+      comments: 9,
+    },
+  ]);
 
-    const handleEdit = () => {
-      setIsEditing(true);
-    };
-  
-    const handleDelete = () => {
-      // Implement delete functionality
-    };
-  
-    const handleSaveEdit = () => {
-      // Implement save edit functionality
-      setIsEditing(false);
-    };
-  
-    const handleCancelEdit = () => {
-      setIsEditing(false);
-      setEditedText(post.text);
-    };
-  
-    const handleMuteToggle = () => {
-      setIsMuted(!isMuted);
-    };
-  
-    const handleLike = () => {
-      setLiked(!liked); // Toggle liked state
-    };
-  
-    const handleComment = () => {
-        const newComment = {
-            id: comments.length + 1,
-            text: commentText,
-            user: currentUser,
-            timestamp: new Date().toLocaleString()
-          };
-          setComments([...comments, newComment]);
-      // Implement comment functionality
-      setCommentText('');
-    };
+  // Event handler to navigate to post details
+  const handleNavigateToDetails = (postId) => {
+    navigate(`/blog-details/${postId}`);
+  };
 
+  const handleHidePost = (postId) => {
+    // Logic to hide the post with postId
+    console.log(`Hide post with ID ${postId}`);
+  };
 
-    const handlePost = () => {
-    // Implement post functionality
-    };
+  return (
+    <div>
+      <div>
+        <Typography variant="h3" sx={{ mt: 3, ml: 1 }}>
+          Blog
+        </Typography>
 
-    const handleUndoMute = () => {
-      setHidden(false);
-    };
-
-    const handleHidePost = () => {
-      setHidden(true);
-    };
-
-    const handleNavigateToDetails = () => {
-      history.push('/blog-details', { post });
-    };
-
-    return (
-    <>
         {showPostForm && (
-          <Card style={{ marginBottom: '16px' }}>
-            <CardHeader
-              avatar={<Avatar aria-label="avatar" src={currentUser.avatar} />}
-              title={currentUser.name}
-            />
-            <CardContent>
-              <TextField
-                multiline
-                fullWidth
-                value={editedText}
-                onChange={(e) => setEditedText(e.target.value)}
-                placeholder="What's on your mind?"
-                variant="outlined"
-              />
-            </CardContent>
-            <CardActions>
-              <Button onClick={handlePost} color="primary">Post</Button>
-            </CardActions>
+          <Card style={{ marginBottom: "20px" }}>
+            <Box sx={{ m: 2, flexDirection: "column" }}>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item>
+                  <Avatar
+                    aria-label="avatar"
+                    src="../src/assets/images/user1.png"
+                  />
+                </Grid>
+                <Grid item>
+                  <Typography>Sherwynd</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Blog Heading"
+                    fullWidth
+                    value={heading}
+                    onChange={(e) => setHeading(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    label="Blog Description"
+                    fullWidth
+                    multiline
+                    rows={4}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={() => console.log("Post Clicked")}
+                  >
+                    Post
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant="contained"
+                    onClick={() => console.log("Upload Clicked")}
+                  >
+                    upload
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
           </Card>
-    )}
-  
-    {!hidden && (
-      <Card onClick={handleNavigateToDetails} style={{ cursor: 'pointer' }}>
-        <CardHeader
-          avatar={<Avatar aria-label="avatar" src={post.user.avatar} />}
-          title={post.user.name}
-          subheader={post.timestamp}
-          action={
-            <>
-                <IconButton aria-label="edit post" onClick={handleEdit}>
-                <EditIcon />
-                </IconButton>
-                <IconButton aria-label="delete post" onClick={handleDelete}>
-                <DeleteIcon />
-                </IconButton>
-                <Select
-                value={isMuted ? 'Muted' : 'Unmuted'}
-                onChange={handleMuteToggle}
-                style={{ marginRight: '16px' }}
-                >
-                <MenuItem value="Unmuted">Unmute</MenuItem>
-                <MenuItem value="Muted">Mute</MenuItem>
-                </Select>
-                <Typography>{post.likes}</Typography>
-                <IconButton aria-label="like post" onClick={handleLike}>
-                <FavoriteIcon color={liked ? 'error' : 'inherit'} />
-              </IconButton>
-            </>
-          }
-        />
-        <CardContent>
-          <Typography variant="body1" component="p">
-            {isEditing ? (
-            <TextField
-              multiline
-              fullWidth
-              value={editedText}
-              onChange={(e) => setEditedText(e.target.value)}
-              variant="outlined"
-            />
-          ) : (
-              post.text
-          )}
-          </Typography>
-          {post.photo && (
-            <img src={post.photo} alt="Post" style={{ maxWidth: '100%', marginTop: '1rem' }} />
-          )}
-        </CardContent>
-          <CardActions>
-            <IconButton aria-label="comment post" onClick={handleComment}>
-              <ArrowForwardIcon />
-            </IconButton>
-            <TextField
-              fullWidth
-              value={`${comments.length} Comments`}
-              variant="outlined"
-              disabled
-            />
-            <IconButton aria-label="send comment" onClick={handleComment}>
-              <SendIcon />
-            </IconButton>
-          </CardActions>
-        </Card>
-      )}
+        )}
+      </div>
 
-      {hidden && (
-        <Card>
-          <CardContent>
-            <Typography>Blog hidden</Typography>
-            <Button onClick={handleUndoMute} color="primary">Undo</Button>
-          </CardContent>
+      {posts.map((post) => (
+        <Card
+          key={post.id}
+          onClick={() => handleNavigateToDetails(post.id)}
+          style={{ cursor: "pointer", marginBottom: "20px" }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+            <Avatar
+              sx={{ m: 2, justifyContent: "center", alignItems: "center" }}
+              alt={post.user.name}
+              src={currentUser.profilePic}
+            />
+            <Box sx={{ m: 2, flexDirection: "column" }}>
+              <Typography variant="subtitle1">{post.user.name}</Typography>
+              <Typography variant="subtitle2">{post.timestamp}</Typography>
+            </Box>
+            <Box
+              sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
+            >
+              <VisibilityOffIcon
+                variant="contained"
+                color="primary"
+                sx={{ height: 40, alignItems: "flex-end", m: 2 }}
+              ></VisibilityOffIcon>
+            </Box>
+          </Box>
+          <Box sx={{ mx: 3, display: "flex", flexDirection: "column" }}>
+            <Typography variant="h5" style={{}} sx={{ mx: 8 }}>
+              {post.description}
+            </Typography>
+            <Carousel>
+              {post.images.map((img, i) => (
+                <Item key={i} item={{ img }} />
+              ))}
+            </Carousel>
+            <Box sx={{ display: "flex", flexDirection: "row", m: 1 }}>
+              <span>
+                <IconButton
+                  aria-label="add to favouries"
+                  style={{ marginRight: "8px" }}
+                >
+                  <FavoriteIcon color="primary" />
+                </IconButton>
+                <Typography variant="body2" style={{ display: "inline" }}>
+                  {post.like}
+                </Typography>
+              </span>
+              <span>
+                <IconButton
+                  aria-label="comment post"
+                  style={{ marginLeft: "16px" }}
+                >
+                  <CommentIcon color="primary" />
+                </IconButton>
+                <Typography variant="body2" style={{ display: "inline" }}>
+                  {post.comments}
+                </Typography>
+              </span>
+            </Box>
+          </Box>
+          {/* Hide icon */}
         </Card>
-      )}
-    </>
+      ))}
+    </div>
   );
 };
 
-// export default FacebookPost;
+function Item({ item }) {
+  return (
+    <Paper sx={{ height: "70vh" }}>
+      <Box
+        component="img"
+        src={item.img}
+        sx={{
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "center",
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        }}
+      ></Box>
+    </Paper>
+  );
+}

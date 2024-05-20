@@ -28,70 +28,70 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/Logo.webp";
+import { ThemeProvider } from "@emotion/react";
+import theme from "../../theme/color";
 
 export function Login() {
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
+  const handleMouseDownPassword = (event) => event.preventDefault();
   const handleSubmit = (e) => {
+    navigate("/discover");
     e.preventDefault();
-    if (!email || !email.length) {
+    if (!email) {
       setEmailError("Email is required");
       return false;
     } else {
       setEmailError("");
     }
-    if (!password || !password.length) {
+    if (!password) {
       setPasswordError("Password is required");
       return false;
     } else {
       setPasswordError("");
     }
     const loginFormDetail = { email, password };
-
     console.log(loginFormDetail);
-
     const requestTestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(loginFormDetail),
     };
-
-    // Perform the POST request
     fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("There was an error!", error));
   };
+
   const handleNavigateToRegister = (e) => {
     navigate("/register");
   };
+
   const handleNavigateToForgotPassword = (e) => {
     navigate("/forgotPassword");
   };
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100%",
+          height: "100vh",
+          backgroundImage:
+            'url("https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
-        <Box>Login mou</Box>
         <Paper
           sx={{
             display: "flex",
@@ -99,121 +99,84 @@ export function Login() {
             alignItems: "center",
             minWidth: "400px",
             maxWidth: "600px",
+            p: 2,
+            flexDirection: "column",
           }}
           elevation={8}
         >
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Box
-              sx={{
-                display: "flex",
-                flexGrow: 1,
-                alignItems: "center",
-                mx: 5,
-                maxWidth: "100%",
-              }}
-            >
-              <TextField
-                fullWidth
-                required
-                id="email"
-                label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={emailError && emailError.length ? true : false}
-                helperText={emailError}
-                margin="normal"
-              />
-              <IconButton
-                sx={{
-                  m: 0.5,
-                  opacity: 0,
-                }}
-                aria-label="toggle password visibility"
-                disabled
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Box>
-            <Box sx={{ display: "flex", flex: 1, alignItems: "center", mx: 5 }}>
-              <TextField
-                fullWidth
-                required
-                type={showPassword ? "text" : "password"}
-                id="password"
-                label="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={passwordError && passwordError.length ? true : false}
-                helperText={passwordError}
-                margin="normal"
-              />
-              <IconButton
-                sx={{
-                  m: 0.5,
-                }}
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Box>
-            <Box sx={{ display: "flex", mx: 5, my: 2 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                onClick={handleSubmit}
-              >
-                Login
-              </Button>
-              <IconButton
-                sx={{
-                  m: 0.5,
-                  opacity: 0,
-                }}
-                aria-label="toggle password visibility"
-                disabled
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Box>
-
-            <Link
-              sx={{ display: "flex", justifyContent: "center", my: 2 }}
-              href=""
-              onClick={handleNavigateToForgotPassword}
-            >
-              Forgot Password?
-            </Link>
-            <Divider sx={{ mx: 2 }} />
-            <Box sx={{ display: "flex", mx: 5, my: 2 }}>
-              <Button
-                fullWidth
-                variant="contained"
-                color="success"
-                onClick={handleNavigateToRegister}
-              >
-                Register an Account
-              </Button>
-              <IconButton
-                sx={{
-                  m: 0.5,
-                  opacity: 0,
-                }}
-                aria-label="toggle password visibility"
-                disabled
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </Box>
+          <Box sx={{ textAlign: "center", my: 2 }}>
+            <img
+              src={logo}
+              alt="Sport Mou Logo"
+              style={{ maxWidth: "150px" }}
+            />
+            <Typography variant="h5" component="h1" sx={{ mt: 1 }}>
+              Sport Mou
+            </Typography>
           </Box>
+          <TextField
+            fullWidth
+            required
+            id="email"
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
+            margin="normal"
+          />
+          <TextField
+            fullWidth
+            required
+            type={showPassword ? "text" : "password"}
+            id="password"
+            label="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError}
+            helperText={passwordError}
+            margin="normal"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ mt: 2 }}
+          >
+            Login
+          </Button>
+          <Link
+            sx={{ display: "flex", justifyContent: "center", my: 2 }}
+            href=""
+            onClick={handleNavigateToForgotPassword}
+          >
+            Forgot Password?
+          </Link>
+          <Divider sx={{ width: "100%", my: 2 }} />
+          <Button
+            fullWidth
+            variant="contained"
+            color="success"
+            onClick={handleNavigateToRegister}
+          >
+            Register an Account
+          </Button>
         </Paper>
       </Box>
-    </>
+    </ThemeProvider>
   );
 }

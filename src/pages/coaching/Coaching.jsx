@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/color";
 import EventCard from "../../components/EventCard";
@@ -16,6 +16,9 @@ export function Coaching() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Typography variant="h3" sx={{ mt: 3, ml: 1 }}>
+        Coaching
+      </Typography>
       <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
         <Button
           sx={{ borderRadius: 5 }}
