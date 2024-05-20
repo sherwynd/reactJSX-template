@@ -1,4 +1,5 @@
 {
+  "proxy": "http://localhost:3000/",
   "name": "reactjsx-template",
   "private": true,
   "version": "0.0.0",
@@ -16,6 +17,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
     "@mui/x-date-pickers": "^7.2.0",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

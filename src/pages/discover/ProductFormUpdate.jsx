@@ -1,53 +1,89 @@
 import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Grid, Box, Paper, Input, FormLabel } from '@mui/material';
-import { useState } from 'react';
-import { useParams } from 'react-router';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ProductContext } from '../../contexts/ProductContext';
 
 const ProductForm = () => {
   const { id } = useParams();
-  const product = {
-    //sample
-    title: "Ipsum amet, consectetur adipiscing elit 1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    price: 249,
-    img: "src\\assets\\images\\image1.png",
-    condition: "New",
-    category: "Shoes",
-    brand: "Asics",
-    listed: "2021-10-10",
-    location: "Cyberjaya",
-    acquisition: "Meet-up or Delivery",
-    id: id
-  };
-
+  const { removeProduct } = useContext(ProductContext);
+  
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState(product.category);
+  const [category, setCategory] = useState('');
   const [brand, setBrand] = useState('');
   const [location, setLocation] = useState('');
-  const [condition, setCondition] = useState(product.condition);
-  const [acquisition, setAcquisition] = useState(product.acquisition);
-  const [img, setImg] = useState('');
+  const [condition, setCondition] = useState('');
+  const [acquisition, setAcquisition] = useState('');
+  // const [img, setImg] = useState('');
+  
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  
+  const [product, setProduct] = useState({
+    title,
+    price,
+    description,
+    category,
+    brand,
+    location,
+    condition,
+    acquisition,
+  });
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/discover/${id}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const json = await response.json();
 
-  const handleUpdate = (e) => {
+        setProduct(json);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+    fetchProduct()
+  }, [id]);
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
     if (confirm("Are you sure you want to update this item?")) {
-      console.log("product with id " + id + " is updated");
-      console.log(product);
+      const response = await fetch(`http://localhost:3000/discover/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(product),
+      });
+      const json = await response.json();
+      if (!response.ok) {
+        setError(json.message);
+      }
+      if (response.ok) {
+        setError(null);
+        console.log("The product is updated.", json);
+      }
     }
     else {
-      console.log("product with id " + id + " is not updated");
+      console.log("product with is not updated");
     }
   }
 
-  const handleRemove = (e) => {
+  const handleRemove = async (e) => {
     e.preventDefault();
     if (confirm("Are you sure you want to remove this item?")) {
-      console.log("product with id " + id + " is removed");
+      try {
+        await removeProduct(id);
+        navigate('/discover');
+      } catch (error) {
+        setError(error.message);
+      }
     }
     else {
-      console.log("product with id " + id + " is not removed");
+      console.log("Product is not deleted");
     }
   }
 
@@ -88,8 +124,8 @@ const ProductForm = () => {
             <OutlinedInput
               id="title"
               label="title"
-              onChange={(e) => setTitle(e.target.value)}
-              defaultValue={product.title}
+              onChange={(e) => setProduct({ ...product, title: e.target.value })}
+              value={product.title}
             />
           </FormControl>
 
@@ -99,8 +135,8 @@ const ProductForm = () => {
               id="price"
               startAdornment={<InputAdornment position="start">RM</InputAdornment>}
               label="price"
-              onChange={(e) => setPrice(e.target.value)}
-              defaultValue={product.price}
+              onChange={(e) => setProduct({ ...product, price: e.target.value })}
+              value={product.price}
             />
           </FormControl>
 
@@ -110,9 +146,9 @@ const ProductForm = () => {
             label="Description"
             multiline
             rows={5}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => setProduct({ ...product, description: e.target.value })}
             sx={{ m: 1, width: "50%" }}
-            defaultValue={product.description}
+            value={product.description}
           />
 
           <FormControl required sx={{ m: 1, width: "50%" }}>
@@ -120,8 +156,8 @@ const ProductForm = () => {
             <OutlinedInput
               id="location"
               label="location"
-              onChange={(e) => setLocation(e.target.value)}
-              defaultValue={product.location}
+              onChange={(e) => setProduct({ ...product, location: e.target.value })}
+              value={product.location}
             />
           </FormControl>
 
@@ -130,8 +166,8 @@ const ProductForm = () => {
             <OutlinedInput
               id="brand"
               label="Brand"
-              onChange={(e) => setBrand(e.target.value)}
-              defaultValue={product.brand}
+              onChange={(e) => setProduct({ ...product, brand: e.target.value })}
+              value={product.brand}
             />
           </FormControl>
 
@@ -152,10 +188,9 @@ const ProductForm = () => {
                 <Select
                   labelId="category-label"
                   id="category"
-                  value={category}
+                  value={product.category}
                   label="Category"
-                  onChange={(e) => setCategory(e.target.value)}
-                // defaultValue={product.category}
+                  onChange={(e) => setProduct({ ...product, category: e.target.value })}
                 >
                   <MenuItem value="Racquets">Racquets</MenuItem>
                   <MenuItem value="Sport Shoes">Sport Shoes</MenuItem>
@@ -165,14 +200,15 @@ const ProductForm = () => {
             </Grid>
 
             <Grid item xs={12} md={3} sx={{ m: 1 }}>
+
               <FormControl required sx={{ width: "100%" }}>
                 <InputLabel id="condition">Condition</InputLabel>
                 <Select
                   labelId="condition-label"
                   id="condition"
-                  value={condition}
+                  value={product.condition}
                   label="Condition"
-                  onChange={(e) => setCondition(e.target.value)}
+                  onChange={(e) => setProduct({ ...product, condition: e.target.value })}
                 >
                   <MenuItem value="New">New</MenuItem>
                   <MenuItem value="Like New">Like New</MenuItem>
@@ -190,9 +226,9 @@ const ProductForm = () => {
                 <Select
                   labelId="acquisition-label"
                   id="acquisition"
-                  value={acquisition}
+                  value={product.acquisition}
                   label="Acquisition"
-                  onChange={(e) => setAcquisition(e.target.value)}
+                  onChange={(e) => setProduct({ ...product, acquisition: e.target.value })}
                 >
                   <MenuItem value="Meet-up Only">Meet-up Only</MenuItem>
                   <MenuItem value="Delivery Only">Delivery Only</MenuItem>
@@ -205,7 +241,7 @@ const ProductForm = () => {
           <Box sx={{ width: "50%" }}>
             <Box component={Input} type="file" id="file" multiple onChange={handleImageChange} sx={{ display: 'none' }} />
             <Box className="label-holder">
-              <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%",borderRadius: 3 }} variant="outlined" >
+              <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%", borderRadius: 3 }} variant="outlined" >
                 Upload Images
               </Button>
             </Box>
@@ -214,7 +250,7 @@ const ProductForm = () => {
           </Grid>
 
           <Box sx={{ display: "flex", width: "50%" }}>
-            <Button variant="outlined" color="success" type="submit" sx={{ m: 1, width: "100%",borderRadius: 3 }}>Save and Update</Button>
+            <Button variant="outlined" color="success" type="submit" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Save and Update</Button>
             <Button onClick={handleRemove} variant="outlined" color="warning" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Remove Item</Button>
           </Box>
         </Stack >

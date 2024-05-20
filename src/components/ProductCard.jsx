@@ -13,10 +13,10 @@ import { useState } from 'react';
 export function ProductCard({ product }) {
 
   const [favourite, setFavourite] = useState(false);
-  const handleFavourite = () => { 
+  const handleFavourite = () => {
     setFavourite(!favourite)
     product.favouriteCount = favourite ? product.favouriteCount - 1 : product.favouriteCount + 1;
-   };
+  };
 
   return (
     <div>
@@ -32,7 +32,8 @@ export function ProductCard({ product }) {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-              {product.profile.name.charAt(0)}
+              {/* {product.profile.name.charAt(0)} */}
+              T
             </Avatar>
           }
           action={
@@ -41,16 +42,17 @@ export function ProductCard({ product }) {
               <Typography m={0.3}>{product.favouriteCount}</Typography>
             </IconButton>
           }
-          subheader={product.profile.name}
+          // subheader={product.profile.name}
+          subheader="test"
           sx={{ bgcolor: "secondary.main" }}
         />
         <CardContent sx={{ bgcolor: "secondary.main" }}>
-          <Link to={`/discover/${product.id}` } style={{ textDecoration: 'none', color: 'black' }} >
-            <Typography variant='subtitle2' marginTop={-2}>{product.title}</Typography>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography>RM{product.price.toFixed(2)}</Typography>
-              <Typography>{product.listed}</Typography>
-            </Box>
+          <Link to={{ pathname: `/discover/${product._id}`, state: { product } }} style={{ textDecoration: 'none', color: 'black' }} >
+          <Typography variant='subtitle2' marginTop={-2}>{product.title}</Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography>RM{product.price.toFixed(2)}</Typography>
+            <Typography>{product.listed}</Typography>
+          </Box>
           </Link>
         </CardContent>
       </Card>
