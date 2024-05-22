@@ -75,10 +75,6 @@ const routes = [
         element: <Discover />,
       },
       {
-        path: "discover/:id",
-        element: <ProductDetail />,
-      },
-      {
         path: "discover/:id/update",
         element: <ProductFormUpdate />,
       },
