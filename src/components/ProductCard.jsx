@@ -17,15 +17,14 @@ export function ProductCard({ product }) {
     setFavourite(!favourite)
     product.favouriteCount = favourite ? product.favouriteCount - 1 : product.favouriteCount + 1;
   };
-
   return (
     <div>
       <Card elevation={3}>
         <CardContent sx={{ p: 0 }}>
           <CardMedia
             component="img"
-            image={product.img}
-            alt="media"
+            image={`http://localhost:3000/${product.imgs[0]}`}
+            alt={product.imgs[0]}
           />
         </CardContent>
 

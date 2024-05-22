@@ -12,6 +12,7 @@ import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
   const { products } = useContext(ProductContext);
+  
   // const products = [
   //   {
   //     title: "Ipsum amet, consectetur adipiscing elit 1",

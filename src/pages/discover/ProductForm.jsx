@@ -14,35 +14,38 @@ const ProductForm = () => {
     const [location, setLocation] = useState('');
     const [condition, setCondition] = useState('');
     const [acquisition, setAcquisition] = useState('');
-    const [img, setImg] = useState('');
-
-    const product = {
-        title,
-        price,
-        description,
-        category,
-        brand,
-        location,
-        condition,
-        acquisition,
-    };
+    const [imgs, setImgs] = useState([]);
 
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('price', price);
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('brand', brand);
+        formData.append('location', location);
+        formData.append('condition', condition);
+        formData.append('acquisition', acquisition);
+        imgs.forEach((file) => {
+            formData.append('imgs', file);
+            console.log(file)
+        });
+
         const response = await fetch('http://localhost:3000/discover', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(product),
+            body: formData,
         });
+
         const json = await response.json();
         if (!response.ok) {
             setError(json.message);
         }
         if (response.ok) {
+            console.log(json);
             addProduct(json);
             alert("A new product is created.");
 
@@ -54,19 +57,26 @@ const ProductForm = () => {
             setLocation('');
             setCondition('');
             setAcquisition('');
+            setImgs([]);
+            setSelectedFiles([]);
             setError(null);
+            renderPhotos(selectedFiles);
         }
     }
 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const handleImageChange = (e) => {
-        // console.log(e.target.files[])
         if (e.target.files) {
+
+            const newFiles = Array.from(e.target.files);
+            console.log(newFiles)
+            setImgs((prevImgs) => [...prevImgs, ...newFiles]);
+            console.log(imgs)
+
             const filesArray = Array.from(e.target.files).map((file) =>
                 URL.createObjectURL(file)
             );
 
-            // console.log("filesArray: ", filesArray);
             setSelectedFiles((prevImages) => prevImages.concat(filesArray));
             Array.from(e.target.files).map(
                 (file) => URL.revokeObjectURL(file)
@@ -74,10 +84,14 @@ const ProductForm = () => {
         }
     };
     const renderPhotos = (source) => {
-        // console.log("source: ", source);
-        return source.map((photo) => {
+        if (source.length === 0) {
             return (
-                <Grid item lg={2}>
+                <Typography variant="h6" sx={{ m: 2 }}>No images selected</Typography>
+            )
+        }
+        return source.map((photo, index) => {
+            return (
+                <Grid item lg={2} key={index}>
                     <Box component="img" src={photo} key={photo} sx={{ width: "20vh", height: "20vh", m: 1, objectFit: "contain" }} alt="" />
                 </Grid>
             )
@@ -218,5 +232,7 @@ const ProductForm = () => {
 
     )
 }
+
+
 
 export default ProductForm;

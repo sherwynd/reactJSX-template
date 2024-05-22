@@ -22,7 +22,7 @@ const ProductDetail = () => {
           throw new Error('Network response was not ok');
         }
         const json = await response.json();
-        setProduct(json);
+        await setProduct(json);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -82,15 +82,6 @@ const ProductDetail = () => {
   //   }
   // };
 
-  const imgs = [
-    {
-      img: "../src/assets/images/shoe1.jpg"
-    },
-    {
-      img: "../src/assets/images/shoe2.jpg"
-    }
-  ]
-
   const profile = {
     name: "Lee Tian Sien",
     username: "@tslee",
@@ -143,8 +134,7 @@ const ProductDetail = () => {
         <Typography variant='h4' sx={{ mx: 8, my: 1 }}>Product Detail</Typography>
         <Carousel>
           {
-            // product.imgs.map((img, i) => <Item key={i} item={img} />)
-            imgs.map((img, i) => <Item key={i} item={img} />)
+            product.imgs && product.imgs.map((img, i) => <Item key={i} item={img} />)
           }
         </Carousel>
       </Grid>
@@ -297,7 +287,7 @@ function Item(props) {
   return (
     <Paper elevation={3} sx={{ mx: 8, height: '70vh' }}>
       <Box component="img"
-        src={props.item.img}
+        src={`http://localhost:3000/${props.item}`}
         sx={{
           display: "flex",
           justifyContent: "center",
