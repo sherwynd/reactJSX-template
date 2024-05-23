@@ -43,7 +43,6 @@ export function Login() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
   const handleSubmit = (e) => {
-    navigate("/discover");
     e.preventDefault();
     if (!email) {
       setEmailError("Email is required");
@@ -58,7 +57,6 @@ export function Login() {
       setPasswordError("");
     }
     const loginFormDetail = { email, password };
-    console.log(loginFormDetail);
     const requestTestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -66,7 +64,17 @@ export function Login() {
     };
     fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        if (data.error) {
+          setPasswordError("Incorrect password");
+          return false;
+        } else {
+          // Store the token in localStorage
+          localStorage.setItem("accessToken", data.accessToken);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          navigate("/discover");
+        }
+      })
       .catch((error) => console.error("There was an error!", error));
   };
 

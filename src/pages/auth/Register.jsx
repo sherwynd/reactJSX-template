@@ -72,8 +72,17 @@ export function Register() {
     }
     if (valid) {
       const registerDetail = { username, nickname, email, password };
-      console.log(registerDetail);
-      // Here you would usually send the registration details to the server.
+      const requestTestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registerDetail),
+      };
+      fetch("http://localhost:3000/auth/registerAccount", requestTestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          navigate("/login");
+        })
+        .catch((error) => console.error("There was an error!", error));
     }
   };
   const handleNavigateToLogin = () => {
