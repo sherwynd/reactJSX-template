@@ -25,18 +25,64 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import AvatarA from "../../assets/images/Lebron.jpg";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Profile() {
   const navigate = useNavigate();
+  const { accessToken } = useContext(AuthContext); // Assuming you have accessToken in AuthContext
+  const [profile, setProfile] = useState({
+    username: "",
+    nickname: "",
+    rating: 0,
+    reviewCount: 0,
+    phoneNumber: "",
+    bio: "",
+    profilePicture: "",
+  });
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
   const [reviewValue, setReviewValue] = useState(10);
   const handleSetting = () => {
     navigate("/setting");
   };
+
+  useEffect(() => {
+    console.log(accessToken);
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/auth/getToken", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`, // Use the token from AuthContext
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          const userProfile = data[0];
+          setProfile({
+            username: userProfile.username,
+            nickname: userProfile.nickname,
+            // rating: userProfile.rating,
+            // reviewCount: userProfile.reviewCount,
+            // phoneNumber: userProfile.phoneNumber,
+            // bio: userProfile.bio,
+            // profilePicture: userProfile.profilePicture,
+          });
+        } else {
+          console.error("Failed to fetch profile");
+        }
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchProfile();
+  }, [accessToken]);
+
   return (
     <>
       <Box sx={{ my: 2, display: "flex", flexDirection: "row" }}>
@@ -56,7 +102,7 @@ export function Profile() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            src={AvatarA}
+            src={profile.profilePicture || AvatarA}
           />
           {/* can be into contexts */}
           <Typography
@@ -65,38 +111,42 @@ export function Profile() {
             }}
             variant="h5"
           >
-            Lebron Jam
+            {profile.nickname || "Lebfron James"}
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            @mrsunshine
+            @{profile.username || "mrsunshine"}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
-            <Typography sx={{ mx: 1, pt: 0.2 }}>{ratingStarValue}</Typography>
+            <Typography sx={{ mx: 1, pt: 0.2 }}>
+              {profile.ratingStarValue || ratingStarValue}
+            </Typography>
             <Rating
               name="read-only"
-              value={ratingStarValue}
+              value={profile.ratingStarValue || ratingStarValue}
               precision={0.5}
               readOnly
             />
-            <Typography sx={{ mx: 0.3, pt: 0.2 }}>({reviewValue})</Typography>
+            <Typography sx={{ mx: 0.3, pt: 0.2 }}>
+              ({profile.reviewValue || reviewValue})
+            </Typography>
           </Box>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            +60123456789
+            {profile.phoneNumber || "No Phone Number"}
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            You are my sunshine, my only sunshine
+            ({profile.description || "No description"})
           </Typography>
         </Box>
 

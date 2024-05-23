@@ -15,14 +15,9 @@ import theme from "../../theme/color";
 
 export function ForgotPassword() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [newPasswordError, setNewPasswordError] = useState("");
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => event.preventDefault();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!email) {
@@ -31,14 +26,23 @@ export function ForgotPassword() {
     } else {
       setEmailError("");
     }
-    if (!newPassword) {
-      setNewPasswordError("New Password is required");
-      return false;
-    } else {
-      setNewPasswordError("");
-    }
-    const forgotPasswordFormDetail = { email, newPassword };
-    console.log(forgotPasswordFormDetail);
+    const forgotPasswordFormDetail = { email };
+
+    const requestTestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(forgotPasswordFormDetail),
+    };
+    fetch("http://localhost:3000/auth/forgotPassword", requestTestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.log(data.error);
+          return false;
+        } else {
+          navigate(`/resetPassword/${data.resetToken}`);
+        }
+      });
   };
   const handleNavigateToLogin = (e) => {
     navigate("/login");
@@ -76,7 +80,7 @@ export function ForgotPassword() {
               style={{ maxWidth: "150px", marginBottom: "5px" }}
             />
             <Typography variant="h5" component="h1" sx={{ mb: 2 }}>
-              Reset Password
+              Forgot Password
             </Typography>
           </Box>
           <TextField
@@ -90,30 +94,7 @@ export function ForgotPassword() {
             helperText={emailError}
             margin="normal"
           />
-          <TextField
-            fullWidth
-            required
-            type={showPassword ? "text" : "password"}
-            id="newPassword"
-            label="New Password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            error={!!newPasswordError}
-            helperText={newPasswordError}
-            margin="normal"
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              ),
-            }}
-          />
+
           <Box
             sx={{
               display: "flex",

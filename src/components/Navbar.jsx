@@ -40,6 +40,8 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import CloseIcon from "@mui/icons-material/Close";
 
+import { AuthContext } from "../contexts/AuthContext";
+
 const drawerWidth = 240;
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -75,7 +77,7 @@ export function NavBar(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [alertOpen, setAlertOpen] = React.useState(false);
-
+  const { user, profilePicture, logout } = React.useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleDrawerClose = () => {
@@ -112,6 +114,7 @@ export function NavBar(props) {
     setAnchorEl(null);
   };
   const handleLogOut = () => {
+    logout();
     navigate("/login");
     setAnchorEl(null);
   };
@@ -223,7 +226,7 @@ export function NavBar(props) {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar src={FakeJordan} />
+                  <Avatar src={profilePicture || FakeJordan} />
                 </StyledBadge>
               </IconButton>
 
