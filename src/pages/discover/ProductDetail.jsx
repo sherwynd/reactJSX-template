@@ -5,14 +5,54 @@ import { Paper, Grid, Box, Avatar, Typography, Rating, Button } from '@mui/mater
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { red } from '@mui/material/colors';
 import { CommentCard } from "../../components/CommentCard";
-import { useState, useContext, useEffect } from 'react';
-// import { ProductContext } from "../../contexts/ProductContext";
+import { useState, useContext, useEffect, useRef } from 'react';
+import { ProductContext } from "../../contexts/ProductContext";
 
 
 const ProductDetail = () => {
   const { id } = useParams();
-  // const { products, getProduct } = useContext(ProductContext);
+  const { updateFavouriteUserinDatabase } = useContext(ProductContext);
   const [product, setProduct] = useState({});
+  const [favourite, setFavourite] = useState(false);
+  const [favouriteCount, setFavouriteCount] = useState([]);
+  const [favouriteCounter, setFavouriteCounter] = useState(0);
+  const isFirstRender = useRef(true);
+
+  const profile = {
+    name: "Lee Tian Sien",
+    username: "@tslee",
+    rating: 4.5,
+    id: "6699",
+    phone: "0123456789",
+    comments: [
+      {
+        id: 1,
+        name: "Sherwynd Liew",
+        text: "Review 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        date: "2021-10-10"
+      },
+      {
+        id: 2,
+        name: "Neville Teh",
+        text: "Review 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+        date: "2022-11-11"
+      },
+      {
+        id: 3,
+        name: "Carrot Hong",
+        text: "Review 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        date: "2023-12-12"
+      }
+    ]
+  }
+
+  const ownProfile = {
+    name: "Lee Tian Sien",
+    username: "@tslee",
+    rating: 4.5,
+    //match the id to see the 'update button'
+    id: 669
+  }
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -22,13 +62,40 @@ const ProductDetail = () => {
           throw new Error('Network response was not ok');
         }
         const json = await response.json();
-        await setProduct(json);
+        setProduct(json);
+        if (json.favouriteCount.includes(profile.id)) {
+          setFavourite(true);
+        }
+        setFavouriteCount(json.favouriteCount);
+        setFavouriteCounter(json.favouriteCount.length);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
     };
     fetchProduct()
   }, [id]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    updateFavouriteUserinDatabase(id, favouriteCount);
+  }, [favourite])
+
+  const handleFavourite = () => {
+    if (favouriteCount.includes(profile.id)) {
+      setFavourite(false);
+      const index = favouriteCount.indexOf(profile.id);
+      favouriteCount.splice(index, 1);
+      setFavouriteCount([...favouriteCount]);
+      setFavouriteCounter(favouriteCounter - 1);
+    } else {
+      setFavourite(true);
+      setFavouriteCount([...favouriteCount, profile.id]);
+      setFavouriteCounter(favouriteCounter + 1);
+    }
+  };
 
   //sample
   // const product = {
@@ -82,52 +149,9 @@ const ProductDetail = () => {
   //   }
   // };
 
-  const profile = {
-    name: "Lee Tian Sien",
-    username: "@tslee",
-    rating: 4.5,
-    id: 6699,
-    phone: "0123456789",
-    comments: [
-      {
-        id: 1,
-        name: "Sherwynd Liew",
-        text: "Review 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        date: "2021-10-10"
-      },
-      {
-        id: 2,
-        name: "Neville Teh",
-        text: "Review 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-        date: "2022-11-11"
-      },
-      {
-        id: 3,
-        name: "Carrot Hong",
-        text: "Review 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        date: "2023-12-12"
-      }
-    ]
-  }
-
-  const ownProfile = {
-    name: "Lee Tian Sien",
-    username: "@tslee",
-    rating: 4.5,
-    //match the id to see the 'update button'
-    id: 669
-  }
-
-  const [favourite, setFavourite] = useState(false);
-  const [favouriteCount, setFavouriteCount] = useState(product.favouriteCount);
-  const handleFavourite = () => {
-    setFavourite(!favourite)
-    setFavouriteCount(favourite ? favouriteCount - 1 : favouriteCount + 1);
-  };
-
   const createdAt = typeof product.createdAt === 'string' ? product.createdAt : '';
   const listedDate = JSON.stringify(createdAt).substring(1, 11);
-  
+
   return (
     <Grid container>
       <Grid item xs={12} sm={12} md={12} lg={5} sx={{ mb: 1 }}>
@@ -173,12 +197,12 @@ const ProductDetail = () => {
             </Link>
 
             <Box>
-              {/* {product.profile.id != ownProfile.id &&
-                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
-                  {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
-                  <Typography>{favouriteCount}</Typography>
-                </Button>
-              } */}
+              {/* {product.profile.id != ownProfile.id && */}
+              <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
+                {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
+                <Typography>{favouriteCounter}</Typography>
+              </Button>
+              {/* } */}
               {/* {profile.id != ownProfile.id &&
                 <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
                   {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
