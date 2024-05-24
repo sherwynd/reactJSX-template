@@ -1,6 +1,6 @@
 import { Label } from '@mui/icons-material';
 import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Box, Grid, Paper, Input, FormLabel } from '@mui/material';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { ProductContext } from '../../contexts/ProductContext';
 
 const ProductForm = () => {
@@ -17,9 +17,15 @@ const ProductForm = () => {
     const [imgs, setImgs] = useState([]);
 
     const [error, setError] = useState(null);
+    const isFirstRender = useRef(true);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
 
         const formData = new FormData();
         formData.append('title', title);
@@ -32,7 +38,6 @@ const ProductForm = () => {
         formData.append('acquisition', acquisition);
         imgs.forEach((file) => {
             formData.append('imgs', file);
-            console.log(file)
         });
 
         const response = await fetch('http://localhost:3000/discover', {
@@ -45,7 +50,6 @@ const ProductForm = () => {
             setError(json.message);
         }
         if (response.ok) {
-            console.log(json);
             addProduct(json);
             alert("A new product is created.");
 
@@ -69,7 +73,6 @@ const ProductForm = () => {
         if (e.target.files) {
 
             const newFiles = Array.from(e.target.files);
-            console.log(newFiles)
             setImgs((prevImgs) => [...prevImgs, ...newFiles]);
             console.log(imgs)
 

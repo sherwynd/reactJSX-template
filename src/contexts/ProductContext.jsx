@@ -18,7 +18,7 @@ export const ProductContextProvider = (props) => {
             }
         };
         fetchProducts()
-    }, [products])
+    }, [])
 
     const getProduct = (id) => {
         return products.find(product => product._id === id);
@@ -26,6 +26,45 @@ export const ProductContextProvider = (props) => {
 
     const addProduct = (product) => {
         setProducts([...products, product]);
+    }
+
+    const updateProduct = (product) => {
+        const index = products.findIndex(p => p._id === product._id);
+        console.log(product);
+        const updatedProducts = [...products];
+        updatedProducts[index] = product;
+
+        // try {
+        //     const formData = new FormData();
+        //     formData.append('title', product.title);
+        //     formData.append('price', product.price);
+        //     formData.append('description', product.description);
+        //     formData.append('category', product.category);
+        //     formData.append('brand', product.brand);
+        //     formData.append('location', product.location);
+        //     formData.append('condition', product.condition);
+        //     formData.append('acquisition', product.acquisition);
+
+        //     const response = fetch(`http://localhost:3000/discover/${product._id}`, {
+        //         method: 'PATCH',
+        //         body: formData,
+        //     });
+        //     if (!response.ok) {
+        //         throw new Error('Failed to update product');
+        //     }
+        //     setProducts(updatedProducts);
+        //     console.log('product with id', product._id, 'updated successfully');
+        // }
+        // catch (error) {
+        //     console.error('Error updating product:', error);
+        // }
+    }
+
+    const updateProductFavourite = (product) => {
+        const index = products.findIndex(p => p._id === product._id);
+        const updatedProducts = [...products];
+        updatedProducts[index] = product;
+        setProducts(updatedProducts);
     }
 
     const removeProduct = async (id) => {
@@ -43,8 +82,30 @@ export const ProductContextProvider = (props) => {
         }
     }
 
+    const updateFavouriteUserinDatabase = async (id, favouriteCount) => {
+        try {
+            const response = await fetch(`http://localhost:3000/discover/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    favouriteCount: favouriteCount
+                })
+            })
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const json = await response.json();
+            updateProductFavourite(json);
+        }
+        catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
-        <ProductContext.Provider value={{ products, getProduct, addProduct, removeProduct }}>
+        <ProductContext.Provider value={{ products, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase }}>
             {props.children}
         </ProductContext.Provider>
     );
