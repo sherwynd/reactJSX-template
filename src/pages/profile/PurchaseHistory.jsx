@@ -1,109 +1,192 @@
 import { Box, Grid, Paper, styled } from "@mui/material";
 import { ProductHistoryCard } from "../../components/ProductHistoryCard";
-import AvatarA from "../../assets/images/image1.png";
-import AvatarB from "../../assets/images/Fake-Jordan.png";
-import AvatarC from "../../assets/images/image2.png";
-import AvatarD from "../../assets/images/avatar.png";
-export function PurchaseHistory() {
-  const products = [
-    {
-      title: "Ipsum amet, consectetur adipiscing elit 1",
-      description:
-        "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 100,
-      img: AvatarA,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
-      listed: "2021-10-10",
-      id: 1,
-    },
-    {
-      title: "Lorem  dolor sit amet, adipiscing elit 2",
-      description:
-        "Dolor sit eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 69,
-      img: AvatarB,
-      condition: "not new",
-      category: "shoe",
-      brand: "pineapple",
-      listed: "2021-10-10",
-      id: 2,
-    },
-    {
-      title: "Lorem ipsum dolor adipiscing elit 3",
-      description:
-        "Ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-      price: 777,
-      img: AvatarC,
-      condition: "like new",
-      category: "sports",
-      brand: "nike",
-      listed: "2021-10-10",
-      id: 3,
-    },
-    {
-      title: "Lorem ipsum dolor sit amet, consectetur elit 2",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt aliqua.",
-      price: 1010,
-      img: AvatarD,
-      condition: "old",
-      category: "fruit",
-      brand: "orange",
-      listed: "2021-10-10",
-      id: 4,
-    },
-    {
-      title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 9,
-      img: AvatarC,
-      condition: "very new",
-      category: "not electronics",
-      brand: "not apple",
-      listed: "2021-10-10",
-      id: 5,
-    },
-    {
-      title: "Dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolconsectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 666,
-      img: AvatarA,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
-      listed: "2021-10-10",
-      id: 6,
-    },
-    {
-      title: "Lorem dolor sit amet, consectetur adipiscing elit 1",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      price: 111,
-      img: AvatarC,
-      condition: "new",
-      category: "electronics",
-      brand: "apple",
-      listed: "2021-10-10",
-      id: 7,
-    },
-  ];
+import AvatarA from "../../assets/images/shoe1.jpg";
+import AvatarB from "../../assets/images/racket1.jpeg";
+import AvatarC from "../../assets/images/ball1.jpg";
+import AvatarD from "../../assets/images/swimming1.jpeg";
+import AvatarShirt from "../../assets/images/shirt1.jpg";
 
+import { useState } from "react";
+import { PurchaseHistoryCard } from "../../components/PurchaseHistoryCard";
+
+export function PurchaseHistory() {
+  const [ratingStarHistoryValue, setRatingStarHistoryValue] = useState(3.5);
+  const [reviewValue, setReviewValue] = useState(10);
+  const purchase = [
+    //sample
+    {
+      id: 0,
+      name: "Muhammad Ali",
+      title: "Ultra unBoost",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      price: 249.0,
+      img: AvatarA,
+      condition: "New",
+      category: "Running",
+      brand: "Asics",
+      listed: "2021-10-10",
+      location: "Cyberjaya",
+      acquisition: "Delivery Only",
+      isAvailable: true,
+      favouriteCount: 8,
+      profile: {
+        name: "Lee Tian Sien",
+        username: "@tslee",
+        rating: 4.5,
+        id: 6699,
+        phone: "0123456789",
+      },
+    },
+    {
+      id: 1,
+      name: "Muthu",
+      title: "Manchester United Jersey",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      price: 59,
+      img: AvatarShirt,
+      condition: "New",
+      category: "Shirts",
+      brand: "Apple",
+      listed: "2021-10-10",
+      location: "Kulim",
+      acquisition: "Meetup or Delivery",
+      isAvailable: true,
+      favouriteCount: 6,
+      profile: {
+        name: "Sherwynd Liew",
+        username: "@tslee",
+        rating: 4.5,
+        id: 6699,
+        phone: "0123456789",
+      },
+    },
+    {
+      id: 2,
+      name: "Lee Chung Wei",
+      title: "Yunex Badminton",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      price: 129.9,
+      img: AvatarB,
+      condition: "New",
+      category: "Badminton",
+      brand: "Apple",
+      listed: "2021-10-10",
+      location: "Alor Setar",
+      acquisition: "Meetup or Delivery",
+      isAvailable: true,
+      favouriteCount: 23,
+      profile: {
+        name: "Carrot Hong",
+        username: "@tslee",
+        rating: 4.5,
+        id: 6699,
+        phone: "0123456789",
+      },
+    },
+    // {
+    //   title: "Ipsum amet, consectetur adipiscing elit 1",
+    //   description:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    //   price: 325,
+    //   img: "../src/assets/images/shoe3.webp",
+    //   condition: "New",
+    //   category: "Running",
+    //   brand: "Apple",
+    //   listed: "2021-10-10",
+    //   location: "Melaka",
+    //   acquisition: "Meetup or Delivery",
+    //   isAvailable: true,
+    //   favouriteCount: 0,
+    //   id: 4,
+    //   profile: {
+    //     name: "Nevelle Teh",
+    //     username: "@tslee",
+    //     rating: 4.5,
+    //     id: 6699,
+    //     phone: "0123456789",
+    //   },
+    // },
+    // {
+    //   title: "Ipsum amet, consectetur adipiscing elit 1",
+    //   description:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    //   price: 99,
+    //   img: "../src/assets/images/ball1.jpg",
+    //   condition: "New",
+    //   category: "Football",
+    //   brand: "Apple",
+    //   listed: "2021-10-10",
+    //   location: "Pahang",
+    //   acquisition: "Meetup or Delivery",
+    //   isAvailable: true,
+    //   favouriteCount: 1,
+    //   id: 5,
+    //   profile: {
+    //     name: "Xian Heng",
+    //     username: "@tslee",
+    //     rating: 4.5,
+    //     id: 6699,
+    //     phone: "0123456789",
+    //   },
+    // },
+    // {
+    //   title: "Ipsum amet, consectetur adipiscing elit 1",
+    //   description:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    //   price: 289.5,
+    //   img: "../src/assets/images/shoe5.jpg",
+    //   condition: "New",
+    //   category: "Running",
+    //   brand: "Adidas",
+    //   listed: "2021-10-10",
+    //   location: "Penang",
+    //   acquisition: "Meetup or Delivery",
+    //   isAvailable: true,
+    //   favouriteCount: 13,
+    //   id: 6,
+    //   profile: {
+    //     name: "John Doe",
+    //     username: "@tslee",
+    //     rating: 4.5,
+    //     id: 6699,
+    //     phone: "0123456789",
+    //   },
+    // },
+    // {
+    //   title: "Ipsum amet, consectetur adipiscing elit 1",
+    //   description:
+    //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    //   price: 65,
+    //   img: "../src/assets/images/swimming1.jpeg",
+    //   condition: "New",
+    //   category: "Swimming",
+    //   brand: "Nike",
+    //   listed: "2021-10-10",
+    //   location: "Johor Bahru",
+    //   acquisition: "Meetup or Delivery",
+    //   isAvailable: true,
+    //   favouriteCount: 6,
+    //   id: 7,
+    //   profile: {
+    //     name: "Pandelela Rinong",
+    //     username: "@tslee",
+    //     rating: 4.5,
+    //     id: 6699,
+    //     phone: "0123456789",
+    //   },
+    // },
+  ];
   return (
     <>
-      <Box
-        sx={{ display: "flex", justifyContent: "center", m: 1, flexGrow: 1 }}
-      >
-        <Grid container spacing={1}>
-          {products.map((product) => (
-            <Grid item xs={4} key={product.id}>
-              <ProductHistoryCard product={product} />
-            </Grid>
-          ))}
-        </Grid>
+      <Box sx={{ display: "flex", flexGrow: 1, flexDirection: "column" }}>
+        {purchase.map((purchase) => (
+          <Box key={purchase.id} sx={{ mx: 2, my: 1 }}>
+            <PurchaseHistoryCard purchase={purchase} />
+          </Box>
+        ))}
       </Box>
     </>
   );

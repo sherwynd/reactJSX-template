@@ -1,11 +1,13 @@
 import * as React from "react";
 
 import {
+  Alert,
   AppBar,
   Avatar,
   Badge,
   Box,
   Button,
+  Collapse,
   CssBaseline,
   Divider,
   Drawer,
@@ -22,6 +24,7 @@ import {
   useTheme,
 } from "@mui/material";
 
+import FavoritIcon from "@mui/icons-material/Favorite";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,6 +38,8 @@ import LogoImage from "../assets/images/Logo.webp";
 import { SearchBar } from "./common/SearchBar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// import CloseIcon from "@mui/icons-material/Close";
+
 const drawerWidth = 240;
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -69,6 +74,7 @@ export function NavBar(props) {
   const { window, children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const [alertOpen, setAlertOpen] = React.useState(false);
 
   const navigate = useNavigate();
 
@@ -93,10 +99,12 @@ export function NavBar(props) {
     setAnchorEl(event.currentTarget);
   };
   const handleReturn = () => {
-    navigate("/");
+    setAlertOpen(true);
+    console.log(alertOpen);
+    navigate("/", { state: { alertOpen: true } });
   };
   const handleClose = () => {
-    navigate("/profile");
+    navigate("/profile/:id");
     setAnchorEl(null);
   };
   const handleSetting = () => {
@@ -196,7 +204,11 @@ export function NavBar(props) {
               }}
             >
               <Link to={`/sell`}>
-                <Button sx={{ mr: 1 }} variant="contained" color="error">
+                <Button
+                  sx={{ mr: 1, borderRadius: 3 }}
+                  variant="outlined"
+                  color="warning"
+                >
                   Sell
                 </Button>
               </Link>
@@ -290,6 +302,7 @@ export function NavBar(props) {
         <Box
           component="main"
           sx={{
+            backgroundColor: "#F5FEFD",
             flexGrow: 1,
             p: 3,
             width: { sm: `calc(100% - ${drawerWidth}px)` },
