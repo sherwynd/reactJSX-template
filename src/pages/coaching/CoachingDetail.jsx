@@ -66,19 +66,21 @@ export default function CoachingDetail() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        console.log("Fetching event with ID:", id); // Debugging statement
+        console.log("Fetching event with ID:", id);
 
         const response = await fetch(`http://localhost:3000/event/${id}`);
+        console.log("Response status:", response.status);
+
         if (!response.ok) {
-          throw new Error("Failed to fetch event");
+          throw new Error(`Failed to fetch event: ${response.statusText}`);
         }
+
         const data = await response.json();
-        console.log("Fetched event data:", data); // Debugging statement
+        console.log("Fetched event data:", data);
 
         setEvent(data);
       } catch (error) {
-        console.error("Error fetching event:", error); // Debugging statement
-
+        console.error("Error fetching event:", error);
         setError(error.message);
       } finally {
         setLoading(false);

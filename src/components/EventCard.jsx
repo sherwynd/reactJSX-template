@@ -20,7 +20,7 @@ export default function EventCard({ event }) {
   );
 
   const handleViewClick = () => {
-    navigate(`/coaching/${event.id}`);
+    navigate(`/coaching/${event._id}`);
   };
 
   const card = (

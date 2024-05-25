@@ -26,6 +26,7 @@ import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";
 import { BlogDetails } from "../pages/blog/BlogDetail";
 import { CoachingCart } from "../pages/cart/CoachingCart.jsx";
+import CoachingUpdate from "../pages/coaching/CoachingUpdate.jsx";
 const routes = [
   {
     path: "/",
@@ -129,6 +130,10 @@ const routes = [
       {
         path: "coaching/create",
         element: <CoachingCreate />,
+      },
+      {
+        path: "coaching/:id/update",
+        element: <CoachingUpdate />,
       },
       {
         path: "setting",
