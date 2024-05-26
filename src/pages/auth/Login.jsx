@@ -1,50 +1,38 @@
 import {
-  AppBar,
-  Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
   Button,
-  Card,
   Divider,
-  FormControl,
   InputAdornment,
   IconButton,
-  InputLabel,
   Link,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  OutlinedInput,
   Paper,
   TextField,
-  Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/images/Logo.webp";
 import { ThemeProvider } from "@emotion/react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import logo from "../../assets/images/Logo.webp";
 import theme from "../../theme/color";
+import { apiGeneralTemplate } from "../../services/api/auth";
+import { fetchProfile } from "../../stores/reducer/profileSlice";
 
 export function Login() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
-  const handleSubmit = (e) => {
-    navigate("/discover");
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email) {
       setEmailError("Email is required");
       return false;
@@ -57,17 +45,23 @@ export function Login() {
     } else {
       setPasswordError("");
     }
+    const method = "POST";
     const loginFormDetail = { email, password };
-    console.log(loginFormDetail);
-    const requestTestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(loginFormDetail),
-    };
-    fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("There was an error!", error));
+    const controller = "loginAccount";
+    const data = await apiGeneralTemplate(method, loginFormDetail, controller);
+    if (data.error === "User or Email not found") {
+      setEmailError(data.error);
+    } else if (data.error === "Password does not match") {
+      setPasswordError(data.error);
+    } else if (data.error) {
+      console.log(data.error);
+    } else {
+      // Store the token in localStorage
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
+      await dispatch(fetchProfile(data.accessToken));
+      navigate("/discover");
+    }
   };
 
   const handleNavigateToRegister = (e) => {
