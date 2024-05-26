@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/Logo.webp"; // Update the path if necessary
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/color";
+import { apiGeneralTemplate } from "../../services/api/auth";
 
 export function Register() {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ export function Register() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
     if (!username) {
@@ -72,17 +73,20 @@ export function Register() {
     }
     if (valid) {
       const registerDetail = { username, nickname, email, password };
-      const requestTestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(registerDetail),
-      };
-      fetch("http://localhost:3000/auth/registerAccount", requestTestOptions)
-        .then((response) => response.json())
-        .then((data) => {
-          navigate("/login");
-        })
-        .catch((error) => console.error("There was an error!", error));
+      const method = "POST";
+      const controller = "registerAccount";
+      const data = await apiGeneralTemplate(method, registerDetail, controller);
+      if (data.error === "Username already taken.") {
+        setUsernameError(data.error);
+      } else if (data.error === "Email already taken.") {
+        setEmailError(data.error);
+      } else if (data.error) {
+        // Pop Up Error in here
+        console.log(data.error);
+      } else {
+        // Run pop up
+        navigate("/login");
+      }
     }
   };
   const handleNavigateToLogin = () => {

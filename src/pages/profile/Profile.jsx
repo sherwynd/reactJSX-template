@@ -1,87 +1,31 @@
 import {
-  AppBar,
   Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
   Button,
-  Card,
-  CssBaseline,
-  FormControl,
-  InputAdornment,
-  IconButton,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
-  OutlinedInput,
   Paper,
   Rating,
-  TextField,
-  Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import AvatarA from "../../assets/images/Lebron.jpg";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useSelector } from "react-redux";
 
 export function Profile() {
   const navigate = useNavigate();
   const { accessToken } = useContext(AuthContext); // Assuming you have accessToken in AuthContext
-  const [profile, setProfile] = useState({
-    username: "",
-    nickname: "",
-    rating: 0,
-    reviewCount: 0,
-    phoneNumber: "",
-    bio: "",
-    profilePicture: "",
-  });
+  const { profile, loading, error } = useSelector((state) => state.profile);
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
   const [reviewValue, setReviewValue] = useState(10);
   const handleSetting = () => {
     navigate("/setting");
   };
-
-  useEffect(() => {
-    console.log(accessToken);
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/auth/getToken", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`, // Use the token from AuthContext
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          const userProfile = data[0];
-          setProfile({
-            username: userProfile.username,
-            nickname: userProfile.nickname,
-            // rating: userProfile.rating,
-            // reviewCount: userProfile.reviewCount,
-            // phoneNumber: userProfile.phoneNumber,
-            // bio: userProfile.bio,
-            // profilePicture: userProfile.profilePicture,
-          });
-        } else {
-          console.error("Failed to fetch profile");
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchProfile();
-  }, [accessToken]);
 
   return (
     <>

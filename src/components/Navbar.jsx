@@ -39,6 +39,8 @@ import { SearchBar } from "./common/SearchBar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import CloseIcon from "@mui/icons-material/Close";
+import { useState, useEffect, useContext } from "react";
+import { useSelector } from "react-redux";
 
 import { AuthContext } from "../contexts/AuthContext";
 
@@ -74,11 +76,16 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 export function NavBar(props) {
   const { window, children } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isClosing, setIsClosing] = React.useState(false);
-  const [alertOpen, setAlertOpen] = React.useState(false);
-  const { user, profilePicture, logout } = React.useContext(AuthContext);
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const { user, profilePicture, logout } = useContext(AuthContext);
+  const { profile, loading, error } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    console.log(profile);
+  }, []);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -226,7 +233,7 @@ export function NavBar(props) {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar src={profilePicture || FakeJordan} />
+                  <Avatar src={FakeJordan} />
                 </StyledBadge>
               </IconButton>
 
