@@ -1,42 +1,32 @@
 import {
-  AppBar,
   Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
   Button,
-  Card,
-  CssBaseline,
-  FormControl,
-  InputAdornment,
-  IconButton,
-  InputLabel,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
-  OutlinedInput,
   Paper,
   Rating,
-  TextField,
-  Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import AvatarA from "../../assets/images/Lebron.jpg";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useSelector } from "react-redux";
 
 export function Profile() {
   const navigate = useNavigate();
+  const { accessToken } = useContext(AuthContext); // Assuming you have accessToken in AuthContext
+  const { profile, loading, error } = useSelector((state) => state.profile);
   const [ratingStarValue, setRatingStarValue] = useState(3.5);
   const [reviewValue, setReviewValue] = useState(10);
   const handleSetting = () => {
     navigate("/setting");
   };
+
   return (
     <>
       <Box sx={{ my: 2, display: "flex", flexDirection: "row" }}>
@@ -56,7 +46,7 @@ export function Profile() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            src={AvatarA}
+            src={profile.profilePicture || AvatarA}
           />
           {/* can be into contexts */}
           <Typography
@@ -65,38 +55,42 @@ export function Profile() {
             }}
             variant="h5"
           >
-            Lebron Jam
+            {profile.nickname || "Lebfron James"}
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            @mrsunshine
+            @{profile.username || "mrsunshine"}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
-            <Typography sx={{ mx: 1, pt: 0.2 }}>{ratingStarValue}</Typography>
+            <Typography sx={{ mx: 1, pt: 0.2 }}>
+              {profile.ratingStarValue || ratingStarValue}
+            </Typography>
             <Rating
               name="read-only"
-              value={ratingStarValue}
+              value={profile.ratingStarValue || ratingStarValue}
               precision={0.5}
               readOnly
             />
-            <Typography sx={{ mx: 0.3, pt: 0.2 }}>({reviewValue})</Typography>
+            <Typography sx={{ mx: 0.3, pt: 0.2 }}>
+              ({profile.reviewValue || reviewValue})
+            </Typography>
           </Box>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            +60123456789
+            {profile.phoneNumber || "No Phone Number"}
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            You are my sunshine, my only sunshine
+            ({profile.description || "No description"})
           </Typography>
         </Box>
 
