@@ -26,6 +26,7 @@ import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";
 import { BlogDetails } from "../pages/blog/BlogDetail";
 import { CoachingCart } from "../pages/cart/CoachingCart.jsx";
+import CoachingUpdate from "../pages/coaching/CoachingUpdate.jsx";
 const routes = [
   {
     path: "/",
@@ -75,10 +76,6 @@ const routes = [
         element: <Discover />,
       },
       {
-        path: "discover/:id",
-        element: <ProductDetail />,
-      },
-      {
         path: "discover/:id/update",
         element: <ProductFormUpdate />,
       },
@@ -93,10 +90,6 @@ const routes = [
       {
         path: "discover/:id",
         element: <ProductDetail />,
-      },
-      {
-        path: "discover/:id/update",
-        element: <ProductFormUpdate />,
       },
       {
         path: "test",
@@ -129,6 +122,10 @@ const routes = [
       {
         path: "coaching/create",
         element: <CoachingCreate />,
+      },
+      {
+        path: "coaching/:id/update",
+        element: <CoachingUpdate />,
       },
       {
         path: "setting",

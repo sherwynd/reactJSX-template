@@ -1,14 +1,30 @@
-import { Box, Button, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Box, Button, Typography, Grid } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
+import { Outlet, useNavigate } from "react-router-dom";
 import theme from "../../theme/color";
 import EventCard from "../../components/EventCard";
-import Grid from "@mui/material/Grid";
-import { Outlet, useNavigate } from "react-router-dom";
 
 export function Coaching() {
-  const eventIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
+  const [events, setEvents] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/event");
+        if (!response.ok) {
+          throw new Error("Failed to fetch events");
+        }
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const handleCreateClick = () => {
     navigate("/coaching/create");
@@ -29,15 +45,14 @@ export function Coaching() {
           Create
         </Button>
       </Box>
-      <Box sx={{ mt: 2 }}>
-        <Grid container spacing={4}>
-          {eventIds.map((id) => (
-            <Grid key={id} item xs={12} sm={6} md={4}>
-              <EventCard id={id} />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+
+      <Grid container spacing={4}>
+        {events.map((event) => (
+          <Grid key={event.id} item xs={12} sm={6} md={4}>
+            <EventCard event={event} />
+          </Grid>
+        ))}
+      </Grid>
       <Outlet />
     </ThemeProvider>
   );
