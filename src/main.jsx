@@ -12,17 +12,20 @@ import { AuthProvider } from "./contexts/AuthContext";
 
 import routes from "./routes";
 import "./styles/index.css";
+import { ProductContextProvider } from "./contexts/ProductContext";
 
 const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <Provider store={store}>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
-      </Provider>
-    </StyledEngineProvider>
+    <ProductContextProvider>
+      <StyledEngineProvider injectFirst>
+        <Provider store={store}>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </Provider>
+      </StyledEngineProvider>
+    </ProductContextProvider>
   </React.StrictMode>
 );
