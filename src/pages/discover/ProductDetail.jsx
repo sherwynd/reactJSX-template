@@ -16,6 +16,7 @@ const ProductDetail = () => {
   const [favourite, setFavourite] = useState(false);
   const [favouriteCount, setFavouriteCount] = useState([]);
   const [favouriteCounter, setFavouriteCounter] = useState(0);
+  const [ratings, setRatings] = useState([]);
   const isFirstRender = useRef(true);
 
   const [creatorProfile, setCreatorProfile] = useState({});
@@ -24,6 +25,28 @@ const ProductDetail = () => {
   const refId = profile.refId;
   const favouriteProducts = profile.favourites || [];
   const [loading, setLoading] = useState(true);
+  const [loadingRating, setLoadingRating] = useState(true);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/rating/product/${id}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const json = await response.json();
+        setRatings(json);
+      } catch (error) {
+        console.error('Error fetching ratings:', error);
+        setLoadingRating(false);
+      }
+    };
+    fetchRating()
+  }, [id]);
+
+  useEffect(() => {
+    setLoadingRating(false);
+  }, [ratings]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -121,7 +144,7 @@ const ProductDetail = () => {
   const createdAt = typeof product.createdAt === 'string' ? product.createdAt : '';
   const listedDate = JSON.stringify(createdAt).substring(1, 11);
 
-  if (loading) {
+  if (loading || loadingRating) {
     return <div>Loading...</div>;
   }
 
@@ -165,10 +188,10 @@ const ProductDetail = () => {
             </Link>
 
             <Box>
-                <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
-                  {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
-                  <Typography>{favouriteCounter}</Typography>
-                </Button>
+              <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
+                {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
+                <Typography>{favouriteCounter}</Typography>
+              </Button>
             </Box>
 
           </Grid>
@@ -253,11 +276,13 @@ const ProductDetail = () => {
                   Review on Seller
                 </Typography>
                 <Grid container spacing={2}>
-                  {/* {product.profile.comments.map(comment => (
-                    <Grid item key={comment.id} xs={12} sx={{ mr: 5 }}>
-                      <CommentCard comment={comment} />
-                    </Grid>
-                  ))} */}
+                  {ratings.map(rating => {
+                    return (
+                      <Grid item key={rating._id} xs={12} sx={{ mr: 5 }}>
+                        <CommentCard comment={rating} />
+                      </Grid>
+                    )
+                  })}
                 </Grid>
               </Grid>
             </Grid>

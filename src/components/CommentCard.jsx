@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -8,6 +8,35 @@ import { red } from '@mui/material/colors';
 
 
 export function CommentCard({ comment }) {
+    const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`http://localhost:3000/auth/getAccount/${comment.refId}`);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const json = await response.json();
+                setUser(json);
+                setLoading(false); 
+            } catch (error) {
+                console.error('Error fetching user:', error);
+                setLoading(false); 
+            }
+        };
+
+        if (comment.refId) {
+            fetchUser();
+        } else {
+            setLoading(false);
+        }
+    }, [comment.refId]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
@@ -15,23 +44,23 @@ export function CommentCard({ comment }) {
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-                            {comment.name.charAt(0)}
+                            {user.username.charAt(0)}
                         </Avatar>
                     }
-                    title={comment.name}
+                    title={user.username}
                     subheader={
                         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                             <Rating
                                 name="user-rating"
-                                value={4.5}
+                                value={comment.rating}
                                 precision={0.5}
                                 readOnly />
-                            <Typography>{comment.date}</Typography>
+                            <Typography>{comment.ratingDate}</Typography>
                         </Box>
                     }
                 />
                 <CardContent>
-                    <Typography>{comment.text}</Typography>
+                    <Typography>{comment.ratingComment}</Typography>
                 </CardContent>
             </Card>
         </div>
