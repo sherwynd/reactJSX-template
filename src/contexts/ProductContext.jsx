@@ -34,31 +34,6 @@ export const ProductContextProvider = (props) => {
         console.log(product);
         const updatedProducts = [...products];
         updatedProducts[index] = product;
-
-        // try {
-        //     const formData = new FormData();
-        //     formData.append('title', product.title);
-        //     formData.append('price', product.price);
-        //     formData.append('description', product.description);
-        //     formData.append('category', product.category);
-        //     formData.append('brand', product.brand);
-        //     formData.append('location', product.location);
-        //     formData.append('condition', product.condition);
-        //     formData.append('acquisition', product.acquisition);
-
-        //     const response = fetch(`http://localhost:3000/discover/${product._id}`, {
-        //         method: 'PATCH',
-        //         body: formData,
-        //     });
-        //     if (!response.ok) {
-        //         throw new Error('Failed to update product');
-        //     }
-        //     setProducts(updatedProducts);
-        //     console.log('product with id', product._id, 'updated successfully');
-        // }
-        // catch (error) {
-        //     console.error('Error updating product:', error);
-        // }
     }
 
     const updateProductFavourite = (product) => {

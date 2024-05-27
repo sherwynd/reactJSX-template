@@ -19,7 +19,7 @@ const ProductDetail = () => {
   const isFirstRender = useRef(true);
 
   const [creatorProfile, setCreatorProfile] = useState({});
-  const profile = JSON.parse(localStorage.getItem('profile'))[0];
+  const profile = JSON.parse(localStorage.getItem('profile'));
   const userId = profile._id;
   const refId = profile.refId;
   const favouriteProducts = profile.favourites || [];
@@ -55,12 +55,10 @@ const ProductDetail = () => {
         }
       });
       if (!response.ok) {
-        console.log("not ok")
         throw new Error('Network response was not ok');
       }
       const json = await response.json();
       setCreatorProfile(json);
-      console.log("ok")
       setLoading(false);
     }
     fetchCreatorProfile();
@@ -165,12 +163,10 @@ const ProductDetail = () => {
             </Link>
 
             <Box>
-              {/* {product.creatorId != refId && */}
                 <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
                   {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
                   <Typography>{favouriteCounter}</Typography>
                 </Button>
-              {/* } */}
             </Box>
 
           </Grid>
