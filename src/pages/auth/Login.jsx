@@ -18,10 +18,12 @@ import logo from "../../assets/images/Logo.webp";
 import theme from "../../theme/color";
 import { apiGeneralTemplate } from "../../services/api/auth";
 import { fetchProfile } from "../../stores/reducer/profileSlice";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -54,12 +56,9 @@ export function Login() {
     } else if (data.error === "Password does not match") {
       setPasswordError(data.error);
     } else if (data.error) {
-      console.log(data.error);
+      console.error(data.error);
     } else {
-      // Store the token in localStorage
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
-      await dispatch(fetchProfile(data.accessToken));
+      await login(data.accessToken, data.refreshToken);
       navigate("/discover");
     }
   };

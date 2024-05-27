@@ -36,7 +36,7 @@ const routes = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "profile/:id",
+        path: "profile/:refId",
         element: <Profile />,
         children: [
           {
@@ -130,7 +130,7 @@ const routes = [
         element: <CoachingUpdate />,
       },
       {
-        path: "setting",
+        path: "setting/:refId",
         element: <Setting />,
       },
       {

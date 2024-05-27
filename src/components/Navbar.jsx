@@ -1,13 +1,11 @@
 import * as React from "react";
 
 import {
-  Alert,
   AppBar,
   Avatar,
   Badge,
   Box,
   Button,
-  Collapse,
   CssBaseline,
   Divider,
   Drawer,
@@ -21,28 +19,23 @@ import {
   MenuItem,
   Toolbar,
   Typography,
-  useTheme,
 } from "@mui/material";
 
-import FavoritIcon from "@mui/icons-material/Favorite";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { mainNavbarItems } from "../contexts/NavbarItems";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/color";
 import { styled } from "@mui/system";
-import FakeJordan from "../assets/images/Lebron.jpg";
 import LogoImage from "../assets/images/Logo.webp";
 import { SearchBar } from "./common/SearchBar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-// import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 
-import { AuthContext } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const drawerWidth = 240;
 
@@ -77,15 +70,21 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export function NavBar(props) {
   const { window, children } = props;
   const navigate = useNavigate();
+  const { currentRefId } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-  const { user, profilePicture, logout } = useContext(AuthContext);
-  const { profile, loading, error } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.profile);
 
-  useEffect(() => {
-    console.log(profile);
-  }, []);
+  const mainNavbarItems = [
+    { id: 0, label: "Profile", route: `profile/${currentRefId}` },
+    { id: 1, label: "Coaching", route: "coaching" },
+    { id: 2, label: "Blog", route: "blog" },
+    { id: 3, label: "Discover", route: "discover" },
+    { id: 4, label: "Favorites", route: "favorites" },
+  ];
+
+  useEffect(() => {}, []);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -109,15 +108,14 @@ export function NavBar(props) {
   };
   const handleReturn = () => {
     setAlertOpen(true);
-    console.log(alertOpen);
     navigate("/", { state: { alertOpen: true } });
   };
   const handleClose = () => {
-    navigate("/profile/:id");
+    navigate(`/profile/${profile.refId}`);
     setAnchorEl(null);
   };
   const handleSetting = () => {
-    navigate("/setting");
+    navigate(`/setting/${profile.refId}`);
     setAnchorEl(null);
   };
   const handleLogOut = () => {
@@ -160,7 +158,6 @@ export function NavBar(props) {
           position="fixed"
           elevation={0}
           sx={{
-            // width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
             zIndex: 1300,
           }}
@@ -233,7 +230,7 @@ export function NavBar(props) {
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                   variant="dot"
                 >
-                  <Avatar src={FakeJordan} />
+                  <Avatar src={profile.profilePicture || ""} />
                 </StyledBadge>
               </IconButton>
 
