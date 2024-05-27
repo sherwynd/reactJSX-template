@@ -5,14 +5,15 @@ import {
 } from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
 import Masonry from "react-masonry-css";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Slider from '@mui/material/Slider';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
-  const { products } = useContext(ProductContext);
+  const { products, contextLoading } = useContext(ProductContext);
   const [loading, setLoading] = useState(true);
+  const isFirstRender = useRef(true);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -26,16 +27,18 @@ export function Discover() {
   const categories = ['All', 'Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey',];
 
   // Filter products based on category
-  const [filteredProducts, setFilteredProducts] = useState([]);
-
+  const [filteredProducts, setFilteredProducts] = useState([...products]);
+  
   useEffect(() => {
-    if (products.length > 0) {
+    if (products.length > 0 && isFirstRender.current) {
       setFilteredProducts(products);
-      setLoading(false); 
+      setLoading(false);
+      isFirstRender.current = false; 
     }
   }, [products]);
 
   const filterProducts = (category) => {
+    console.log(filteredProducts)
     if (category === 'All') {
       setFilteredProducts(products);
     } else {
@@ -59,7 +62,7 @@ export function Discover() {
     filterPrice();
   }
 
-  if (loading) {
+  if (contextLoading) {
     return <div>Loading...</div>;
   }
 
