@@ -82,7 +82,7 @@ export function Register() {
         setEmailError(data.error);
       } else if (data.error) {
         // Pop Up Error in here
-        console.log(data.error);
+        console.error(data.error);
       } else {
         // Run pop up
         navigate("/login");
