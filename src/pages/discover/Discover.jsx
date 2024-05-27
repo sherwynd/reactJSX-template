@@ -12,7 +12,7 @@ import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
   const { products } = useContext(ProductContext);
-  
+
   // const products = [
   //   {
   //     title: "Ipsum amet, consectetur adipiscing elit 1",
@@ -375,9 +375,9 @@ export function Discover() {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column">
         {filteredProducts && filteredProducts.map(product => (
-          
-            <ProductCard key={product._id} product={product} />
-          
+
+          <ProductCard key={product._id} product={product} />
+
         ))}
       </Masonry>
     </Box>

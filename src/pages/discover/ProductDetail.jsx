@@ -18,41 +18,12 @@ const ProductDetail = () => {
   const [favouriteCounter, setFavouriteCounter] = useState(0);
   const isFirstRender = useRef(true);
 
-  const profile = {
-    name: "Lee Tian Sien",
-    username: "@tslee",
-    rating: 4.5,
-    id: "6699",
-    phone: "0123456789",
-    comments: [
-      {
-        id: 1,
-        name: "Sherwynd Liew",
-        text: "Review 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        date: "2021-10-10"
-      },
-      {
-        id: 2,
-        name: "Neville Teh",
-        text: "Review 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-        date: "2022-11-11"
-      },
-      {
-        id: 3,
-        name: "Carrot Hong",
-        text: "Review 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        date: "2023-12-12"
-      }
-    ]
-  }
-
-  const ownProfile = {
-    name: "Lee Tian Sien",
-    username: "@tslee",
-    rating: 4.5,
-    //match the id to see the 'update button'
-    id: 669
-  }
+  const [creatorProfile, setCreatorProfile] = useState({});
+  const profile = JSON.parse(localStorage.getItem('profile'))[0];
+  const userId = profile._id;
+  const refId = profile.refId;
+  const favouriteProducts = profile.favourites || [];
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,7 +34,7 @@ const ProductDetail = () => {
         }
         const json = await response.json();
         setProduct(json);
-        if (json.favouriteCount.includes(profile.id)) {
+        if (json.favouriteCount.includes(userId)) {
           setFavourite(true);
         }
         setFavouriteCount(json.favouriteCount);
@@ -76,6 +47,27 @@ const ProductDetail = () => {
   }, [id]);
 
   useEffect(() => {
+    const fetchCreatorProfile = async () => {
+      const response = await fetch(`http://localhost:3000/auth/getAccount/${product.creatorId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        console.log("not ok")
+        throw new Error('Network response was not ok');
+      }
+      const json = await response.json();
+      setCreatorProfile(json);
+      console.log("ok")
+      setLoading(false);
+    }
+    fetchCreatorProfile();
+  }, [product.creatorId])
+
+
+  useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
@@ -83,74 +75,55 @@ const ProductDetail = () => {
     updateFavouriteUserinDatabase(id, favouriteCount);
   }, [favourite])
 
+  useEffect(() => {
+    updateFavouriteProductsinDatabase(userId, favouriteProducts);
+  }, [favouriteProducts])
+
+  const updateFavouriteProductsinDatabase = async (refId, favouriteProducts) => {
+    const response = await fetch(`http://localhost:3000/auth/editAccount/${refId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ favourites: favouriteProducts })
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  }
+
   const handleFavourite = () => {
-    if (favouriteCount.includes(profile.id)) {
+    if (favouriteCount.includes(userId)) {
       setFavourite(false);
-      const index = favouriteCount.indexOf(profile.id);
+      const index = favouriteCount.indexOf(userId);
       favouriteCount.splice(index, 1);
       setFavouriteCount([...favouriteCount]);
       setFavouriteCounter(favouriteCounter - 1);
+
+      //remove product._id from favouriteProducts
+      const removedProducts = favouriteProducts.filter(id => id !== product._id);
+      localStorage.setItem('profile', JSON.stringify([{
+        ...profile, favourites: [...removedProducts]
+      }]));
     } else {
       setFavourite(true);
-      setFavouriteCount([...favouriteCount, profile.id]);
+      setFavouriteCount([...favouriteCount, userId]);
       setFavouriteCounter(favouriteCounter + 1);
+
+      //add productId to favourites
+      const newFavouriteProducts = [...favouriteProducts, product._id];
+      localStorage.setItem('profile', JSON.stringify([{
+        ...profile, favourites: [...favouriteProducts, product._id]
+      }]));
     }
   };
 
-  //sample
-  // const product = {
-  //   title: "Ipsum amet, consectetur adipiscing elit 1",
-  //   description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-  //   price: 249.00,
-  //   img: "src\\assets\\images\\shoe1.jpg",
-  //   condition: "Like New",
-  //   category: "Shoes",
-  //   brand: "Asics",
-  //   listed: "2021-10-10",
-  //   location: "Putrajaya",
-  //   acquisition: "Delivery Only",
-  //   isAvailable: true,
-  //   favouriteCount: 8,
-  //   id: 1,
-  //   imgs: [
-  //     {
-  //       img: "../src/assets/images/shoe1.jpg"
-  //     },
-  //     {
-  //       img: "../src/assets/images/shoe2.jpg"
-  //     }
-  //   ],
-  //   profile: {
-  //     name: "Lee Tian Sien",
-  //     username: "@tslee",
-  //     rating: 4.5,
-  //     id: 6699,
-  //     phone: "0123456789",
-  //     comments: [
-  //       {
-  //         id: 1,
-  //         name: "Sherwynd Liew",
-  //         text: "Review 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //         date: "2021-10-10"
-  //       },
-  //       {
-  //         id: 2,
-  //         name: "Neville Teh",
-  //         text: "Review 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-  //         date: "2022-11-11"
-  //       },
-  //       {
-  //         id: 3,
-  //         name: "Carrot Hong",
-  //         text: "Review 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //         date: "2023-12-12"
-  //       }
-  //     ]
-  //   }
-  // };
-
   const createdAt = typeof product.createdAt === 'string' ? product.createdAt : '';
   const listedDate = JSON.stringify(createdAt).substring(1, 11);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Grid container>
@@ -166,17 +139,14 @@ const ProductDetail = () => {
         <Grid container>
           <Grid item sx={{ my: 3, display: "flex", justifyContent: "space-between" }}>
             <Avatar sx={{ bgcolor: red[500], height: 60, width: 60, mx: 2 }} aria-label="avatar">
-              {/* {product.profile.name.charAt(0)} */}
-              {profile.name.charAt(0)}
+              {creatorProfile.username.charAt(0)}
             </Avatar>
             <Box>
               <Typography variant='h6'>
-                {/* {product.profile.name} */}
-                {profile.name}
+                {creatorProfile.nickname}
               </Typography>
               <Typography>
-                {/* {product.profile.username} */}
-                {profile.username}
+                {creatorProfile.username}
               </Typography>
             </Box>
             <Rating
@@ -187,28 +157,20 @@ const ProductDetail = () => {
               precision={0.5}
               readOnly />
             <Link to={`/cart`} >
-              {/* {product.profile.id != ownProfile.id && <Button variant="outlined" color="primary" sx={{borderRadius: 3}}>Buy Now</Button>} */}
-              {profile.id != ownProfile.id && <Button variant="outlined" color="primary" sx={{ borderRadius: 3 }}>Buy Now</Button>}
+              {product.creatorId != refId && <Button variant="outlined" color="primary" sx={{ borderRadius: 3 }}>Buy Now</Button>}
             </Link>
 
             <Link to={`/discover/${id}/update`} >
-              {/* {product.profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2, borderRadius: 3 }} >Update</Button>} */}
-              {profile.id == ownProfile.id && <Button variant="outlined" sx={{ mx: 2, borderRadius: 3 }} >Update</Button>}
+              {product.creatorId == refId && <Button variant="outlined" sx={{ mx: 2, borderRadius: 3 }} >Update</Button>}
             </Link>
 
             <Box>
-              {/* {product.profile.id != ownProfile.id && */}
-              <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
-                {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
-                <Typography>{favouriteCounter}</Typography>
-              </Button>
-              {/* } */}
-              {/* {profile.id != ownProfile.id &&
+              {/* {product.creatorId != refId && */}
                 <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
-                  {!favourite ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
-                  <Typography>{favouriteCount}</Typography>
+                  {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
+                  <Typography>{favouriteCounter}</Typography>
                 </Button>
-              } */}
+              {/* } */}
             </Box>
 
           </Grid>
@@ -277,6 +239,7 @@ const ProductDetail = () => {
                 </Typography>
                 <Typography>
                   {/* {product.profile.phone} */}
+                  {creatorProfile.email}
                 </Typography>
               </Grid>
               <Grid item xs={6}>

@@ -19,6 +19,7 @@ const ProductFormUpdate = () => {
   const [imgs, setImgs] = useState([]);
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {

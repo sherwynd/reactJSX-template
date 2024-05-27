@@ -5,6 +5,7 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 const ProductForm = () => {
     const { addProduct } = useContext(ProductContext);
+    const creatorId = JSON.parse(localStorage.getItem('profile'))[0].refId;
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState(0);
@@ -36,6 +37,7 @@ const ProductForm = () => {
         formData.append('location', location);
         formData.append('condition', condition);
         formData.append('acquisition', acquisition);
+        formData.append('creatorId', creatorId);
         imgs.forEach((file) => {
             formData.append('imgs', file);
         });

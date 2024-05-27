@@ -13,34 +13,66 @@ import { ProductContext } from '../contexts/ProductContext';
 
 export function ProductCard({ product }) {
   const { updateFavouriteUserinDatabase } = useContext(ProductContext);
+  const userData = JSON.parse(localStorage.getItem('profile'));
+  const userId = userData[0]._id;
+  const refId = userData[0].refId;
+  const favouriteProducts = userData[0].favourites || [];
 
   const [favourite, setFavourite] = useState(false);
   const [favouriteCount, setFavouriteCount] = useState(product.favouriteCount);
   const [favouriteCounter, setFavouriteCounter] = useState(product.favouriteCount.length);
 
-  const profile = {
-    user_id: "6699",
-  }
-
   useEffect(() => {
-    if (favouriteCount.includes(profile.user_id)) {
+    if (favouriteCount.includes(userId)) {
       setFavourite(true);
     }
     updateFavouriteUserinDatabase(product._id, favouriteCount);
   }, [favouriteCount, favouriteCounter])
 
+  useEffect(() => {
+    updateFavouriteProductsinDatabase(userId, favouriteProducts);
+  }, [favouriteProducts])
+
+  const updateFavouriteProductsinDatabase = async (userId, favouriteProducts) => {
+    const response = await fetch(`http://localhost:3000/auth/editAccount/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ favourites: favouriteProducts })
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  }
+
 
   const handleFavourite = () => {
-    // setFavourite(!favourite)
-    if (favouriteCount.includes(profile.user_id)) {
+    if (favouriteCount.includes(userId)) {
       setFavourite(!favourite)
-      const index = favouriteCount.indexOf(profile.user_id);
-      favouriteCount.splice(index, 1);
-      setFavouriteCount([...favouriteCount]);
+      //remove refId from favouriteCount
+      const removedRefId = favouriteCount.filter(id => id !== userId);
+      setFavouriteCount([...removedRefId]);
       setFavouriteCounter(favouriteCounter - 1);
-    } else {
-      setFavouriteCount([...favouriteCount, profile.user_id]);
+
+      //remove product._id from favouriteProducts
+      const removedProducts = favouriteProducts.filter(id => id !== product._id);
+      console.log(removedProducts);
+      localStorage.setItem('profile', JSON.stringify([{
+        ...userData[0], favourites: [...removedProducts]
+      }]));
+    }
+    else {
+      //add refId to favouriteCount
+      setFavouriteCount([...favouriteCount, userId]);
       setFavouriteCounter(favouriteCounter + 1);
+
+      //add productId to favourites
+      const newFavouriteProducts = [...favouriteProducts, product._id];
+      console.log(newFavouriteProducts);
+      localStorage.setItem('profile', JSON.stringify([{
+        ...userData[0], favourites: [...favouriteProducts, product._id]
+      }]));
     }
   };
 

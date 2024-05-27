@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
+
 export const ProductContext = createContext();
 
 export const ProductContextProvider = (props) => {
@@ -77,6 +78,7 @@ export const ProductContextProvider = (props) => {
             }
             setProducts(products.filter(product => product._id !== id));
             console.log('product with id', id, 'deleted successfully');
+            navigate('/discover');
         } catch (error) {
             console.error('Error deleting product:', error);
         }
