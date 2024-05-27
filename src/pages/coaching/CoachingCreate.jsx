@@ -82,7 +82,15 @@ export default function CoachingCreate() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form data submitted:", formData);
+    const userData = JSON.parse(localStorage.getItem("profile"));
+    const refId = userData.refId;
+
+    const updatedFormData = {
+      ...formData,
+      createdBy: refId,
+    };
+
+    console.log("Form data submitted:", updatedFormData);
 
     try {
       const response = await fetch("http://localhost:3000/event", {
@@ -90,7 +98,7 @@ export default function CoachingCreate() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
 
       if (!response.ok) {
