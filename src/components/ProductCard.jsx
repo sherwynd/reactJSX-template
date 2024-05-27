@@ -52,11 +52,9 @@ export function ProductCard({ product }) {
 
   useEffect(() => {
     if (isFirstRender.current) {
-      console.log('First render');
       isFirstRender.current = false;
       return;
     }
-    console.log('Favourite products updated');
     updateFavouriteProductsinDatabase(userId, favouriteProducts);
   }, [favouriteProducts])
 

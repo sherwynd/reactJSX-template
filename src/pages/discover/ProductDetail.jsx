@@ -74,6 +74,10 @@ const ProductDetail = () => {
   }, [favourite])
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     updateFavouriteProductsinDatabase(userId, favouriteProducts);
   }, [favouriteProducts])
 
@@ -100,9 +104,8 @@ const ProductDetail = () => {
 
       //remove product._id from favouriteProducts
       const removedProducts = favouriteProducts.filter(id => id !== product._id);
-      localStorage.setItem('profile', JSON.stringify([{
-        ...profile, favourites: [...removedProducts]
-      }]));
+      profile.favourites = removedProducts;
+      localStorage.setItem('profile', JSON.stringify(profile));
     } else {
       setFavourite(true);
       setFavouriteCount([...favouriteCount, userId]);
@@ -110,9 +113,8 @@ const ProductDetail = () => {
 
       //add productId to favourites
       const newFavouriteProducts = [...favouriteProducts, product._id];
-      localStorage.setItem('profile', JSON.stringify([{
-        ...profile, favourites: [...favouriteProducts, product._id]
-      }]));
+      profile.favourites = newFavouriteProducts;
+      localStorage.setItem('profile', JSON.stringify(profile));
     }
   };
 
