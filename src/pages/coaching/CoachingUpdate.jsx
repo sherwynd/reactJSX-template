@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
   Card,
   CardContent,
   Grid,
-  Rating,
   TextField,
   Typography,
   Tooltip,
 } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   DatePicker,
   LocalizationProvider,
@@ -19,9 +18,10 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import theme from "../../theme/color";
 import { styled } from "@mui/material/styles";
 import { FitnessCenter } from "@mui/icons-material";
-import theme from "../../theme/color";
+import Rating from "@mui/material/Rating";
 
 const StyledRating = styled(Rating)({
   "& .MuiRating-iconFilled": {
@@ -32,21 +32,31 @@ const StyledRating = styled(Rating)({
   },
 });
 
-export default function CoachingCreate() {
+export default function CoachingUpdate() {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    eventName: "",
-    eventDescription: "",
-    eventDate: dayjs(),
-    eventTime: dayjs(),
-    eventLocation: "",
-    eventPrice: "",
-    participantLimit: 0,
-    activities: [
-      { name: "", intensity: 2, complexity: 2 },
-      { name: "", intensity: 2, complexity: 2 },
-    ],
-  });
+  const [formData, setFormData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/event/${id}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch event");
+        }
+        const data = await response.json();
+        setFormData(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [id]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -82,11 +92,9 @@ export default function CoachingCreate() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form data submitted:", formData);
-
     try {
-      const response = await fetch("http://localhost:3000/event", {
-        method: "POST",
+      const response = await fetch(`http://localhost:3000/event/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -94,22 +102,23 @@ export default function CoachingCreate() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create event");
+        throw new Error("Failed to update event");
       }
 
-      const data = await response.json();
-      console.log("Event created:", data);
-      navigate("/coaching");
+      navigate(`/coaching/${id}`);
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  if (loading) return <Typography>Loading...</Typography>;
+  if (error) return <Typography>Error: {error}</Typography>;
+
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ padding: 3 }}>
         <Typography variant="h4" gutterBottom>
-          Create New Event
+          Edit Event
         </Typography>
         <Card sx={{ mx: 10, borderRadius: 5, boxShadow: 2 }}>
           <CardContent>
@@ -145,7 +154,7 @@ export default function CoachingCreate() {
                     <DatePicker
                       fullWidth
                       label="Pick your date"
-                      value={formData.eventDate}
+                      value={dayjs(formData.eventDate)}
                       onChange={handleDateChange}
                       renderInput={(params) => <TextField {...params} />}
                     />
@@ -156,7 +165,7 @@ export default function CoachingCreate() {
                     <TimePicker
                       fullWidth
                       label="Choose Time"
-                      value={formData.eventTime}
+                      value={dayjs(formData.eventTime)}
                       onChange={handleTimeChange}
                       renderInput={(params) => <TextField {...params} />}
                     />
@@ -281,14 +290,13 @@ export default function CoachingCreate() {
                   type="submit"
                   sx={{ mt: 5, width: "100%" }}
                 >
-                  Create Event
+                  Update Event
                 </Button>
               </Box>
             </form>
           </CardContent>
         </Card>
       </Box>
-      <Outlet />
     </ThemeProvider>
   );
 }

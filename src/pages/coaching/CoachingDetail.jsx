@@ -1,8 +1,6 @@
-import React from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Typography,
@@ -13,8 +11,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  styled,
-  IconButton,
 } from "@mui/material";
 import {
   AccessTime,
@@ -23,10 +19,12 @@ import {
   FitnessCenter,
   Place,
 } from "@mui/icons-material";
-import EventDescriptionCard from "../../components/EventDescriptionCard";
+import { useParams } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/color";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import EventDescriptionCard from "../../components/EventDescriptionCard";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -61,12 +59,53 @@ const rows = [
 
 export default function CoachingDetail() {
   const { id } = useParams();
+  const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        console.log("Fetching event with ID:", id);
+
+        const response = await fetch(`http://localhost:3000/event/${id}`);
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch event: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("Fetched event data:", data);
+
+        setEvent(data);
+      } catch (error) {
+        console.error("Error fetching event:", error);
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [id]);
+
+  if (loading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  if (error) {
+    return <Typography>Error: {error}</Typography>;
+  }
+
+  if (!event) {
+    return <Typography>Event not found</Typography>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ mt: 2, px: 5 }}>
-        {/* <div>CoachingDetail for ID: {id}</div> */}
-        <EventDescriptionCard />
+        <EventDescriptionCard event={event} />
         <Box sx={{ mt: 2 }}>
           <Grid container spacing={5}>
             <Grid item xs={12} sm={6} md={3}>
@@ -95,7 +134,9 @@ export default function CoachingDetail() {
                     }}
                   >
                     <CalendarMonth sx={{ width: 30, height: 30, mr: 2 }} />
-                    <Typography sx={{ fontSize: 20 }}>24th Nov 2024</Typography>
+                    <Typography sx={{ fontSize: 20 }}>
+                      {new Date(event.eventDate).toLocaleDateString()}
+                    </Typography>
                   </Box>
                   <Box
                     sx={{
@@ -105,7 +146,9 @@ export default function CoachingDetail() {
                     }}
                   >
                     <AccessTime sx={{ width: 30, height: 30, mr: 2 }} />
-                    <Typography sx={{ fontSize: 20 }}>8.00 - 10.00</Typography>
+                    <Typography sx={{ fontSize: 20 }}>
+                      {event.eventTime}
+                    </Typography>
                   </Box>
                   <Box
                     sx={{
@@ -115,7 +158,9 @@ export default function CoachingDetail() {
                     }}
                   >
                     <Place sx={{ width: 30, height: 30, mr: 2 }} />
-                    <Typography sx={{ fontSize: 20 }}>FSCIT Block a</Typography>
+                    <Typography sx={{ fontSize: 20 }}>
+                      {event.eventLocation}
+                    </Typography>
                   </Box>
                   <Box
                     sx={{
@@ -125,7 +170,9 @@ export default function CoachingDetail() {
                     }}
                   >
                     <AttachMoney sx={{ width: 30, height: 30, mr: 2 }} />
-                    <Typography sx={{ fontSize: 20 }}>100.00 MYR</Typography>
+                    <Typography sx={{ fontSize: 20 }}>
+                      {event.eventPrice} MYR
+                    </Typography>
                   </Box>
                 </CardContent>
               </Card>
@@ -150,159 +197,89 @@ export default function CoachingDetail() {
                   </Typography>
                 </CardContent>
                 <Grid container>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <Card
-                      sx={{
-                        minWidth: 275,
-                        margin: 2,
-                        boxShadow: 3,
-                        borderRadius: 5,
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          sx={{ fontWeight: 700, mb: 2 }}
-                          component="div"
-                        >
-                          Sweat with Yua Mikami
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            width: "100%",
-                            mb: 1,
-                          }}
-                        >
+                  {event.activities.map((activity, index) => (
+                    <Grid item xs={12} sm={6} md={6} key={index}>
+                      <Card
+                        sx={{
+                          minWidth: 275,
+                          margin: 2,
+                          boxShadow: 3,
+                          borderRadius: 5,
+                        }}
+                      >
+                        <CardContent>
                           <Typography
-                            sx={{
-                              width: "40%",
-                              minWidth: 100,
-                              textAlign: "left",
-                              mr: 2,
-                            }}
+                            sx={{ fontWeight: 700, mb: 2 }}
+                            component="div"
                           >
-                            Intensity
+                            {activity.name}
                           </Typography>
                           <Box
                             sx={{
-                              width: "60%",
                               display: "flex",
+                              width: "100%",
+                              mb: 1,
                             }}
                           >
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
+                            <Typography
+                              sx={{
+                                width: "40%",
+                                minWidth: 100,
+                                textAlign: "left",
+                                mr: 2,
+                              }}
+                            >
+                              Intensity
+                            </Typography>
+                            <Box
+                              sx={{
+                                width: "60%",
+                                display: "flex",
+                              }}
+                            >
+                              {[...Array(activity.intensity)].map((_, i) => (
+                                <FitnessCenter
+                                  key={i}
+                                  sx={{ mr: 2, rotate: "135deg" }}
+                                />
+                              ))}
+                            </Box>
                           </Box>
-                        </Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            width: "100%",
-                            mb: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              width: "40%",
-                              minWidth: 100,
-                              textAlign: "left",
-                              mr: 2,
-                            }}
-                          >
-                            Complexity
-                          </Typography>
                           <Box
                             sx={{
-                              width: "60%",
                               display: "flex",
+                              width: "100%",
+                              mb: 1,
                             }}
                           >
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
+                            <Typography
+                              sx={{
+                                width: "40%",
+                                minWidth: 100,
+                                textAlign: "left",
+                                mr: 2,
+                              }}
+                            >
+                              Complexity
+                            </Typography>
+                            <Box
+                              sx={{
+                                width: "60%",
+                                display: "flex",
+                              }}
+                            >
+                              {[...Array(activity.complexity)].map((_, i) => (
+                                <FitnessCenter
+                                  key={i}
+                                  sx={{ mr: 2, rotate: "135deg" }}
+                                />
+                              ))}
+                            </Box>
                           </Box>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={6}>
-                    <Card
-                      sx={{
-                        minWidth: 275,
-                        margin: 2,
-                        boxShadow: 3,
-                        borderRadius: 5,
-                      }}
-                    >
-                      <CardContent>
-                        <Typography
-                          sx={{ fontWeight: 700, mb: 2 }}
-                          component="div"
-                        >
-                          Cycling with Yua Mikami
-                        </Typography>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            width: "100%",
-                            mb: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              width: "40%",
-                              minWidth: 100,
-                              textAlign: "left",
-                              mr: 2,
-                            }}
-                          >
-                            Intensity
-                          </Typography>
-                          <Box
-                            sx={{
-                              width: "60%",
-                              display: "flex",
-                            }}
-                          >
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                          </Box>
-                        </Box>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            width: "100%",
-                            mb: 1,
-                          }}
-                        >
-                          <Typography
-                            sx={{
-                              width: "40%",
-                              minWidth: 100,
-                              textAlign: "left",
-                              mr: 2,
-                            }}
-                          >
-                            Complexity
-                          </Typography>
-                          <Box
-                            sx={{
-                              width: "60%",
-                              display: "flex",
-                            }}
-                          >
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                            <FitnessCenter sx={{ mr: 2, rotate: "135deg" }} />
-                          </Box>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
                 </Grid>
               </Card>
             </Grid>
@@ -325,7 +302,7 @@ export default function CoachingDetail() {
                   variant="h4"
                   component="div"
                 >
-                  List of Particpants In The Event
+                  List of Participants In The Event
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>

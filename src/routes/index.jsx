@@ -26,6 +26,9 @@ import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";
 import { BlogDetails } from "../pages/blog/BlogDetail";
 import { CoachingCart } from "../pages/cart/CoachingCart.jsx";
+import CoachingUpdate from "../pages/coaching/CoachingUpdate.jsx";
+import { ResetPassword } from "../pages/auth/ResetPassword.jsx";
+
 const routes = [
   {
     path: "/",
@@ -91,10 +94,6 @@ const routes = [
         element: <ProductDetail />,
       },
       {
-        path: "discover/:id/update",
-        element: <ProductFormUpdate />,
-      },
-      {
         path: "test",
         element: <Test />,
       },
@@ -127,6 +126,10 @@ const routes = [
         element: <CoachingCreate />,
       },
       {
+        path: "coaching/:id/update",
+        element: <CoachingUpdate />,
+      },
+      {
         path: "setting",
         element: <Setting />,
       },
@@ -155,6 +158,10 @@ const routes = [
   {
     path: "forgotPassword",
     element: <ForgotPassword />,
+  },
+  {
+    path: "resetPassword/:token",
+    element: <ResetPassword />,
   },
 ];
 
