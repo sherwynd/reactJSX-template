@@ -23,6 +23,8 @@ export default function EventCard({ event }) {
     navigate(`/coaching/${event._id}`);
   };
 
+  const currentParticipants = event.subscribers ? event.subscribers.length : 0;
+
   const card = (
     <React.Fragment>
       <CardContent>
@@ -49,7 +51,7 @@ export default function EventCard({ event }) {
             </Typography>
           </Box>
           <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-            {`${event.currentParticipants}/${event.participants}`}
+            {`${currentParticipants}/${event.participants}`}
           </Typography>
           <Button
             sx={{ width: 100, height: 35, borderRadius: 5 }}

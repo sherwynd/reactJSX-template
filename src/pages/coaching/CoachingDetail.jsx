@@ -60,6 +60,7 @@ const rows = [
 export default function CoachingDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [subscribers, setSubscribers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -79,6 +80,21 @@ export default function CoachingDetail() {
         console.log("Fetched event data:", data);
 
         setEvent(data);
+
+        // Fetch event subscribers
+        const subscribersResponse = await fetch(
+          `http://localhost:3000/event/${id}/subscribers`
+        );
+
+        if (!subscribersResponse.ok) {
+          throw new Error(
+            `Failed to fetch event subscribers: ${subscribersResponse.statusText}`
+          );
+        }
+
+        const subscribersData = await subscribersResponse.json();
+        console.log("Fetched event subscribers data:", subscribersData);
+        setSubscribers(subscribersData);
       } catch (error) {
         console.error("Error fetching event:", error);
         setError(error.message);
@@ -320,21 +336,21 @@ export default function CoachingDetail() {
                           Name of Participants
                         </StyledTableCell>
                         <StyledTableCell align="left" sx={{ width: "1/6" }}>
-                          Title of Participants
+                          Email of Participants
                         </StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {rows.map((row) => (
-                        <StyledTableRow key={row.no}>
+                      {subscribers.map((subscribers, index) => (
+                        <StyledTableRow key={subscribers._id}>
                           <StyledTableCell component="th" scope="row">
-                            {row.no}
+                            {index + 1}
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.name}
+                            {subscribers.username}
                           </StyledTableCell>
                           <StyledTableCell align="left">
-                            {row.title}
+                            {subscribers.email}
                           </StyledTableCell>
                         </StyledTableRow>
                       ))}
