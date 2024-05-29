@@ -8,41 +8,98 @@ import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { ProductContext } from '../contexts/ProductContext';
 
 export function ProductCard({ product }) {
   const { updateFavouriteUserinDatabase } = useContext(ProductContext);
+  const userData = JSON.parse(localStorage.getItem('profile'));
+  const userId = userData._id;
+  const refId = userData.refId;
+  const favouriteProducts = userData.favourites || [];
+  const [creatorProfile, setCreatorProfile] = useState({});
+  const [loading, setLoading] = useState(true);
+  const isFirstRender = useRef(true);
 
   const [favourite, setFavourite] = useState(false);
   const [favouriteCount, setFavouriteCount] = useState(product.favouriteCount);
   const [favouriteCounter, setFavouriteCounter] = useState(product.favouriteCount.length);
 
-  const profile = {
-    user_id: "6699",
-  }
+  useEffect(() => {
+    const fetchCreatorProfile = async () => {
+      const response = await fetch(`http://localhost:3000/auth/getAccount/${product.creatorId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const json = await response.json();
+      setCreatorProfile(json);
+      setLoading(false);
+    }
+    fetchCreatorProfile();
+  }, [product.creatorId])
 
   useEffect(() => {
-    if (favouriteCount.includes(profile.user_id)) {
+    if (favouriteCount.includes(userId)) {
       setFavourite(true);
     }
     updateFavouriteUserinDatabase(product._id, favouriteCount);
   }, [favouriteCount, favouriteCounter])
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    updateFavouriteProductsinDatabase(userId, favouriteProducts);
+  }, [favouriteProducts])
+
+  const updateFavouriteProductsinDatabase = async (userId, favouriteProducts) => {
+    const response = await fetch(`http://localhost:3000/auth/editAccount/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ favourites: favouriteProducts })
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+  }
+
 
   const handleFavourite = () => {
-    // setFavourite(!favourite)
-    if (favouriteCount.includes(profile.user_id)) {
+    if (favouriteCount.includes(userId)) {
       setFavourite(!favourite)
-      const index = favouriteCount.indexOf(profile.user_id);
-      favouriteCount.splice(index, 1);
-      setFavouriteCount([...favouriteCount]);
+      //remove refId from favouriteCount
+      const removedRefId = favouriteCount.filter(id => id !== userId);
+      setFavouriteCount([...removedRefId]);
       setFavouriteCounter(favouriteCounter - 1);
-    } else {
-      setFavouriteCount([...favouriteCount, profile.user_id]);
+
+      //remove product._id from favouriteProducts
+      const removedProducts = favouriteProducts.filter(id => id !== product._id);
+      userData.favourites = removedProducts;
+      localStorage.setItem('profile', JSON.stringify(userData));
+    }
+    else {
+      //add refId to favouriteCount
+      setFavouriteCount([...favouriteCount, userId]);
       setFavouriteCounter(favouriteCounter + 1);
+
+      //add productId to favourites
+      const newFavouriteProducts = [...favouriteProducts, product._id];
+      userData.favourites = newFavouriteProducts;
+      localStorage.setItem('profile', JSON.stringify(userData));
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -58,8 +115,7 @@ export function ProductCard({ product }) {
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="avatar">
-              {/* {product.profile.name.charAt(0)} */}
-              T
+              {creatorProfile.username.charAt(0)}
             </Avatar>
           }
           action={
@@ -68,8 +124,7 @@ export function ProductCard({ product }) {
               <Typography m={0.3}>{favouriteCounter}</Typography>
             </IconButton>
           }
-          // subheader={product.profile.name}
-          subheader="test"
+          subheader={creatorProfile.username}
           sx={{ bgcolor: "secondary.main" }}
         />
         <CardContent sx={{ bgcolor: "secondary.main" }}>

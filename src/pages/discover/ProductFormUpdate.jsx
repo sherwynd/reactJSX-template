@@ -19,6 +19,7 @@ const ProductFormUpdate = () => {
   const [imgs, setImgs] = useState([]);
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -274,7 +275,7 @@ const ProductFormUpdate = () => {
               </Grid>
             </Grid>
 
-            <Box sx={{ width: "50%" }}>
+            {/* <Box sx={{ width: "50%" }}>
               <Box component={Input} type="file" id="file" multiple onChange={handleImageChange} sx={{ display: 'none' }} />
               <Box className="label-holder">
                 <Button component={FormLabel} htmlFor="file" className="label" sx={{ width: "100%", borderRadius: 3 }} variant="outlined" >
@@ -283,7 +284,7 @@ const ProductFormUpdate = () => {
               </Box>
             </Box>
             <Grid container sx={{ display: "flex", justifyContent: "center", alignItems: "center", px: "5vh" }}>{renderPhotos(selectedFiles)}
-            </Grid>
+            </Grid> */}
 
             <Box sx={{ display: "flex", width: "50%" }}>
               <Button variant="outlined" color="success" type="submit" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Save and Update</Button>

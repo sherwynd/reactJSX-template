@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function EventDescriptionCard({ event }) {
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("profile"));
+  const refId = userData.refId;
 
   const handleEditClick = () => {
     navigate(`/coaching/${event._id}/update`);
@@ -38,6 +40,30 @@ export default function EventDescriptionCard({ event }) {
     }
   };
 
+  const handleSubscribeClick = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/event/${event._id}/subscribe`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to subscribe to event");
+      }
+
+      console.log("Subscribed to event successfully");
+      navigate("/coachingCart");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const bull = (
     <Box
       component="span"
@@ -65,33 +91,37 @@ export default function EventDescriptionCard({ event }) {
             <Typography sx={{ fontWeight: 700 }} variant="h3" component="div">
               {event.eventName}
             </Typography>
-
-            <Link to={`/coachingCart`}>
+            {refId != event.createdBy && (
               <Button
                 sx={{ width: 200, height: 35, borderRadius: 5 }}
                 variant="outlined"
                 size="small"
+                onClick={handleSubscribeClick}
               >
                 Subscribe
               </Button>
-            </Link>
-            <Button
-              sx={{ width: 100, height: 35, borderRadius: 5, ml: 2 }}
-              onClick={handleEditClick}
-              variant="outlined"
-              size="small"
-            >
-              Edit
-            </Button>
-            <Button
-              sx={{ width: 100, height: 35, borderRadius: 5, ml: 2 }}
-              onClick={handleDeleteClick}
-              variant="outlined"
-              size="small"
-              color="error"
-            >
-              Delete
-            </Button>
+            )}
+            {refId === event.createdBy && (
+              <>
+                <Button
+                  sx={{ width: 100, height: 35, borderRadius: 5, ml: 2 }}
+                  onClick={handleEditClick}
+                  variant="outlined"
+                  size="small"
+                >
+                  Edit
+                </Button>
+                <Button
+                  sx={{ width: 100, height: 35, borderRadius: 5, ml: 2 }}
+                  onClick={handleDeleteClick}
+                  variant="outlined"
+                  size="small"
+                  color="error"
+                >
+                  Delete
+                </Button>
+              </>
+            )}
           </Box>
           <Typography
             variant="body2"
