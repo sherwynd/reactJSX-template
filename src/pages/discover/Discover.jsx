@@ -5,299 +5,15 @@ import {
 } from "@mui/material";
 import { ProductCard } from "../../components/ProductCard";
 import Masonry from "react-masonry-css";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Slider from '@mui/material/Slider';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
-  const { products } = useContext(ProductContext);
-  
-  // const products = [
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 249.00,
-  //     img: "src\\assets\\images\\shoe1.jpg",
-  //     condition: "New",
-  //     category: "Running",
-  //     brand: "Asics",
-  //     listed: "2021-10-10",
-  //     location: "Cyberjaya",
-  //     acquisition: "Delivery Only",
-  //     isAvailable: true,
-  //     favouriteCount: 8,
-  //     id: 1,
-  //     profile: {
-  //       name: "Lee Tian Sien",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 59,
-  //     img: "src\\assets\\images\\shirt1.jpg",
-  //     condition: "New",
-  //     category: "Shirts",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Kulim",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 6,
-  //     id: 2,
-  //     profile: {
-  //       name: "Sherwynd Liew",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 129.90,
-  //     img: "src\\assets\\images\\racket1.jpeg",
-  //     condition: "New",
-  //     category: "Badminton",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Alor Setar",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 23,
-  //     id: 3,
-  //     profile: {
-  //       name: "Carrot Hong",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 325,
-  //     img: "src\\assets\\images\\shoe3.webp",
-  //     condition: "New",
-  //     category: "Running",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Melaka",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 0,
-  //     id: 4,
-  //     profile: {
-  //       name: "Nevelle Teh",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 99,
-  //     img: "src\\assets\\images\\ball1.jpg",
-  //     condition: "New",
-  //     category: "Football",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Pahang",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 1,
-  //     id: 5,
-  //     profile: {
-  //       name: "Xian Heng",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 289.50,
-  //     img: "src\\assets\\images\\shoe5.jpg",
-  //     condition: "New",
-  //     category: "Running",
-  //     brand: "Adidas",
-  //     listed: "2021-10-10",
-  //     location: "Penang",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 13,
-  //     id: 6,
-  //     profile: {
-  //       name: "John Doe",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 65,
-  //     img: "src\\assets\\images\\swimming1.jpeg",
-  //     condition: "New",
-  //     category: "Swimming",
-  //     brand: "Nike",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 6,
-  //     id: 7,
-  //     profile: {
-  //       name: "Pandelela Rinong",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 180,
-  //     img: "src\\assets\\images\\shoe6.webp",
-  //     condition: "New",
-  //     category: "Running",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 9,
-  //     id: 8,
-  //     profile: {
-  //       name: "Alex Tan",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 100,
-  //     img: "src\\assets\\images\\swimming2.webp",
-  //     condition: "New",
-  //     category: "Swimming",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 3,
-  //     id: 9,
-  //     profile: {
-  //       name: "Michael Phelps",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 120,
-  //     img: "src\\assets\\images\\basket1.jpeg",
-  //     condition: "New",
-  //     category: "Basketball",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 0,
-  //     id: 10,
-  //     profile: {
-  //       name: "Michael Jordan",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 215,
-  //     img: "src\\assets\\images\\racket3.jpeg",
-  //     condition: "New",
-  //     category: "Badminton",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 17,
-  //     id: 11,
-  //     profile: {
-  //       name: "Lee Chong Wei",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  //   {
-  //     title: "Ipsum amet, consectetur adipiscing elit 1",
-  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //     price: 139,
-  //     img: "src\\assets\\images\\tt1.webp",
-  //     condition: "New",
-  //     category: "Table Tennis",
-  //     brand: "Apple",
-  //     listed: "2021-10-10",
-  //     location: "Johor Bahru",
-  //     acquisition: "Meetup or Delivery",
-  //     isAvailable: true,
-  //     favouriteCount: 2,
-  //     id: 12,
-  //     profile: {
-  //       name: "Ma Long",
-  //       username: "@tslee",
-  //       rating: 4.5,
-  //       id: 6699,
-  //       phone: "0123456789",
-  //     }
-  //   },
-  // ];
-
-  // const [products, setProducts] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     try {
-  //       const response = await fetch('http://localhost:3000/discover');
-  //       if (!response.ok) {
-  //         throw new Error('Network response was not ok');
-  //       }
-  //       const json = await response.json();
-  //       setProducts(json);
-  //       // dispatch({ type: 'SET_PRODUCTS', payload: json });
-  //     } catch (error) {
-  //       console.error('Error fetching products:', error);
-  //     }
-  //   };
-  //   fetchProducts()
-  // }, [])
+  const { products, contextLoading } = useContext(ProductContext);
+  const [loading, setLoading] = useState(true);
+  const isFirstRender = useRef(true);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -307,15 +23,22 @@ export function Discover() {
     800: 1,
   };
 
-  // Sample categories
+  // Categories
   const categories = ['All', 'Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey',];
 
   // Filter products based on category
-  const [filteredProducts, setFilteredProducts] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState([...products]);
+  
   useEffect(() => {
-    setFilteredProducts(products);
+    if (products.length > 0 && isFirstRender.current) {
+      setFilteredProducts(products);
+      setLoading(false);
+      isFirstRender.current = false; 
+    }
   }, [products]);
+
   const filterProducts = (category) => {
+    console.log(filteredProducts)
     if (category === 'All') {
       setFilteredProducts(products);
     } else {
@@ -329,12 +52,18 @@ export function Discover() {
   const handleSlider = (event, newValue) => {
     setValue(newValue);
   };
+
   const filterPrice = () => {
     const filtered = products.filter(product => product.price >= value[0] && product.price <= value[1]);
+    console.log(filtered);
     setFilteredProducts(filtered);
   }
   const handlePriceRange = () => {
     filterPrice();
+  }
+
+  if (contextLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -375,9 +104,9 @@ export function Discover() {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column">
         {filteredProducts && filteredProducts.map(product => (
-          
-            <ProductCard key={product._id} product={product} />
-          
+
+          <ProductCard key={product._id} product={product} />
+
         ))}
       </Masonry>
     </Box>

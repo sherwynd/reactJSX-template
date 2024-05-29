@@ -1,9 +1,11 @@
 import { createContext, useState, useEffect } from "react";
 
+
 export const ProductContext = createContext();
 
 export const ProductContextProvider = (props) => {
     const [products, setProducts] = useState([]);
+    const [contextLoading, setContextLoading] = useState(true);
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -13,6 +15,8 @@ export const ProductContextProvider = (props) => {
                 }
                 const json = await response.json();
                 setProducts(json);
+                setContextLoading(false);
+                console.log("product context");
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -33,31 +37,6 @@ export const ProductContextProvider = (props) => {
         console.log(product);
         const updatedProducts = [...products];
         updatedProducts[index] = product;
-
-        // try {
-        //     const formData = new FormData();
-        //     formData.append('title', product.title);
-        //     formData.append('price', product.price);
-        //     formData.append('description', product.description);
-        //     formData.append('category', product.category);
-        //     formData.append('brand', product.brand);
-        //     formData.append('location', product.location);
-        //     formData.append('condition', product.condition);
-        //     formData.append('acquisition', product.acquisition);
-
-        //     const response = fetch(`http://localhost:3000/discover/${product._id}`, {
-        //         method: 'PATCH',
-        //         body: formData,
-        //     });
-        //     if (!response.ok) {
-        //         throw new Error('Failed to update product');
-        //     }
-        //     setProducts(updatedProducts);
-        //     console.log('product with id', product._id, 'updated successfully');
-        // }
-        // catch (error) {
-        //     console.error('Error updating product:', error);
-        // }
     }
 
     const updateProductFavourite = (product) => {
@@ -77,6 +56,7 @@ export const ProductContextProvider = (props) => {
             }
             setProducts(products.filter(product => product._id !== id));
             console.log('product with id', id, 'deleted successfully');
+            navigate('/discover');
         } catch (error) {
             console.error('Error deleting product:', error);
         }
@@ -105,7 +85,7 @@ export const ProductContextProvider = (props) => {
     }
 
     return (
-        <ProductContext.Provider value={{ products, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase }}>
+        <ProductContext.Provider value={{ products, contextLoading, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase }}>
             {props.children}
         </ProductContext.Provider>
     );

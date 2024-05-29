@@ -5,6 +5,7 @@ import { ProductContext } from '../../contexts/ProductContext';
 
 const ProductForm = () => {
     const { addProduct } = useContext(ProductContext);
+    const creatorId = JSON.parse(localStorage.getItem('profile')).refId;
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState(0);
@@ -36,6 +37,7 @@ const ProductForm = () => {
         formData.append('location', location);
         formData.append('condition', condition);
         formData.append('acquisition', acquisition);
+        formData.append('creatorId', creatorId);
         imgs.forEach((file) => {
             formData.append('imgs', file);
         });
@@ -100,6 +102,8 @@ const ProductForm = () => {
             )
         });
     };
+
+    const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey',];
 
     return (
         <>
@@ -171,9 +175,11 @@ const ProductForm = () => {
                                         label="Category"
                                         onChange={(e) => setCategory(e.target.value)}
                                     >
-                                        <MenuItem value="Racquets">Racquets</MenuItem>
-                                        <MenuItem value="Sport Shoes">Sport Shoes</MenuItem>
-                                        <MenuItem value="Balls">Balls</MenuItem>
+                                        {categories.map((category) => (
+                                            <MenuItem key={category} value={category}>
+                                                {category}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                 </FormControl>
                             </Grid>
