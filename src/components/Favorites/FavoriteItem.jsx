@@ -1,15 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 
-const FavoriteItem = ({ name, description, price, image, type }) => {
+const FavoriteItem = ({ id, name, description, price, image, type, onRemove }) => {
   const navigate = useNavigate();
+  const [productData, setProductData] = useState([]);
+  const userData = JSON.parse(localStorage.getItem('profile'));
+  const favouriteProducts = userData.favourites || [];
+
   const navigateCart = () => {
     navigate('/cart');
   };
-  const navToProduct = () => {
-    navigate('/discover/1');
-  }
+
+  const navToProduct = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/discover/${id}`);
+      const data = await response.json();
+      setProductData(data);
+      navigate(`/discover/${data._id}`, { state: { product: data } });
+    } catch (error) {
+      console.error('Error fetching product:', error);
+    }
+  };
+
+  const removeFavourite = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('profile'));
+      const currentId = userData._id;
+      await fetch(`http://localhost:3000/invoice/removeFavouriteProduct/${currentId}/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const updatedFavourites = userData.favourites.filter(favId => favId !== id);
+      userData.favourites = updatedFavourites;
+
+      // Update local storage
+      localStorage.setItem('profile', JSON.stringify(userData));
+
+      onRemove();  // Call the function to refresh favorites
+    } catch (error) {
+      console.error('Error removing product:', error);
+    }
+  };
 
   return (
     <div className='pb-3'>
@@ -31,7 +65,7 @@ const FavoriteItem = ({ name, description, price, image, type }) => {
             {type !== 'rating' && (
               <div className="flex space-x-2 mt-2 sm:mt-0">
                 <Button className="px-4 py-2 rounded-xl border border-solid text-lg" variant="outlined" onClick={navigateCart}>BUY</Button>
-                <Button className="px-4 py-2 rounded-xl border border-solid text-lg" variant="outlined">REMOVE</Button>
+                <Button className="px-4 py-2 rounded-xl border border-solid text-lg" variant="outlined" onClick={removeFavourite}>REMOVE</Button>
               </div>
             )}
           </div>
