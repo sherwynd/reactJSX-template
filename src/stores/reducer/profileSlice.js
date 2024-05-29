@@ -9,10 +9,9 @@ export const fetchProfile = createAsyncThunk(
       const controller = "getToken";
       const data = await apiTokenTemplate(method, token, controller);
       if (data.error) {
-        console.log(data.error);
+        console.error(data.error);
         return rejectWithValue(data);
       }
-      console.log(data);
       localStorage.setItem("profile", JSON.stringify(data));
       return data;
     } catch (error) {

@@ -37,7 +37,7 @@ export function ForgotPassword() {
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.log(data.error);
+          console.error(data.error);
           return false;
         } else {
           navigate(`/resetPassword/${data.resetToken}`);

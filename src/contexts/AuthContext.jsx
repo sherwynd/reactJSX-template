@@ -1,17 +1,19 @@
-import React, { createContext, useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { fetchProfile } from "../stores/reducer/profileSlice";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const [user, setUser] = useState(null);
   const [profilePicture, setProfilePicture] = useState(null);
-  const dispatch = useDispatch();
+  const [currentRefId, setCurrentRefId] = useState(() => {
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    return profile ? profile.refId : "";
+  });
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -22,27 +24,31 @@ const AuthProvider = ({ children }) => {
       setRefreshToken(storedRefreshToken);
       if (storedProfile) {
         setUser(storedProfile);
+        setCurrentRefId(storedProfile.refId);
       } else {
-        dispatch(fetchProfile(storedAccessToken));
+        dispatch(fetchProfile(storedAccessToken)).then((profileData) => {
+          const profile = profileData.payload;
+          setUser(profile);
+          setCurrentRefId(profile.refId);
+          localStorage.setItem("profile", JSON.stringify(profile));
+        });
       }
     } else {
       logout();
     }
-  }, []);
+  }, [dispatch]);
 
-  // const getAuthHeaders = (token) => {
-  //   return {
-  //     "Content-Type": "application/json",
-  //     Authorization: `Bearer ${token}`,
-  //   };
-  // };
-
-  const login = (newAccessToken, newRefreshToken) => {
+  const login = async (newAccessToken, newRefreshToken) => {
     localStorage.setItem("accessToken", newAccessToken);
     localStorage.setItem("refreshToken", newRefreshToken);
     setAccessToken(newAccessToken);
     setRefreshToken(newRefreshToken);
-    // fetchProfile(newAccessToken);
+
+    const profileData = await dispatch(fetchProfile(newAccessToken));
+    const profile = profileData.payload;
+    localStorage.setItem("profile", JSON.stringify(profile));
+    setCurrentRefId(profile.refId);
+    setUser(profile);
   };
 
   const logout = () => {
@@ -53,6 +59,7 @@ const AuthProvider = ({ children }) => {
     setRefreshToken(null);
     setUser(null);
     setProfilePicture(null);
+    setCurrentRefId("");
   };
 
   const refreshAccessToken = async () => {
@@ -77,41 +84,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // const fetchProfile = async (token) => {
-  //   try {
-  //     const response = await fetch("http://localhost:3000/auth/getToken", {
-  //       method: "GET",
-  //       headers: getAuthHeaders(token),
-  //     });
-  //     if (response.status === 401) {
-  //       // Token might be expired, try to refresh it
-  //       const newAccessToken = await refreshAccessToken();
-  //       if (newAccessToken) {
-  //         const newResponse = await fetch(
-  //           "http://localhost:3000/auth/getToken",
-  //           {
-  //             method: "GET",
-  //             headers: getAuthHeaders(),
-  //           }
-  //         );
-  //         if (newResponse.ok) {
-  //           const data = await newResponse.json();
-  //           // console.log(data);
-  //         } else {
-  //           throw new Error("Failed to fetch Profile");
-  //         }
-  //       }
-  //     } else if (response.ok) {
-  //       const data = await response.json();
-  //     } else {
-  //       throw new Error("Failed to fetch Profile");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     logout();
-  //   }
-  // };
-
   return (
     <AuthContext.Provider
       value={{
@@ -119,6 +91,7 @@ const AuthProvider = ({ children }) => {
         refreshToken,
         user,
         profilePicture,
+        currentRefId,
         login,
         logout,
         refreshAccessToken,
@@ -128,5 +101,8 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-export { AuthContext, AuthProvider };
+export { AuthContext, AuthProvider, useAuth };

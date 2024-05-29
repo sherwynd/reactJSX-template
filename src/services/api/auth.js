@@ -6,7 +6,25 @@ const apiGeneralTemplate = async (method, formDetail, controller) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formDetail),
   };
-
+  console.log(options);
+  try {
+    const response = await fetch(`${API_URL}/${controller}`, options);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("There was an error!", error);
+    return { error: error.message };
+  }
+};
+const apiGetTemplate = async (method, controller) => {
+  const options = {
+    method: `${method}`,
+    headers: { "Content-Type": "application/json" },
+  };
   try {
     const response = await fetch(`${API_URL}/${controller}`, options);
     if (!response.ok) {
@@ -32,13 +50,11 @@ const apiTokenTemplate = async (method, token, controller) => {
 
   try {
     const response = await fetch(`${API_URL}/${controller}`, options);
-    console.log(response);
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.message);
     }
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error("There was an error!", error);
@@ -46,4 +62,4 @@ const apiTokenTemplate = async (method, token, controller) => {
   }
 };
 
-export { apiGeneralTemplate, apiTokenTemplate };
+export { apiGeneralTemplate, apiGetTemplate, apiTokenTemplate };

@@ -10,21 +10,64 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { useState, useEffect, useContext } from "react";
-import { mainNavbarProfileHistory } from "../../contexts/NavbarProfileHistory";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import AvatarA from "../../assets/images/Lebron.jpg";
-import { AuthContext } from "../../contexts/AuthContext";
-import { useSelector } from "react-redux";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { apiGetTemplate } from "../../services/api/auth";
+import { useAuth } from "../../contexts/AuthContext";
 
 export function Profile() {
   const navigate = useNavigate();
-  const { accessToken } = useContext(AuthContext); // Assuming you have accessToken in AuthContext
-  const { profile, loading, error } = useSelector((state) => state.profile);
-  const [ratingStarValue, setRatingStarValue] = useState(3.5);
-  const [reviewValue, setReviewValue] = useState(10);
+  const { refId } = useParams();
+  const [profile, setProfile] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [ratingStarValue, setRatingStarValue] = useState(0);
+  const [reviewValue, setReviewValue] = useState();
+  const [visibleSetting, setVisibleSetting] = useState();
+  const { currentRefId } = useAuth();
+  const mainNavbarProfileHistory = [
+    { id: 0, label: "Product", route: "productHistory" },
+    { id: 1, label: "Blog", route: "blogHistory" },
+    { id: 2, label: "Coaching", route: "coachingHistory" },
+    { id: 3, label: "Rating", route: "ratingHistory" },
+    { id: 4, label: "Purchased", route: "purchaseHistory" },
+  ];
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const method = "GET";
+        const controller = `getAccount/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          setProfile(data);
+          setLoading(false);
+        }
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+    const checkSetting = async () => {
+      if (currentRefId === refId) return setVisibleSetting(true);
+      else return setVisibleSetting(false);
+    };
+    fetchProfile();
+    checkSetting();
+  }, [refId]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error fetching profile: {error.message}</p>;
+  }
+
   const handleSetting = () => {
-    navigate("/setting");
+    navigate(`/setting/${profile.refId}`);
   };
 
   return (
@@ -46,7 +89,7 @@ export function Profile() {
               alignItems: "center",
               justifyContent: "center",
             }}
-            src={profile.profilePicture || AvatarA}
+            src={profile.profilePicture || ""}
           />
           {/* can be into contexts */}
           <Typography
@@ -55,14 +98,14 @@ export function Profile() {
             }}
             variant="h5"
           >
-            {profile.nickname || "Lebfron James"}
+            {profile.nickname || profile.username || "Loading nickname..."}
           </Typography>
           <Typography
             sx={{
               my: 0.7,
             }}
           >
-            @{profile.username || "mrsunshine"}
+            @{profile.username || "Loading username..."}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
             <Typography sx={{ mx: 1, pt: 0.2 }}>
@@ -90,7 +133,7 @@ export function Profile() {
               my: 0.7,
             }}
           >
-            ({profile.description || "No description"})
+            {profile.description || "No description"}
           </Typography>
         </Box>
 
@@ -128,9 +171,11 @@ export function Profile() {
                 flexGrow: 1,
               }}
             >
-              <Button sx={{ maxHeight: "50px" }} onClick={handleSetting}>
-                Edit Profile
-              </Button>
+              {visibleSetting && (
+                <Button sx={{ maxHeight: "50px" }} onClick={handleSetting}>
+                  Edit Profile
+                </Button>
+              )}
             </Box>
           </Box>
           <Paper sx={{ display: "flex", flexGrow: 1 }}>

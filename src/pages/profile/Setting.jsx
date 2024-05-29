@@ -1,49 +1,37 @@
 import {
-  AppBar,
   Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
   Box,
   Button,
-  Card,
   Container,
-  CssBaseline,
-  FormControl,
-  InputAdornment,
   IconButton,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  OutlinedInput,
   Paper,
   TextField,
-  Toolbar,
-  Typography,
-  useTheme,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FakeJordan from "../../assets/images/Lebron.jpg";
+import { apiGeneralTemplate } from "../../services/api/auth";
 
 export function Setting() {
   const navigate = useNavigate();
   const inputFileRef = useRef(null);
-
-  const [username, setUsername] = useState("mrsunshine");
-  const [nickname, setNickname] = useState("Sapnu Puas");
-  const [imageProfile, setImageProfile] = useState(FakeJordan);
-  const [phoneNumber, setPhoneNumber] = useState("0123456789");
-  const [description, setDescription] = useState(
-    "You are my sunshine, my only sunshine"
-  );
-
+  const [username, setUsername] = useState("");
   const [usernameError, setUsernameError] = useState("");
+  const [nickname, setNickname] = useState("");
   const [nicknameError, setNicknameError] = useState("");
+  const [profilePicture, setProfilePicture] = useState();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [description, setDescription] = useState("");
+  const { profile, loading, error } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    setUsername(profile.username);
+    setNickname(profile.nickname);
+    setProfilePicture(profile.profilePicture);
+    setPhoneNumber(profile.phoneNumber);
+    setDescription(profile.description);
+  }, []);
 
   const handleAvatarClick = () => {
     inputFileRef.current.click();
@@ -54,13 +42,13 @@ export function Setting() {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImageProfile(e.target.result);
+        setProfilePicture(e.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !username.length) {
       setUsernameError("Username is required");
@@ -75,24 +63,24 @@ export function Setting() {
       setNicknameError("");
     }
 
+    const method = "PATCH";
     const profileFormDetail = { username, nickname, phoneNumber, description };
-
-    console.log(profileFormDetail);
-    navigate("/profile/:id");
-    // const requestTestOptions = {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(loginFormDetail),
-    // };
-
-    // // Perform the POST request
-    // fetch("http://localhost:3000/auth/loginAccount", requestTestOptions)
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data))
-    //   .catch((error) => console.error("There was an error!", error));
+    const controller = `editAccount/${profile._id}`;
+    const data = await apiGeneralTemplate(
+      method,
+      profileFormDetail,
+      controller
+    );
+    if (data.error) {
+      console.error(data.error);
+    } else {
+      localStorage.setItem("profile", JSON.stringify(data));
+      navigate("/discover");
+      window.location.reload();
+    }
   };
   const handleBack = () => {
-    navigate("/profile/:id");
+    navigate(`/profile/${profile.refId}`);
   };
   return (
     <>
@@ -116,7 +104,7 @@ export function Setting() {
                 m: 1,
                 cursor: "pointer",
               }}
-              src={imageProfile}
+              src={profilePicture}
               onClick={handleAvatarClick}
               alt="none"
             />
