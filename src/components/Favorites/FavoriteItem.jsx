@@ -5,11 +5,18 @@ import Button from '@mui/material/Button';
 const FavoriteItem = ({ id, name, description, price, image, type, onRemove }) => {
   const navigate = useNavigate();
   const [productData, setProductData] = useState([]);
-  const userData = JSON.parse(localStorage.getItem('profile'));
-  const favouriteProducts = userData.favourites || [];
 
   const navigateCart = () => {
-    navigate('/cart');
+    const product = {
+      id,
+      name,
+      description,
+      price: parseFloat(price.replace('RM', '').trim()),
+      image,
+      quantity: 1,
+      isChecked: false
+    };
+    navigate('/cart', { state: { product } });
   };
 
   const navToProduct = async () => {
