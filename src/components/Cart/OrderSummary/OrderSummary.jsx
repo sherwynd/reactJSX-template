@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button, Card, CardContent, Grid, Modal, Box } from '@mui/material';
 import { PaymentOptions } from '../Payment/PaymentOptions';
+import axios from 'axios';
 
 export const OrderSummary = ({ products, address }) => {
   const navigate = useNavigate();
@@ -24,8 +25,29 @@ export const OrderSummary = ({ products, address }) => {
     }
   };
 
-  const handlePurchaseConfirmation = () => {
-    navigate('/discover');
+  const handlePurchaseConfirmation = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem('profile'));
+      const refId = userData.refId;
+      const productId = products[0].id; // Assuming only one product in the cart for simplicity
+
+      const invoiceData = {
+        refId,
+        productId,
+        // address_email: address.address_email, // Assuming email is part of address object
+        invoice_date: new Date(),
+        invoice_amount: total,
+        invoice_address: `${address.address_line1}, ${address.address_line2}, ${address.address_city}, ${address.address_zip}`,
+        payment_method: selectedMethod,
+        type: "product",
+      };
+
+      await axios.post(`http://localhost:3000/invoice/makeInvoiceByUser/${refId}/${productId}`, invoiceData);
+
+      navigate('/discover');
+    } catch (error) {
+      console.error('Error creating invoice:', error);
+    }
   };
 
   const alertModalBody = (
@@ -115,7 +137,7 @@ export const OrderSummary = ({ products, address }) => {
           <Grid container spacing={1} mt={2}>
             <Grid item xs={12}>
               <Typography variant="subtitle1">Shipping to:</Typography>
-              <Typography fontWeight="bold">{`${address.name}, ${address.line1}, ${address.line2}, ${address.city}, ${address.zip}`}</Typography>
+              <Typography fontWeight="bold">{`${address.address_name}, ${address.address_line1}, ${address.address_line2}, ${address.address_city}, ${address.address_zip}`}</Typography>
             </Grid>
           </Grid>
         )}

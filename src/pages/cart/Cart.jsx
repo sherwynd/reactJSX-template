@@ -1,41 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { CartProductList } from '../../components/Cart/CartProduct/CartProductList';
 import { DeliveryAddress } from '../../components/Cart/DeliveryAddress/DeliveryAddress';
 import { OrderSummary } from '../../components/Cart/OrderSummary/OrderSummary';
+import axios from 'axios';
 
 export const Cart = () => {
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: 'Asics Novablast 4 Mens Running Shoes',
-      description: 'Product code: 212960',
-      price: 549.00, // As a number for easier calculations
-      image: 'https://cdn.media.amplience.net/i/frasersdev/21296048_o?fmt=auto&w=1200&h=1200&sm=scaleFit&$h-ttl$',
-      quantity: 1,
-      isChecked: false
-    },
-    // {
-    //   id: 2,
-    //   name: 'LDNIO SC5319 Power Socket',
-    //   description: '2500W Power Socket with Surge Protector',
-    //   price: 43.00, // As a number for easier calculations
-    //   image: 'https://img.lazcdn.com/g/p/650b6fda8badf95bae363e7d55b11ae1.jpg_720x720q80.jpg',
-    //   quantity: 1,
-    //   isChecked: false
-    // },
-  ]);
+  const location = useLocation();
+  const userData = JSON.parse(localStorage.getItem('profile'));
+  const refId = userData.refId;
 
-  const [addresses, setAddresses] = useState([
-    { id: 1, name: "Name 1", phone: "0123456789", line1: "Address Line 1", line2: "Address Line 2", city: "Selangor", zip: "45801" },
-    { id: 2, name: "Name 2", phone: "9876543210", line1: "Address Line 1", line2: "Address Line 2", city: "KL", zip: "45202" },
-    { id: 3, name: "Name 3", phone: "1234567890", line1: "Address Line 1", line2: "Address Line 2", city: "Kedah", zip: "48614" }
-  ]);
-  const [selectedAddressId, setSelectedAddressId] = useState(addresses[0].id);
+  const [products, setProducts] = useState([]);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const selectedAddress = addresses.find(address => address.id === selectedAddressId);
+  useEffect(() => {
+    axios.get(`http://localhost:3000/address/${refId}`)
+      .then(response => {
+        setAddresses(response.data);
+        if (response.data.length > 0) {
+          setSelectedAddressId(response.data[0]._id);
+        }
+      })
+      .catch(error => {
+        console.error("There was an error fetching the addresses!", error);
+      });
+  }, [refId]);
+
+  useEffect(() => {
+    if (location.state && location.state.product) {
+      setProducts([location.state.product]); // Set the product in the cart
+    }
+  }, [location.state]);
+
+  const addAddress = (newAddress) => {
+    axios.post(`http://localhost:3000/address/${refId}`, newAddress)
+      .then(response => {
+        setAddresses([...addresses, response.data]);
+      })
+      .catch(error => {
+        console.error("There was an error adding the address!", error);
+      });
+  };
+
+  const deleteAddress = (addressId) => {
+    axios.delete(`http://localhost:3000/address/${refId}/${addressId}`)
+      .then(response => {
+        setAddresses(addresses.filter(address => address._id !== addressId));
+      })
+      .catch(error => {
+        console.error("There was an error deleting the address!", error);
+      });
+  };
+
+  const selectedAddress = addresses.find(address => address._id === selectedAddressId);
 
   return (
-    <div className="container mx-auto mt-6 p-5 ">
+    <div className="container mx-auto mt-6 p-5">
       <h1 className="text-2xl font-bold mb-4">My Cart</h1>
       <div className="grid md:grid-cols-3 gap-6">
         <div className="md:col-span-1">
@@ -43,7 +64,8 @@ export const Cart = () => {
             addresses={addresses}
             selectedAddressId={selectedAddressId}
             setSelectedAddressId={setSelectedAddressId}
-            setAddresses={setAddresses}
+            addAddress={addAddress}
+            deleteAddress={deleteAddress}
           />
         </div>
         <div className="md:col-span-2">
