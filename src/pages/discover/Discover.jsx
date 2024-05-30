@@ -11,9 +11,13 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
-  const { products, contextLoading } = useContext(ProductContext);
+  const { products, contextLoading, fetchProducts } = useContext(ProductContext);
   const [loading, setLoading] = useState(true);
   const isFirstRender = useRef(true);
+
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -28,12 +32,12 @@ export function Discover() {
 
   // Filter products based on category
   const [filteredProducts, setFilteredProducts] = useState([...products]);
-  
+
   useEffect(() => {
     if (products.length > 0 && isFirstRender.current) {
       setFilteredProducts(products);
       setLoading(false);
-      isFirstRender.current = false; 
+      isFirstRender.current = false;
     }
   }, [products]);
 

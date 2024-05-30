@@ -6,23 +6,25 @@ export const ProductContext = createContext();
 export const ProductContextProvider = (props) => {
     const [products, setProducts] = useState([]);
     const [contextLoading, setContextLoading] = useState(true);
+
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/discover');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const json = await response.json();
-                setProducts(json);
-                setContextLoading(false);
-                console.log("product context");
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
         fetchProducts()
     }, [])
+
+    const fetchProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/discover');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const json = await response.json();
+            setProducts(json);
+            setContextLoading(false);
+            console.log("product context");
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
     const getProduct = (id) => {
         return products.find(product => product._id === id);
@@ -85,7 +87,7 @@ export const ProductContextProvider = (props) => {
     }
 
     return (
-        <ProductContext.Provider value={{ products, contextLoading, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase }}>
+        <ProductContext.Provider value={{ products, contextLoading, fetchProducts, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase, updateProductFavourite }}>
             {props.children}
         </ProductContext.Provider>
     );

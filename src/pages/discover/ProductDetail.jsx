@@ -104,8 +104,9 @@ const ProductDetail = () => {
     updateFavouriteProductsinDatabase(userId, favouriteProducts);
   }, [favouriteProducts])
 
-  const updateFavouriteProductsinDatabase = async (refId, favouriteProducts) => {
-    const response = await fetch(`http://localhost:3000/auth/editAccount/${refId}`, {
+  const updateFavouriteProductsinDatabase = async (userId, favouriteProducts) => {
+    console.log(refId)
+    const response = await fetch(`http://localhost:3000/auth/editAccount/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
