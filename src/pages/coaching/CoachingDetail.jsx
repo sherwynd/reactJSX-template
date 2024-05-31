@@ -151,7 +151,7 @@ export default function CoachingDetail() {
                   >
                     <CalendarMonth sx={{ width: 30, height: 30, mr: 2 }} />
                     <Typography sx={{ fontSize: 20 }}>
-                      {new Date(event.eventDate).toLocaleDateString()}
+                      {event.eventDate}
                     </Typography>
                   </Box>
                   <Box
