@@ -35,7 +35,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth, AuthContext } from "../contexts/AuthContext";
 
 const drawerWidth = 240;
 
@@ -70,10 +70,11 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export function NavBar(props) {
   const { window, children } = props;
   const navigate = useNavigate();
-  const { currentRefId } = useAuth();
+  const { currentRefId, user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const { profilePicture, logout } = useContext(AuthContext);
   const { profile } = useSelector((state) => state.profile);
 
   const mainNavbarItems = [
