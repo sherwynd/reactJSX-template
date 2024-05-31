@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 
 export const AddAddress = ({ addAddress }) => {
+    const userData = JSON.parse(localStorage.getItem('profile'));
+    const userId = userData._id;
+    const refId = userData.refId;
+
     const [newAddress, setNewAddress] = useState({
         name: '',
         phone: '',

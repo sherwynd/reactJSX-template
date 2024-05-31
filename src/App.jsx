@@ -40,26 +40,6 @@ export default function App() {
       {/* <ThemeProvider theme={outerTheme}> */}
       <CssBaseline />
       <NavBar>
-        <Collapse in={alertOpen}>
-          <Alert
-            action={
-              <IconButton
-                aria-label="close"
-                color="inherit"
-                size="small"
-                onClick={() => {
-                  setAlertOpen(false);
-                }}
-              >
-                <CloseIcon fontSize="inherit" />
-              </IconButton>
-            }
-            sx={{ mb: 2 }}
-            severity="info"
-          >
-            Reminder! The subscription receipt has been sent to your email!
-          </Alert>
-        </Collapse>
         <Outlet />
       </NavBar>
       {/* </ThemeProvider> */}
