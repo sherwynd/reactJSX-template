@@ -1,32 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FavoriteItem from '../../components/Favorites/FavoriteItem';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import TextField from '@mui/material/TextField';
 import Rating from '@mui/material/Rating';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-export const Rate = () => {
-    const favoritesData = [
-        {
-            id: 1,
-            name: "Asics Novablast 4 Mens Running Shoes",
-            description: "Product code: 212960",
-            price: "RM 549.00",
-            image: 'https://cdn.media.amplience.net/i/frasersdev/21296048_o?fmt=auto&w=1200&h=1200&sm=scaleFit&$h-ttl$',
-            type: 'rating',
-        },
-    ];
-
+export const Rate = (id) => {
+    const [productData, setProductData] = useState([]);
+    const [ratingValue, setRatingValue] = useState(2); // default value
+    const [ratingComment, setRatingComment] = useState('');
+    const [productId, setProductId] = useState('');
+    const [productOwner, setProductOwner] = useState('');
+    const [open, setOpen] = useState(false); // State to handle modal visibility
     const navigate = useNavigate();
+    const userData = JSON.parse(localStorage.getItem('profile'));
+    const currentId = userData._id;
+
+    useEffect(() => {
+        getProductData();
+    }, []);
+
+    const getProductData = async () => {
+        try {
+            // Command for next line and open second command
+            const response = await fetch(`http://localhost:3000/discover/66544fde1b4a040eebfade1d`);
+            // const response = await fetch(`http://localhost:3000/discover/${id}`);
+            const data = await response.json();
+            setProductData([data]); // Wrap the single object in an array
+            setProductId(data._id);
+            setProductOwner(data.creatorId); // Assuming `creatorId` is a field in the product data
+            console.log(data);
+        } catch (error) {
+            console.error('Error fetching product:', error);
+        }
+    };
 
     const navToMain = () => {
         navigate('/discover');
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const confirmRating = async () => {
+        try {
+            const raterRefId = currentId;
+            const response = await fetch('http://localhost:3000/rating/rate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId,
+                    raterRefId,
+                    productOwner,
+                    ratingValue,
+                    ratingComment,
+                })
+            });
+            const data = await response.json();
+            console.log('Rating submitted:', data);
+            navToMain(); // Navigate after successful rating
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+        }
     };
 
     return (
@@ -36,8 +86,16 @@ export const Rate = () => {
                     Rating
                 </Typography>
                 <Box display="flex" justifyContent="center" flexDirection="column">
-                    {favoritesData.map((item) => (
-                        <FavoriteItem key={item.id} {...item} />
+                    {productData.map((item) => (
+                        <FavoriteItem
+                            key={item._id}
+                            id={item._id}
+                            name={item.title}
+                            description={item.description}
+                            price={`RM ${item.price}`}
+                            image={`http://localhost:3000/${item.imgs[0]}`}
+                            type='rating'
+                        />
                     ))}
                 </Box>
                 <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
@@ -45,7 +103,14 @@ export const Rate = () => {
                         How was the Seller and Product?
                     </Typography>
                     <Box display="flex">
-                        <Rating name="size-large" defaultValue={2} size="large" />
+                        <Rating
+                            name="rating"
+                            value={ratingValue}
+                            onChange={(event, newValue) => {
+                                setRatingValue(newValue);
+                            }}
+                            size="large"
+                        />
                     </Box>
                     <TextField
                         multiline
@@ -54,12 +119,33 @@ export const Rate = () => {
                         variant="outlined"
                         fullWidth
                         sx={{ mt: 3, mb: 2, maxWidth: '75%', bgcolor: '#FFFFFF' }}
+                        value={ratingComment}
+                        onChange={(e) => setRatingComment(e.target.value)}
                     />
-                    <Button color="error" variant="contained" sx={{ py: 2 }} onClick={navToMain}>
+                    <Button color="error" variant="contained" sx={{ py: 2 }} onClick={handleClickOpen}>
                         Rate now
                     </Button>
                 </Box>
             </Card>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Confirm Rating</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to submit this rating?
+                    </DialogContentText>
+                    <Typography variant="h6">Rating: {ratingValue} stars</Typography>
+                    <Typography variant="h6">Comment:</Typography>
+                    <Typography variant="body1">{ratingComment}</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={confirmRating} color="primary">
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Box>
     );
 }
