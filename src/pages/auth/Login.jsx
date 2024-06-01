@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import logo from "../../assets/images/Logo.webp";
 import theme from "../../theme/color";
-import { apiGeneralTemplate } from "../../services/api/auth";
+import { apiGeneralTemplate } from "../../services/api";
 import { fetchProfile } from "../../stores/reducer/profileSlice";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -49,7 +49,7 @@ export function Login() {
     }
     const method = "POST";
     const loginFormDetail = { email, password };
-    const controller = "loginAccount";
+    const controller = "auth/loginAccount";
     const data = await apiGeneralTemplate(method, loginFormDetail, controller);
     if (data.error === "User or Email not found") {
       setEmailError(data.error);
