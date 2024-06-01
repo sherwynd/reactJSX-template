@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { apiTokenTemplate } from "../../services/api/auth";
+import { apiTokenTemplate } from "../../services/api";
 
 export const fetchProfile = createAsyncThunk(
   "profile/fetchProfile",
   async (token, { rejectWithValue }) => {
     try {
       const method = "GET";
-      const controller = "getToken";
+      const controller = "auth/getToken";
       const data = await apiTokenTemplate(method, token, controller);
       if (data.error) {
         console.error(data.error);

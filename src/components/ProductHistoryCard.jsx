@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -7,20 +7,23 @@ import { Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export function ProductHistoryCard({ product }) {
+  useEffect(() => {
+    console.log(product.imgs[0]);
+  });
   return (
     <Card sx={{ flexGrow: 1 }}>
       <CardContent sx={{ p: 0 }}>
         <CardMedia
           sx={{ height: 250 }}
           component="img"
-          image={product.img}
-          alt="media"
+          image={`http://localhost:3000/${product.imgs[0]}`}
+          alt={product.imgs[0]}
         />
       </CardContent>
 
       <CardContent sx={{ bgcolor: "secondary.main" }}>
         <Link
-          to={`/discover/${product.id}`}
+          to={`/discover/${product._id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
           <Typography noWrap variant="h6" marginTop={-1}>
