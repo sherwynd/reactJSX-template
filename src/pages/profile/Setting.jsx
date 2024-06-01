@@ -11,7 +11,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { apiGeneralTemplate } from "../../services/api/auth";
+import { apiGeneralTemplate } from "../../services/api";
 
 export function Setting() {
   const navigate = useNavigate();

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/Logo.webp"; // Update the path if necessary
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/color";
-import { apiGeneralTemplate } from "../../services/api/auth";
+import { apiGeneralTemplate } from "../../services/api";
 
 export function Register() {
   const navigate = useNavigate();

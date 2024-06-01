@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import { ProductHistoryCard } from "../../components/ProductHistoryCard";
-import { apiGetTemplate } from "../../services/api/auth";
+import { apiGetTemplate } from "../../services/api";
 
 export function ProductHistory() {
   const { refId } = useParams();

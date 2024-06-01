@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { apiGetTemplate } from "../../services/api/auth";
+import { apiGetTemplate } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 export function Profile() {
