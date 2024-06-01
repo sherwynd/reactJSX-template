@@ -58,7 +58,13 @@ export default function EventDescriptionCard({ event }) {
       }
 
       console.log("Subscribed to event successfully");
-      navigate("/coachingCart");
+      navigate("/coachingCart", {
+        state: {
+          eventName: event.eventName,
+          eventPrice: event.eventPrice,
+          eventId: event._id,
+        }
+      });
     } catch (error) {
       console.error("Error:", error);
     }
