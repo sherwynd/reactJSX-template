@@ -1,8 +1,45 @@
 import { Box, Grid, Paper, styled } from "@mui/material";
+import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+
 import { ProductHistoryCard } from "../../components/ProductHistoryCard";
+import { apiGetTemplate } from "../../services/api/auth";
 
 export function ProductHistory() {
-  const products = [];
+  const { refId } = useParams();
+  const [product, setProduct] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProductHistory = async () => {
+      try {
+        const method = "GET";
+        const controller = `discover/getProductsByUser/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        setProduct(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (refId) {
+      fetchProductHistory();
+    }
+  }, [refId]);
+
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
+
+  if (error) {
+    return <Box>Error: {error}</Box>;
+  }
 
   return (
     <>
@@ -10,8 +47,8 @@ export function ProductHistory() {
         sx={{ display: "flex", justifyContent: "center", m: 1, flexGrow: 1 }}
       >
         <Grid container spacing={1}>
-          {products.map((product) => (
-            <Grid item xs={4} key={product.id}>
+          {product.map((product) => (
+            <Grid item xs={4} key={product._id}>
               <ProductHistoryCard product={product} />
             </Grid>
           ))}
