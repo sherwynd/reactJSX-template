@@ -37,7 +37,7 @@ export function Profile() {
     const fetchProfile = async () => {
       try {
         const method = "GET";
-        const controller = `getAccount/${refId}`;
+        const controller = `auth/getAccount/${refId}`;
         const data = await apiGetTemplate(method, controller);
         if (data.error) {
           console.error(data.error);

@@ -74,7 +74,7 @@ export function Register() {
     if (valid) {
       const registerDetail = { username, nickname, email, password };
       const method = "POST";
-      const controller = "registerAccount";
+      const controller = "auth/registerAccount";
       const data = await apiGeneralTemplate(method, registerDetail, controller);
       if (data.error === "Username already taken.") {
         setUsernameError(data.error);

@@ -49,7 +49,7 @@ export function Login() {
     }
     const method = "POST";
     const loginFormDetail = { email, password };
-    const controller = "loginAccount";
+    const controller = "auth/loginAccount";
     const data = await apiGeneralTemplate(method, loginFormDetail, controller);
     if (data.error === "User or Email not found") {
       setEmailError(data.error);

@@ -65,7 +65,7 @@ export function Setting() {
 
     const method = "PATCH";
     const profileFormDetail = { username, nickname, phoneNumber, description };
-    const controller = `editAccount/${profile._id}`;
+    const controller = `auth/editAccount/${profile._id}`;
     const data = await apiGeneralTemplate(
       method,
       profileFormDetail,
