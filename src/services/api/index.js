@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/auth";
+const API_URL = "http://localhost:3000";
 
 const apiGeneralTemplate = async (method, formDetail, controller) => {
   const options = {
@@ -6,7 +6,6 @@ const apiGeneralTemplate = async (method, formDetail, controller) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formDetail),
   };
-  console.log(options);
   try {
     const response = await fetch(`${API_URL}/${controller}`, options);
     if (!response.ok) {
