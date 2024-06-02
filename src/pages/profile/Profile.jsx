@@ -14,6 +14,7 @@ import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { apiGetTemplate } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
+import Chart from "../../components/Chart";
 
 export function Profile() {
   const navigate = useNavigate();
@@ -183,6 +184,8 @@ export function Profile() {
           </Paper>
         </Box>
       </Box>
+      {/* E comm */}
+      <Chart />
     </>
   );
 }

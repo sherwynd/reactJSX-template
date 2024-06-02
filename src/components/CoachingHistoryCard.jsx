@@ -46,7 +46,7 @@ export function CoachingHistoryCard({ coaching }) {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <Link
-              to={`/coaching/${coaching.id}`}
+              to={`/coaching/${coaching._id}`}
               style={{ textDecoration: "none", color: "black" }}
             >
               <Box sx={{ display: "flex", flexDirection: "column" }}>

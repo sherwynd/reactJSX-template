@@ -18,6 +18,8 @@
     "@fontsource/roboto": "^5.0.12",
     "@mui/icons-material": "^5.15.14",
     "@mui/material": "^5.15.14",
+    "@mui/x-charts": "^7.6.1",
+    "@mui/x-data-grid": "^7.6.1",
     "@mui/x-date-pickers": "^7.2.0",
     "@reduxjs/toolkit": "^2.2.5",
     "date-fns": "^3.6.0",
