@@ -1,5 +1,5 @@
-import { Box, Grid, Paper, styled } from "@mui/material";
-import { useState, useEffect, useContext } from "react";
+import { Box, Grid } from "@mui/material";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { ProductHistoryCard } from "../../components/ProductHistoryCard";
