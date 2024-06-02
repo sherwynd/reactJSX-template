@@ -51,9 +51,10 @@ export default function EventCard({ event }) {
               {event.eventLocation}
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+          {/* TODO: Add participants count (if got time) */}
+          {/* <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
             {`${currentParticipants}/${event.participants}`}
-          </Typography>
+          </Typography> */}
           <Button
             sx={{ width: 100, height: 35, borderRadius: 5 }}
             onClick={handleViewClick}

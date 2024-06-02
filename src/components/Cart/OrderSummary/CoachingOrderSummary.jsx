@@ -10,19 +10,15 @@ import {
   Box,
 } from "@mui/material";
 import { PaymentOptions } from "../Payment/PaymentOptions";
+import axios from "axios";
 
-export const CoachingOrderSummary = ({ products, address }) => {
+export const CoachingOrderSummary = ({ event }) => {
   const navigate = useNavigate();
   const [selectedMethod, setSelectedMethod] = useState("");
   const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
-  const subtotal = products.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
-  const shipping = 5;
-  const total = subtotal + shipping;
+  const total = event ? event.eventPrice : 0;
 
   const handleAlertClose = () => setAlertModalOpen(false);
   const handleConfirmClose = () => setConfirmModalOpen(false);
@@ -35,8 +31,30 @@ export const CoachingOrderSummary = ({ products, address }) => {
     }
   };
 
-  const handlePurchaseConfirmation = () => {
-    navigate("/coaching");
+  const handlePurchaseConfirmation = async () => {
+    try {
+      const userData = JSON.parse(localStorage.getItem("profile"));
+      const refId = userData.refId;
+      const productId = event.eventId; // Assuming only one product in the cart for simplicity
+
+      const invoiceData = {
+        refId,
+        productId,
+        invoice_date: new Date(),
+        invoice_amount: total,
+        payment_method: selectedMethod,
+        type: "event",
+      };
+
+      await axios.post(
+        `http://localhost:3000/invoice/makeInvoiceByUser/${refId}/${productId}`,
+        invoiceData
+      );
+
+      navigate("/coaching");
+    } catch (error) {
+      console.error("Error creating invoice:", error);
+    }
   };
 
   const alertModalBody = (
@@ -124,36 +142,23 @@ export const CoachingOrderSummary = ({ products, address }) => {
         </Typography>
         <Grid container spacing={1} justifyContent="space-between">
           <Grid item xs={6}>
-            <Typography>Sub-total</Typography>
+            <Typography fontWeight="bold">Event Name</Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography textAlign="right">RM{subtotal.toFixed(2)}</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography>Transaction fee</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography textAlign="right">RM{shipping.toFixed(2)}</Typography>
+            <Typography textAlign="right" fontWeight="bold">
+              {event.eventName}
+            </Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography fontWeight="bold">Total</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography textAlign="right" fontWeight="bold">
-              RM{total.toFixed(2)}
+              RM{total}
             </Typography>
           </Grid>
         </Grid>
-        {address && (
-          <Grid container spacing={1} mt={2}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1">
-                Receipt will be send to:
-              </Typography>
-              <Typography fontWeight="bold">{`${address.name}`}</Typography>
-            </Grid>
-          </Grid>
-        )}
+        <Grid container spacing={1} mt={2}></Grid>
         <PaymentOptions
           selectedMethod={selectedMethod}
           onPaymentMethodChange={setSelectedMethod}
