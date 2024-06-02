@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { apiGetTemplate } from "../../services/api/auth";
+import { apiGetTemplate } from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 
 export function Profile() {
@@ -37,7 +37,7 @@ export function Profile() {
     const fetchProfile = async () => {
       try {
         const method = "GET";
-        const controller = `getAccount/${refId}`;
+        const controller = `auth/getAccount/${refId}`;
         const data = await apiGetTemplate(method, controller);
         if (data.error) {
           console.error(data.error);

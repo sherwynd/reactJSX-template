@@ -7,9 +7,11 @@ import { red } from '@mui/material/colors';
 import { CommentCard } from "../../components/CommentCard";
 import { useState, useContext, useEffect, useRef } from 'react';
 import { ProductContext } from "../../contexts/ProductContext";
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { updateFavouriteUserinDatabase } = useContext(ProductContext);
   const [product, setProduct] = useState({});
@@ -142,6 +144,20 @@ const ProductDetail = () => {
     }
   };
 
+  const navigateCart = () => {
+    const productSendToCart = {
+      id: product._id,
+      name: product.title,
+      description: product.description,
+      // price: parseFloat(product.price.replace('RM', '').trim()), // added price here
+      price: product.price,
+      image: `http://localhost:3000/${product.imgs[0]}`,
+      quantity: 1,
+      isChecked: false
+    };
+    navigate('/cart', { state: { product: productSendToCart } }); // changed key to 'product'
+  };
+
   const createdAt = typeof product.createdAt === 'string' ? product.createdAt : '';
   const listedDate = JSON.stringify(createdAt).substring(1, 11);
 
@@ -180,9 +196,9 @@ const ProductDetail = () => {
               value={profile.rating}
               precision={0.5}
               readOnly />
-            <Link to={`/cart`} >
-              {product.creatorId != refId && <Button variant="outlined" color="primary" sx={{ borderRadius: 3 }}>Buy Now</Button>}
-            </Link>
+            <div>
+              {product.creatorId != refId && <Button variant="outlined" color="primary" sx={{ borderRadius: 3 }} onClick={navigateCart} >Buy Now</Button>}
+            </div>
 
             <Link to={`/discover/${id}/update`} >
               {product.creatorId == refId && <Button variant="outlined" sx={{ mx: 2, borderRadius: 3 }} >Update</Button>}

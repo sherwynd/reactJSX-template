@@ -29,7 +29,8 @@ export default function EventCard({ event }) {
     <React.Fragment>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} gutterBottom>
-          {new Date(event.eventDate).toLocaleDateString()}
+          {/* {new Date(event.eventDate).toLocaleDateString()} */}
+          {event.eventDate}
           {bull}
           {event.eventTime}
         </Typography>

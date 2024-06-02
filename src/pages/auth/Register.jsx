@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/images/Logo.webp"; // Update the path if necessary
 import { ThemeProvider } from "@emotion/react";
 import theme from "../../theme/color";
-import { apiGeneralTemplate } from "../../services/api/auth";
+import { apiGeneralTemplate } from "../../services/api";
 
 export function Register() {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ export function Register() {
     if (valid) {
       const registerDetail = { username, nickname, email, password };
       const method = "POST";
-      const controller = "registerAccount";
+      const controller = "auth/registerAccount";
       const data = await apiGeneralTemplate(method, registerDetail, controller);
       if (data.error === "Username already taken.") {
         setUsernameError(data.error);
