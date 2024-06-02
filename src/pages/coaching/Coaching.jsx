@@ -4,10 +4,52 @@ import { ThemeProvider } from "@emotion/react";
 import { Outlet, useNavigate } from "react-router-dom";
 import theme from "../../theme/color";
 import EventCard from "../../components/EventCard";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import PropTypes from "prop-types";
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 export function Coaching() {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
+  const userData = JSON.parse(localStorage.getItem("profile"));
+  const refId = userData.refId;
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -46,13 +88,39 @@ export function Coaching() {
         </Button>
       </Box>
 
-      <Grid container spacing={4}>
-        {events.map((event) => (
-          <Grid key={event.id} item xs={12} sm={6} md={4}>
-            <EventCard event={event} />
-          </Grid>
-        ))}
-      </Grid>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
+          <Tab label="My Events" {...a11yProps(0)} />
+          <Tab label="Other Events" {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+
+      <CustomTabPanel value={value} index={0}>
+        <Grid container spacing={4}>
+          {events
+            .filter((event) => refId === event.createdBy)
+            .map((event) => (
+              <Grid key={event.id} item xs={12} sm={6} md={4}>
+                <EventCard event={event} />
+              </Grid>
+            ))}
+        </Grid>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <Grid container spacing={4}>
+          {events
+            .filter((event) => refId !== event.createdBy)
+            .map((event) => (
+              <Grid key={event.id} item xs={12} sm={6} md={4}>
+                <EventCard event={event} />
+              </Grid>
+            ))}
+        </Grid>
+      </CustomTabPanel>
       <Outlet />
     </ThemeProvider>
   );
