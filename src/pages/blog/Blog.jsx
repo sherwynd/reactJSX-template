@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardHeader,
@@ -25,8 +25,82 @@ import Carousel from "react-material-ui-carousel";
 import { Link } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { BlogCard } from "../../components/BlogCard";
+
 
 export const BlogPost = () => {
+
+  const [blogs, setBlogs] = useState([]);
+  const profile = JSON.parse(localStorage.getItem('profile'));
+  const userId = userData._id;
+  const refId = userData.refId;
+  const [imgs, setImgs] = useState([]);
+
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/blogs/blogs");
+        if (!response.ok) {
+          throw new Error("Failed to fetch blogs");
+        }
+        const data = await response.json();
+        setBlogs(data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+        formData.append('heading', heading);
+        formData.append('description', description);
+        imgs.forEach((file) => {
+          formData.append('imgs', file);
+        });
+        formData.append('comments', JSON.stringify([]));
+        formData.append('favouriteCount', JSON.stringify([]));
+        formData.append('creatorId', creatorId);
+    try {
+        const response = await fetch('http://localhost:3000/blogs/blogs', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (response.ok) {
+          const newBlog = await response.json();
+          navigate(`/blog-details/${newBlog._id}`);
+        } else {
+          console.error('Failed to create blog post');
+        }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+
+  const handleImageChange = (e) => {
+      if (e.target.files) {
+
+        const newFiles = Array.from(e.target.files);
+        setImgs((prevImgs) => [...prevImgs, ...newFiles]);
+        console.log(imgs)
+
+        const filesArray = Array.from(e.target.files).map((file) =>
+            URL.createObjectURL(file)
+        );
+
+        setSelectedFiles((prevImages) => prevImages.concat(filesArray));
+        Array.from(e.target.files).map(
+            (file) => URL.revokeObjectURL(file)
+        );
+    }
+    };
+    
+
   const navigate = useNavigate();
   const [showPostForm, setShowPostForm] = useState(true);
   const [hidden, setHidden] = useState(false);
@@ -77,6 +151,7 @@ export const BlogPost = () => {
   // Event handler to navigate to post details
   const handleNavigateToDetails = (postId) => {
     navigate(`/blog-details/${postId}`);
+    
   };
 
   const handleHidePost = (postId) => {
@@ -125,7 +200,7 @@ export const BlogPost = () => {
                 <Grid item>
                   <Button
                     variant="contained"
-                    onClick={() => console.log("Post Clicked")}
+                    onClick={handleSubmit()}
                   >
                     Post
                   </Button>
@@ -133,9 +208,9 @@ export const BlogPost = () => {
                 <Grid item>
                   <Button
                     variant="contained"
-                    onClick={() => console.log("Upload Clicked")}
+                    onClick={handleImageChange()}
                   >
-                    upload
+                    Upload
                   </Button>
                 </Grid>
               </Grid>
@@ -144,72 +219,74 @@ export const BlogPost = () => {
         )}
       </div>
 
-      {posts.map((post) => (
-        <Card
-          key={post.id}
-          onClick={() => handleNavigateToDetails(post.id)}
-          style={{ cursor: "pointer", marginBottom: "20px" }}
-        >
-          <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
-            <Avatar
-              sx={{ m: 2, justifyContent: "center", alignItems: "center" }}
-              alt={post.user.name}
-              src={currentUser.profilePic}
-            />
-            <Box sx={{ m: 2, flexDirection: "column" }}>
-              <Typography variant="subtitle1">{post.user.name}</Typography>
-              <Typography variant="subtitle2">{post.timestamp}</Typography>
-            </Box>
-            <Box
-              sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
-            >
-              <VisibilityOffIcon
-                variant="contained"
-                color="primary"
-                sx={{ height: 40, alignItems: "flex-end", m: 2 }}
-              ></VisibilityOffIcon>
-            </Box>
-          </Box>
-          <Box sx={{ mx: 3, display: "flex", flexDirection: "column" }}>
-            <Typography variant="h5" style={{}} sx={{ mx: 8 }}>
-              {post.description}
-            </Typography>
-            <Carousel>
-              {post.images.map((img, i) => (
-                <Item key={i} item={{ img }} />
-              ))}
-            </Carousel>
-            <Box sx={{ display: "flex", flexDirection: "row", m: 1 }}>
-              <span>
-                <IconButton
-                  aria-label="add to favouries"
-                  style={{ marginRight: "8px" }}
-                >
-                  <FavoriteIcon color="primary" />
-                </IconButton>
-                <Typography variant="body2" style={{ display: "inline" }}>
-                  {post.like}
-                </Typography>
-              </span>
-              <span>
-                <IconButton
-                  aria-label="comment post"
-                  style={{ marginLeft: "16px" }}
-                >
-                  <CommentIcon color="primary" />
-                </IconButton>
-                <Typography variant="body2" style={{ display: "inline" }}>
-                  {post.comments}
-                </Typography>
-              </span>
-            </Box>
-          </Box>
-          {/* Hide icon */}
-        </Card>
+      {blogs.map((post) => (
+        <BlogCard key={post._id} post={post} />
+        // <Card
+        //   key={post.id}
+        //   onClick={() => handleNavigateToDetails(post.id)}
+        //   style={{ cursor: "pointer", marginBottom: "20px" }}
+        // >
+        //   <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
+        //     <Avatar
+        //       sx={{ m: 2, justifyContent: "center", alignItems: "center" }}
+        //       alt={post.name}
+        //       src={currentUser.profilePic}
+        //     />
+        //     <Box sx={{ m: 2, flexDirection: "column" }}>
+        //       <Typography variant="subtitle1">{post.name}</Typography>
+        //       <Typography variant="subtitle2">{post.timestamp}</Typography>
+        //     </Box>
+        //     <Box
+        //       sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}
+        //     >
+        //       <VisibilityOffIcon
+        //         variant="contained"
+        //         color="primary"
+        //         sx={{ height: 40, alignItems: "flex-end", m: 2 }}
+        //       ></VisibilityOffIcon>
+        //     </Box>
+        //   </Box>
+        //   <Box sx={{ mx: 3, display: "flex", flexDirection: "column" }}>
+        //     <Typography variant="h5" style={{}} sx={{ mx: 8 }}>
+        //       {post.description}
+        //     </Typography>
+        //     <Carousel>
+        //       {post.images.map((img, i) => (
+        //         <Item key={i} item={{ img }} />
+        //       ))}
+        //     </Carousel>
+        //     <Box sx={{ display: "flex", flexDirection: "row", m: 1 }}>
+        //       <span>
+        //         <IconButton
+        //           aria-label="add to favouries"
+        //           style={{ marginRight: "8px" }}
+        //         >
+        //           <FavoriteIcon color="primary" />
+        //         </IconButton>
+        //         <Typography variant="body2" style={{ display: "inline" }}>
+        //           {post.like}
+        //         </Typography>
+        //       </span>
+        //       <span>
+        //         <IconButton
+        //           aria-label="comment post"
+        //           style={{ marginLeft: "16px" }}
+        //         >
+        //           <CommentIcon color="primary" />
+        //         </IconButton>
+        //         <Typography variant="body2" style={{ display: "inline" }}>
+        //           {post.comments}
+        //         </Typography>
+        //       </span>
+        //     </Box>
+        //   </Box>
+        //   {/* Hide icon */}
+        // </Card>
       ))}
     </div>
   );
 };
+
 
 function Item({ item }) {
   return (

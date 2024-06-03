@@ -5,9 +5,33 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import Carousel from 'react-material-ui-carousel';
+import { useAuth } from '../../contexts/AuthContext';
 
 export const BlogDetails = () => {
   const { postId } = useParams(); // Get the postId from the URL parameters
+  const { currentUser } = useAuth();
+  const userData = JSON.parse(localStorage.getItem('profile'));
+  const userId = userData._id;
+  const refId = userData.refId;
+  
+  useEffect(() => {
+    const fetchBlogById = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/blogs/${postId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch blog details');
+        }
+        const data = await response.json();
+        setSelectedPost(data);
+        setEditedHeading(data.heading);
+        setEditedDescription(data.description);
+      } catch (error) {
+        console.error('Error fetching blog details:', error);
+      }
+    };
+
+    fetchBlogById();
+  }, [postId]);
 
   // Simulated posts data
   const allPosts = [
@@ -61,10 +85,17 @@ export const BlogDetails = () => {
   const handleAddComment = () => {
     if (newComment) {
       // Normally, update your backend or state management here
-      selectedPost.comments.push({ id: selectedPost.comments.length + 1, text: newComment, user: 'New User' });
+      const updatedComments = [...selectedPost.comments, { id: selectedPost.comments.length + 1, text: newComment, user: 'New User' }];
+      setSelectedPost({ ...selectedPost, comments: updatedComments });
       setNewComment('');
     }
   };
+  //   if (newComment) {
+  //     // Normally, update your backend or state management here
+  //     selectedPost.comments.push({ id: selectedPost.comments.length + 1, text: newComment, user: 'New User' });
+  //     setNewComment('');
+  //   }
+  // };
 
   if (!selectedPost) {
     return <div>No post found!</div>;
@@ -78,6 +109,7 @@ export const BlogDetails = () => {
           title={selectedPost.user.name}
           subheader={selectedPost.timestamp}
           action={
+            currentUser.id === selectedPost.createdId && (
             <>
               <IconButton aria-label="edit post" onClick={handleEdit}>
                 <EditIcon />
@@ -86,6 +118,7 @@ export const BlogDetails = () => {
                 <DeleteIcon />
               </IconButton>
             </>
+            )
           }
         />
         <CardContent>
