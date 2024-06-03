@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 export function PurchaseHistoryCard({ purchase }) {
   const navigate = useNavigate();
   const handleRate = () => {
-    navigate(`/rating`);
+    navigate(`/rating/${purchase._id}`);
   };
 
   return (
@@ -26,18 +26,19 @@ export function PurchaseHistoryCard({ purchase }) {
               <CardMedia
                 sx={{ height: 150, width: 150 }}
                 component="img"
-                image={purchase.img}
+                image={`http://localhost:3000/${purchase.imgs[0]}`}
                 alt="media"
               />
             </CardContent>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
               <CardHeader title={purchase.title} />
-              <Typography>Seller : {purchase.name}</Typography>
-              <Typography>{purchase.date}</Typography>
+              <Typography>Category : {purchase.category}</Typography>
+              <Typography>Condition : {purchase.condition}</Typography>
+              <Typography>{purchase.createdAt}</Typography>
               <Typography>RM{purchase.price}</Typography>
             </Box>
           </Box>
-          <Button onClick={handleRate}>Rate Now</Button>
+          {!purchase.rated && <Button onClick={handleRate}>Rate Now</Button>}
         </Box>
       </Card>
     </>
