@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -33,26 +33,22 @@ export function ProductHistory() {
     }
   }, [refId]);
 
-  if (loading) {
-    return <Box>Loading...</Box>;
-  }
-
-  if (error) {
-    return <Box>Error: {error}</Box>;
-  }
-
   return (
     <>
       <Box
         sx={{ display: "flex", justifyContent: "center", m: 1, flexGrow: 1 }}
       >
-        <Grid container spacing={1}>
-          {product.map((product) => (
-            <Grid item xs={4} key={product._id}>
-              <ProductHistoryCard product={product} />
-            </Grid>
-          ))}
-        </Grid>
+        {loading && <Typography>Loading...</Typography>}
+        {error && <Typography>Error: {error}</Typography>}
+        {!loading && !error && (
+          <Grid container spacing={1}>
+            {product.map((product) => (
+              <Grid item xs={4} key={product._id}>
+                <ProductHistoryCard product={product} />
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </Box>
     </>
   );

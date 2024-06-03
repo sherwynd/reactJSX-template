@@ -21,7 +21,7 @@ function CustomTabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -104,7 +104,7 @@ export function Coaching() {
           {events
             .filter((event) => refId === event.createdBy)
             .map((event) => (
-              <Grid key={event.id} item xs={12} sm={6} md={4}>
+              <Grid key={event._id} item xs={12} sm={6} md={4}>
                 <EventCard event={event} />
               </Grid>
             ))}
@@ -115,7 +115,7 @@ export function Coaching() {
           {events
             .filter((event) => refId !== event.createdBy)
             .map((event) => (
-              <Grid key={event.id} item xs={12} sm={6} md={4}>
+              <Grid key={event._id} item xs={12} sm={6} md={4}>
                 <EventCard event={event} />
               </Grid>
             ))}
