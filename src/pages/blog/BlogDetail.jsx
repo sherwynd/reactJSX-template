@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -19,19 +19,17 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
 import Carousel from "react-material-ui-carousel";
-import { useAuth } from "../../contexts/AuthContext";
 
 export const BlogDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("profile"));
   const [userProfile, setUserProfile] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [blogDetail, setBlogDetail] = useState();
   const [loading, setLoading] = useState(true);
+  const [comment, setComment] = useState([]);
   const [newComment, setNewComment] = useState("");
-
-  // const userId = userData._id;
-  // const refId = userData.refId;
 
   useEffect(() => {
     const fetchBlogById = async () => {
@@ -42,8 +40,7 @@ export const BlogDetails = () => {
         }
         const data = await response.json();
         setBlogDetail(data);
-        // setEditedHeading(data.heading);
-        // setEditedDescription(data.description);
+        setComment(data.comments);
       } catch (error) {
         console.error("Error fetching blog details:", error);
       }
@@ -79,39 +76,6 @@ export const BlogDetails = () => {
     }
   }, [blogDetail]);
 
-  // Simulated posts data
-  // const allPosts = [
-  //   {
-  //     id: 1,
-  //     user: {
-  //       name: "Sherwynd",
-  //       avatar: "https://via.placeholder.com/150",
-  //     },
-  //     heading: "I Love Marathon!",
-  //     description: "Today marathon so tired! But so fun!",
-  //     images: [
-  //       "../src/assets/images/cutie.png",
-  //       "../src/assets/images/cutie2.png",
-  //       "../src/assets/images/cutie3.png",
-  //       "../src/assets/images/cutie4.png",
-  //     ],
-  //     timestamp: "2 hours ago",
-  //     comments: [
-  //       { id: 1, text: "Great job!", user: "Carrot" },
-  //       { id: 2, text: "Wow!", user: "XianHeng" },
-  //     ],
-  //   },
-  // ];
-
-  // Find the selected post based on the postId
-  // const selectedPost = allPosts.find((post) => post.id === parseInt(1));
-  // const [editedHeading, setEditedHeading] = useState(
-  //   selectedPost ? selectedPost.heading : ""
-  // );
-  // const [editedDescription, setEditedDescription] = useState(
-  //   selectedPost ? selectedPost.description : ""
-  // );
-
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -130,27 +94,35 @@ export const BlogDetails = () => {
     // Implement delete functionality
   };
 
-  const handleAddComment = () => {
+  const handleAddComment = async () => {
     if (newComment) {
-      // Normally, update your backend or state management here
-      const updatedComments = [
-        ...selectedPost.comments,
-        {
-          id: selectedPost.comments.length + 1,
-          text: newComment,
-          user: "New User",
-        },
-      ];
-      // setSelectedPost({ ...selectedPost, comments: updatedComments });
-      setNewComment("");
+      const formData = {
+        text: newComment,
+        userId: userData._id,
+      };
+      try {
+        const response = await fetch(
+          `http://localhost:3000/blogs/comments/${id}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ formData }),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setComment([...data]);
+        setNewComment("");
+        navigate(`/blog-details/${id}`);
+      } catch (error) {
+        console.error("Error posting comments:", error);
+      }
     }
   };
-  //   if (newComment) {
-  //     // Normally, update your backend or state management here
-  //     selectedPost.comments.push({ id: selectedPost.comments.length + 1, text: newComment, user: 'New User' });
-  //     setNewComment('');
-  //   }
-  // };
 
   if (loading || !blogDetail) {
     return <div>Loading...</div>;
@@ -226,7 +198,7 @@ export const BlogDetails = () => {
               </Box>
               <Typography variant="h6">Comments:</Typography>
               <List>
-                {blogDetail.comments.map((comment) => (
+                {comment.map((comment) => (
                   <ListItem key={comment._id}>
                     <ListItemAvatar>
                       <Avatar>{comment.username.charAt[0]}</Avatar>

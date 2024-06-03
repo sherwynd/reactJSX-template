@@ -219,22 +219,3 @@ export const BlogPost = () => {
     </div>
   );
 };
-
-// function Item({ item }) {
-//   return (
-//     <Paper sx={{ height: "70vh" }}>
-//       <Box
-//         component="img"
-//         src={item.img}
-//         sx={{
-//           display: "flex",
-//           justifyContent: "start",
-//           alignItems: "center",
-//           width: "100%",
-//           height: "100%",
-//           objectFit: "contain",
-//         }}
-//       ></Box>
-//     </Paper>
-//   );
-// }

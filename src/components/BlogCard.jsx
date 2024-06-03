@@ -9,17 +9,14 @@ import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Carousel from "react-material-ui-carousel";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export function BlogCard({ post }) {
   const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("profile"));
-  // const userId = userData._id;
   const refId = userData.refId;
   const favouriteProducts = userData.favourites || [];
   const [creatorProfile, setCreatorProfile] = useState({});
   const [loading, setLoading] = useState(true);
-  const isFirstRender = useRef(true);
 
   const [favourite, setFavourite] = useState(false);
   const [favouriteCount, setFavouriteCount] = useState(post.favouriteCount);
@@ -121,9 +118,7 @@ export function BlogCard({ post }) {
             }}
             aria-label="avatar"
           >
-            {/*alt={post.name}
-            // src={post.user.avatar} 
-            // Assuming post.user.avatar contains the user's avatar URL */}
+            {creatorProfile.username.charAt[0]}
           </Avatar>
         }
         <Box sx={{ m: 2, flexDirection: "column" }}>
@@ -144,12 +139,15 @@ export function BlogCard({ post }) {
         </Typography>
         <Carousel>
           {post.images.map((img, i) => (
-            <Item key={i} item={{ img }} />
+            <img
+              key={i}
+              src={`http://localhost:3000/${img}`} // Adjust the path to match your server setup
+              alt={`Image ${i + 1}`}
+            />
           ))}
         </Carousel>
         <Box sx={{ display: "flex", flexDirection: "row", m: 1 }}>
           <span>
-            action=
             {
               <IconButton
                 aria-label="add to favourites"
@@ -184,20 +182,3 @@ export function BlogCard({ post }) {
     </Card>
   );
 }
-
-const Item = ({ item }) => (
-  <Paper sx={{ height: "70vh" }}>
-    <Box
-      component="img"
-      src={item.img}
-      sx={{
-        display: "flex",
-        justifyContent: "start",
-        alignItems: "center",
-        width: "100%",
-        height: "100%",
-        objectFit: "contain",
-      }}
-    ></Box>
-  </Paper>
-);
