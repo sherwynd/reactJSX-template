@@ -6,30 +6,29 @@ import { CommentHistoryCard } from "../../components/CommentHistoryCard";
 import { apiGetTemplate } from "../../services/api";
 
 export function RatingHistory() {
-  const [ratingStarHistoryValue, setRatingStarHistoryValue] = useState();
+  const [ratingStarHistoryValue, setRatingStarHistoryValue] = useState(0);
   const [reviewValue, setReviewValue] = useState(0);
   const { refId } = useParams();
   const [ratingHistory, setRatingHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // { /rating/averageRatingOfAUser/:raterRefId
-  //   id: 1,
-  //   name: "Sherwynd Liew",
-  //   text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  //   date: "2021-10-10",
-  // },
+
   useEffect(() => {
     const fetchRatingHistory = async () => {
       try {
         const method = "GET";
         const controller = `rating/allcommentsOfAUser/${refId}`;
         const data = await apiGetTemplate(method, controller);
-        if (data.error) {
+        if (!data) {
+          setRatingHistory([]);
+          setReviewValue(0);
+        } else if (data.error) {
           throw new Error(data.error);
+        } else {
+          console.log(data);
+          setRatingHistory(data);
+          setReviewValue(data.length);
         }
-        console.log(data);
-        setRatingHistory(data);
-        setReviewValue(data.length);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -42,10 +41,13 @@ export function RatingHistory() {
         const method = "GET";
         const controller = `rating/averageRatingOfAUser/${refId}`;
         const data = await apiGetTemplate(method, controller);
-        if (data.error) {
+        if (!data) {
+          setRatingStarHistoryValue(0);
+        } else if (data.error) {
           throw new Error(data.error);
+        } else {
+          setRatingStarHistoryValue(data);
         }
-        setRatingStarHistoryValue(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -66,6 +68,7 @@ export function RatingHistory() {
   if (error) {
     return <Box>Error: {error}</Box>;
   }
+
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", m: 1 }}>
