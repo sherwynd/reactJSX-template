@@ -1,43 +1,71 @@
 import { Box, Grid, Rating, Typography } from "@mui/material";
-import { useState } from "react";
-import { CommentCard } from "../../components/CommentCard";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import { CommentHistoryCard } from "../../components/CommentHistoryCard";
+import { apiGetTemplate } from "../../services/api";
 
 export function RatingHistory() {
-  const [ratingStarHistoryValue, setRatingStarHistoryValue] = useState(3.5);
-  const [reviewValue, setReviewValue] = useState(10);
-  const comments = [
-    //sample
-    // {
-    //   id: 1,
-    //   name: "Sherwynd Liew",
-    //   text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    //   date: "2021-10-10",
-    // },
-    // {
-    //   id: 2,
-    //   name: "Xian Heng",
-    //   text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-    //   date: "2022-11-11",
-    // },
-    // {
-    //   id: 3,
-    //   name: "Carrot Hong",
-    //   text: "Comment 3 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    //   date: "2023-12-12",
-    // },
-    // {
-    //   id: 4,
-    //   name: "Neville Teh",
-    //   text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    //   date: "2021-10-10",
-    // },
-    // {
-    //   id: 5,
-    //   name: "Tian Sien",
-    //   text: "Comment 2 Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-    //   date: "2022-11-11",
-    // },
-  ];
+  const [ratingStarHistoryValue, setRatingStarHistoryValue] = useState();
+  const [reviewValue, setReviewValue] = useState(0);
+  const { refId } = useParams();
+  const [ratingHistory, setRatingHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // { /rating/averageRatingOfAUser/:raterRefId
+  //   id: 1,
+  //   name: "Sherwynd Liew",
+  //   text: "Comment 1 Lorem ipsum dolor, sit amet consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   date: "2021-10-10",
+  // },
+  useEffect(() => {
+    const fetchRatingHistory = async () => {
+      try {
+        const method = "GET";
+        const controller = `rating/allcommentsOfAUser/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        console.log(data);
+        setRatingHistory(data);
+        setReviewValue(data.length);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchAverageRateHistory = async () => {
+      try {
+        const method = "GET";
+        const controller = `rating/averageRatingOfAUser/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (data.error) {
+          throw new Error(data.error);
+        }
+        setRatingStarHistoryValue(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (refId) {
+      fetchRatingHistory();
+      fetchAverageRateHistory();
+    }
+  }, [refId]);
+
+  if (loading) {
+    return <Box>Loading...</Box>;
+  }
+
+  if (error) {
+    return <Box>Error: {error}</Box>;
+  }
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column", m: 1 }}>
@@ -45,7 +73,7 @@ export function RatingHistory() {
           sx={{ display: "flex", justifyContent: "center" }}
           variant="h5"
         >
-          {ratingStarHistoryValue}
+          {reviewValue}
         </Typography>
         <Rating
           name="read-only"
@@ -58,9 +86,9 @@ export function RatingHistory() {
         </Typography>
       </Box>
       <Grid sx={{ m: 1 }} container spacing={2}>
-        {comments.map((comment) => (
-          <Grid item key={comment.id} xs={12} sx={{ mr: 5 }}>
-            <CommentCard comment={comment} />
+        {ratingHistory.map((comment) => (
+          <Grid item key={comment._id} xs={12} sx={{ mr: 5 }}>
+            <CommentHistoryCard comment={comment} />
           </Grid>
         ))}
       </Grid>

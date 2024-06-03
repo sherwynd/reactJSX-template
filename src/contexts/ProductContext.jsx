@@ -5,22 +5,30 @@ export const ProductContext = createContext();
 export const ProductContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [contextLoading, setContextLoading] = useState(true);
+
+  const profile = JSON.parse(localStorage.getItem("profile"));
+  const refId = profile.refId;
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/discover");
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const json = await response.json();
-        setProducts(json);
-        setContextLoading(false);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
     fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/discover");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const json = await response.json();
+      const availableProducts = json.filter(
+        (product) => product.isAvailable && product.creatorId !== refId
+      );
+      setProducts(availableProducts);
+      setContextLoading(false);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const getProduct = (id) => {
     return products.find((product) => product._id === id);
@@ -32,9 +40,23 @@ export const ProductContextProvider = (props) => {
 
   const updateProduct = (product) => {
     const index = products.findIndex((p) => p._id === product._id);
-    console.log(product);
     const updatedProducts = [...products];
     updatedProducts[index] = product;
+    const availableProducts = updatedProducts.filter(
+      (product) => product.isAvailable && product.creatorId !== refId
+    );
+    setProducts(availableProducts);
+  };
+
+  const setProductUnavailable = (productId) => {
+    //set useState product isAvailable to false
+    const index = products.findIndex((p) => p._id === productId);
+    const updatedProducts = [...products];
+    updatedProducts[index].isAvailable = false;
+    const availableProducts = updatedProducts.filter(
+      (product) => product.isAvailable && product.creatorId !== refId
+    );
+    setProducts(availableProducts);
   };
 
   const updateProductFavourite = (product) => {
@@ -86,11 +108,14 @@ export const ProductContextProvider = (props) => {
       value={{
         products,
         contextLoading,
+        fetchProducts,
         getProduct,
         addProduct,
         removeProduct,
         updateProduct,
         updateFavouriteUserinDatabase,
+        updateProductFavourite,
+        setProductUnavailable,
       }}
     >
       {props.children}

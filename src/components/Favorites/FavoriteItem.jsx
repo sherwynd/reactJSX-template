@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { ProductContext } from '../../contexts/ProductContext';
 
 const FavoriteItem = ({ id, name, description, price, image, type, onRemove }) => {
   const navigate = useNavigate();
   const [productData, setProductData] = useState([]);
+  const { updateProductFavourite } = useContext(ProductContext);
 
   const navigateCart = () => {
     const product = {
@@ -34,12 +36,18 @@ const FavoriteItem = ({ id, name, description, price, image, type, onRemove }) =
     try {
       const userData = JSON.parse(localStorage.getItem('profile'));
       const currentId = userData._id;
-      await fetch(`http://localhost:3000/invoice/removeFavouriteProduct/${currentId}/${id}`, {
+      const response = await fetch(`http://localhost:3000/invoice/removeFavouriteProduct/${currentId}/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
         }
       });
+      if (!response.ok) {
+        throw new Error('Failed to remove product from favourites');
+      }
+      const json = await response.json();
+      updateProductFavourite(json);
+      console.log(json);
       const updatedFavourites = userData.favourites.filter(favId => favId !== id);
       userData.favourites = updatedFavourites;
 

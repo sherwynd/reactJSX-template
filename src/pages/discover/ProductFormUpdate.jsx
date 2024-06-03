@@ -82,7 +82,7 @@ const ProductFormUpdate = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     await updateDatabase();
-    // navigate('/discover');
+    navigate('/discover');
   };
 
 

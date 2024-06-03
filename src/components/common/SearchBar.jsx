@@ -46,7 +46,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export function SearchBar() {
+export function SearchBar({ onSearch }) {
   return (
     <Container sx={{ flexGrow: 1, minWidth: "100px", mr: 3 }}>
       <Search>
@@ -56,6 +56,7 @@ export function SearchBar() {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          onChange={(e) => onSearch(e.target.value)}
         />
       </Search>
     </Container>
