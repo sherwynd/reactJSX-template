@@ -1,45 +1,17 @@
 import React from "react";
-import {
-  AppBar,
-  Avatar,
-  Badge,
-  BottomNavigation,
-  BottomNavigationAction,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Container,
-  FormControl,
-  Grid,
-  InputAdornment,
-  IconButton,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  OutlinedInput,
-  Paper,
-  Rating,
-  TextField,
-  Toolbar,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { red } from "@mui/material/colors";
+import { Box, Card, CardHeader, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import {
-  AccessTime,
-  AttachMoney,
-  CalendarMonth,
-  FitnessCenter,
-  Place,
-} from "@mui/icons-material";
+
 export function CoachingHistoryCard({ coaching }) {
+  const bull = (
+    <Box
+      component="span"
+      sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
+    >
+      •
+    </Box>
+  );
+
   return (
     <>
       <Card sx={{ backgroundColor: "#FFF9EF", display: "flex", flexGrow: 1 }}>
@@ -61,8 +33,9 @@ export function CoachingHistoryCard({ coaching }) {
                       flexGrow: 1,
                     }}
                   >
-                    <Typography>2 Activities</Typography>
-                    <Typography>{coaching.time}</Typography>
+                    <Typography>{coaching.eventName}</Typography>
+                    {bull}
+                    <Typography>{coaching.createdDateTime}</Typography>
                   </Box>
                   <Box
                     sx={{
@@ -72,8 +45,8 @@ export function CoachingHistoryCard({ coaching }) {
                       flexGrow: 1,
                     }}
                   >
-                    <Typography>RM{coaching.price}</Typography>
-                    <Typography>{coaching.date}</Typography>
+                    <Typography>RM{coaching.eventPrice}</Typography>
+                    <Typography>{coaching.eventDate}</Typography>
                   </Box>
                 </Box>
               </Box>
