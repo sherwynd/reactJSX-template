@@ -7,6 +7,9 @@ export const ProductContextProvider = (props) => {
     const [products, setProducts] = useState([]);
     const [contextLoading, setContextLoading] = useState(true);
 
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    const refId = profile.refId;
+
     useEffect(() => {
         fetchProducts()
     }, [])
@@ -18,7 +21,8 @@ export const ProductContextProvider = (props) => {
                 throw new Error('Network response was not ok');
             }
             const json = await response.json();
-            setProducts(json);
+            const availableProducts = json.filter(product => product.isAvailable && product.creatorId !== refId);
+            setProducts(availableProducts);
             setContextLoading(false);
             console.log("product context");
         } catch (error) {
@@ -36,7 +40,6 @@ export const ProductContextProvider = (props) => {
 
     const updateProduct = (product) => {
         const index = products.findIndex(p => p._id === product._id);
-        console.log(product);
         const updatedProducts = [...products];
         updatedProducts[index] = product;
     }
