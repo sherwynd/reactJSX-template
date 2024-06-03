@@ -32,7 +32,7 @@ export const Rate = () => {
     const [open, setOpen] = useState(false); // State to handle modal visibility
     const navigate = useNavigate();
     const userData = JSON.parse(localStorage.getItem('profile'));
-    const currentId = userData._id;
+    const currentId = userData.refId;
 
     useEffect(() => {
         getProductData();
