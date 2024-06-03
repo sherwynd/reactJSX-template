@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Card,
@@ -30,22 +30,24 @@ export const BlogDetails = () => {
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [editedHeading, setEditedHeading] = useState("");
+  const [editedDescription, setEditedDescription] = useState("");
+
+  const fetchBlogById = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/blogs/blogs/${id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch blog details");
+      }
+      const data = await response.json();
+      setBlogDetail(data);
+      setComment(data.comments);
+    } catch (error) {
+      console.error("Error fetching blog details:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchBlogById = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/blogs/blogs/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch blog details");
-        }
-        const data = await response.json();
-        setBlogDetail(data);
-        setComment(data.comments);
-      } catch (error) {
-        console.error("Error fetching blog details:", error);
-      }
-    };
-
     fetchBlogById();
   }, [id]);
 
@@ -77,21 +79,54 @@ export const BlogDetails = () => {
   }, [blogDetail]);
 
   const handleEdit = () => {
+    setEditedHeading(blogDetail.heading);
+    setEditedDescription(blogDetail.description);
     setIsEditing(true);
   };
 
-  const handleSaveEdit = () => {
-    setIsEditing(false);
+  const handleSaveEdit = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/blogs/blogs/${userData.refId}/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            heading: editedHeading,
+            description: editedDescription,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update blog");
+      }
+      await fetchBlogById();
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating blog:", error);
+    }
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedHeading(selectedPost.heading);
-    setEditedDescription(selectedPost.description);
+    setEditedHeading(blogDetail.heading);
+    setEditedDescription(blogDetail.description);
   };
 
-  const handleDelete = () => {
-    // Implement delete functionality
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/blogs/blogs/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete blog");
+      }
+      navigate("/blog"); // Redirect to blogs list or another appropriate page
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
   };
 
   const handleAddComment = async () => {
@@ -114,10 +149,9 @@ export const BlogDetails = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const data = await response.json();
-        setComment([...data]);
+        await response.json();
         setNewComment("");
-        navigate(`/blog-details/${id}`);
+        await fetchBlogById(); // Refetch blog details after adding a comment
       } catch (error) {
         console.error("Error posting comments:", error);
       }
@@ -134,13 +168,13 @@ export const BlogDetails = () => {
         <CardHeader
           avatar={
             <Avatar aria-label="avatar">
-              {userProfile.username.charAt(0)}
+              {userProfile?.username?.charAt(0)}
             </Avatar>
           }
-          title={userProfile.username}
+          title={userProfile?.username}
           subheader={blogDetail.createdAt}
           action={
-            userData.refId === blogDetail.createdId && (
+            userData.refId === blogDetail.creatorId && (
               <>
                 <IconButton aria-label="edit post" onClick={handleEdit}>
                   <EditIcon />
@@ -201,11 +235,13 @@ export const BlogDetails = () => {
                 {comment.map((comment) => (
                   <ListItem key={comment._id}>
                     <ListItemAvatar>
-                      <Avatar>{comment.username.charAt[0]}</Avatar>
+                      <Avatar>
+                        {comment.username ? comment.username.charAt(0) : "?"}
+                      </Avatar>
                     </ListItemAvatar>
                     <ListItemText
                       primary={comment.text}
-                      secondary={comment.username}
+                      secondary={comment.username || "Unknown"}
                     />
                   </ListItem>
                 ))}
