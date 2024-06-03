@@ -110,7 +110,7 @@ const routes = [
         element: <Favorites />,
       },
       {
-        path: "rating",
+        path: "rating/:productIdPassed",
         element: <Rate />,
       },
       {
