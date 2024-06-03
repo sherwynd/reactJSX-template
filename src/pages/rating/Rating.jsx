@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FavoriteItem from '../../components/Favorites/FavoriteItem';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
@@ -13,7 +13,17 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export const Rate = (id) => {
+export const Rate = () => {
+
+
+    // How to pass this page
+    // <button onClick={() => handleRateClick(productId)}>Rate</button>
+    // const navigate = useNavigate();
+    // const handleRateClick = (productId) => {
+    //     navigate(`/rate/${productId}`);
+    // };
+
+    const { productIdPassed } = useParams();
     const [productData, setProductData] = useState([]);
     const [ratingValue, setRatingValue] = useState(2); // default value
     const [ratingComment, setRatingComment] = useState('');
@@ -31,8 +41,8 @@ export const Rate = (id) => {
     const getProductData = async () => {
         try {
             // Command for next line and open second command
-            const response = await fetch(`http://localhost:3000/discover/66544fde1b4a040eebfade1d`);
-            // const response = await fetch(`http://localhost:3000/discover/${id}`);
+            // const response = await fetch(`http://localhost:3000/discover/66544fde1b4a040eebfade1d`);
+            const response = await fetch(`http://localhost:3000/discover/${productIdPassed}`);
             const data = await response.json();
             setProductData([data]); // Wrap the single object in an array
             setProductId(data._id);

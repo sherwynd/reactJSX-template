@@ -7,9 +7,6 @@ import { Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export function ProductHistoryCard({ product }) {
-  useEffect(() => {
-    console.log(product.imgs[0]);
-  });
   return (
     <Card sx={{ flexGrow: 1 }}>
       <CardContent sx={{ p: 0 }}>
