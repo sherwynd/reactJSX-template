@@ -45,18 +45,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(no, name, title) {
-  return { no, name, title };
-}
-
-const rows = [
-  createData(1, "John Doe", "Lead Developer"),
-  createData(2, "Jane Smith", "Project Manager"),
-  createData(3, "Ahmed Khan", "UI/UX Designer"),
-  createData(4, "Emily Johnson", "Software Tester"),
-  createData(5, "Carlos Diaz", "Product Owner"),
-];
-
 export default function CoachingDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
