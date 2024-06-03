@@ -24,7 +24,6 @@ export const ProductContextProvider = (props) => {
             const availableProducts = json.filter(product => product.isAvailable && product.creatorId !== refId);
             setProducts(availableProducts);
             setContextLoading(false);
-            console.log("product context");
         } catch (error) {
             console.error('Error fetching products:', error);
         }
@@ -42,6 +41,17 @@ export const ProductContextProvider = (props) => {
         const index = products.findIndex(p => p._id === product._id);
         const updatedProducts = [...products];
         updatedProducts[index] = product;
+        const availableProducts = updatedProducts.filter(product => product.isAvailable && product.creatorId !== refId);
+        setProducts(availableProducts);
+    }
+
+    const setProductUnavailable = (productId) => {
+        //set useState product isAvailable to false
+        const index = products.findIndex(p => p._id === productId);
+        const updatedProducts = [...products];
+        updatedProducts[index].isAvailable = false;
+        const availableProducts = updatedProducts.filter(product => product.isAvailable && product.creatorId !== refId);
+        setProducts(availableProducts);
     }
 
     const updateProductFavourite = (product) => {
@@ -90,7 +100,7 @@ export const ProductContextProvider = (props) => {
     }
 
     return (
-        <ProductContext.Provider value={{ products, contextLoading, fetchProducts, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase, updateProductFavourite }}>
+        <ProductContext.Provider value={{ products, contextLoading, fetchProducts, getProduct, addProduct, removeProduct, updateProduct, updateFavouriteUserinDatabase, updateProductFavourite, setProductUnavailable }}>
             {props.children}
         </ProductContext.Provider>
     );

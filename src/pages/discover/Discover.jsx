@@ -11,13 +11,9 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { ProductContext } from "../../contexts/ProductContext";
 
 export function Discover() {
-  const { products, contextLoading, fetchProducts } = useContext(ProductContext);
+  const { products, contextLoading } = useContext(ProductContext);
   const [loading, setLoading] = useState(true);
   const isFirstRender = useRef(true);
-
-  // useEffect(() => {
-  //   fetchProducts();
-  // }, []);
 
   const breakpointColumnsObj = {
     default: 4,
@@ -28,7 +24,7 @@ export function Discover() {
   };
 
   // Categories
-  const categories = ['All', 'Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey',];
+  const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
 
   // Filter products based on category
   const [filteredProducts, setFilteredProducts] = useState([...products]);
