@@ -25,7 +25,7 @@ export const Favorites = () => {
             <div className="flex flex-col items-center justify-center p-4">
                 <h2 className="text-2xl font-bold mb-3">Favourites</h2>
                 <div className="w-full max-w-2xl md:max-w-4xl">
-                    {favoritesData.map(item => (
+                    {favoritesData.filter(item => item.isAvailable).map(item => (
                         <FavoriteItem
                             key={item._id}
                             id={item._id}
