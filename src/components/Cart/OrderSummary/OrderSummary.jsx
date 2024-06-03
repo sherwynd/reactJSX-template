@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography, Button, Card, CardContent, Grid, Modal, Box } from '@mui/material';
 import { PaymentOptions } from '../Payment/PaymentOptions';
 import axios from 'axios';
+
+import { ProductContext } from '../../../contexts/ProductContext';
 
 export const OrderSummary = ({ products, address }) => {
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ export const OrderSummary = ({ products, address }) => {
   const subtotal = products.reduce((acc, product) => acc + product.price * product.quantity, 0);
   const shipping = 5;
   const total = subtotal + shipping;
+
+  const { setProductUnavailable } = useContext(ProductContext);
 
   const handleAlertClose = () => setAlertModalOpen(false);
   const handleConfirmClose = () => setConfirmModalOpen(false);
@@ -43,7 +47,7 @@ export const OrderSummary = ({ products, address }) => {
       };
 
       await axios.post(`http://localhost:3000/invoice/makeInvoiceByUser/${refId}/${productId}`, invoiceData);
-
+      setProductUnavailable(productId);
       navigate('/discover');
     } catch (error) {
       console.error('Error creating invoice:', error);

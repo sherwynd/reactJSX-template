@@ -7,19 +7,21 @@ import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 
 
-export function CommentCard({ comment }) {
+export function CommentCard({ rating }) {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`http://localhost:3000/auth/getAccount/${comment.refId}`);
+                console.log(rating.raterRefId);
+                const response = await fetch(`http://localhost:3000/auth/getAccount/${rating.raterRefId}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const json = await response.json();
                 setUser(json);
+                console.log(json);
                 setLoading(false); 
             } catch (error) {
                 console.error('Error fetching user:', error);
@@ -27,12 +29,12 @@ export function CommentCard({ comment }) {
             }
         };
 
-        if (comment.refId) {
+        if (rating.raterRefId) {
             fetchUser();
         } else {
             setLoading(false);
         }
-    }, [comment.refId]);
+    }, [rating.raterRefId]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -52,15 +54,15 @@ export function CommentCard({ comment }) {
                         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                             <Rating
                                 name="user-rating"
-                                value={comment.rating}
+                                value={rating.ratingValue}
                                 precision={0.5}
                                 readOnly />
-                            <Typography>{comment.ratingDate}</Typography>
+                            <Typography>{rating.ratingDate}</Typography>
                         </Box>
                     }
                 />
                 <CardContent>
-                    <Typography>{comment.ratingComment}</Typography>
+                    <Typography>{rating.ratingComment}</Typography>
                 </CardContent>
             </Card>
         </div>
