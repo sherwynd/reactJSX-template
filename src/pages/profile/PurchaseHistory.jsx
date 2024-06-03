@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -21,7 +21,6 @@ export function PurchaseHistory() {
           throw new Error(data.error);
         }
         setPurchaseHistory(data);
-        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {

@@ -23,7 +23,7 @@ export function Setting() {
   const [profilePicture, setProfilePicture] = useState();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [description, setDescription] = useState("");
-  const { profile, loading, error } = useSelector((state) => state.profile);
+  const { profile } = useSelector((state) => state.profile);
 
   useEffect(() => {
     setUsername(profile.username);
@@ -64,7 +64,13 @@ export function Setting() {
     }
 
     const method = "PATCH";
-    const profileFormDetail = { username, nickname, phoneNumber, description };
+    const profileFormDetail = {
+      username,
+      nickname,
+      phoneNumber,
+      description,
+      profilePicture,
+    };
     const controller = `auth/editAccount/${profile._id}`;
     const data = await apiGeneralTemplate(
       method,

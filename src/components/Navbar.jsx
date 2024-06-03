@@ -23,7 +23,7 @@ import {
 
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { ThemeProvider } from "@emotion/react";
 import theme from "../theme/color";
@@ -32,7 +32,7 @@ import LogoImage from "../assets/images/Logo.webp";
 import { SearchBar } from "./common/SearchBar";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { useSelector } from "react-redux";
 
 import { useAuth, AuthContext } from "../contexts/AuthContext";
@@ -68,6 +68,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 export function NavBar(props) {
+  const location = useLocation();
   const { window, children } = props;
   const navigate = useNavigate();
   const { currentRefId, user } = useAuth();
@@ -84,8 +85,6 @@ export function NavBar(props) {
     { id: 3, label: "Discover", route: "discover" },
     { id: 4, label: "Favorites", route: "favorites" },
   ];
-
-  useEffect(() => {}, []);
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -201,7 +200,8 @@ export function NavBar(props) {
                 flexGrow: 1,
               }}
             >
-              <SearchBar />
+              {(location.pathname.includes("/discover") ||
+                location.pathname.includes("/blog")) && <SearchBar />}
             </Box>
             <Box
               sx={{
