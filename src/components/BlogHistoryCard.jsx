@@ -14,28 +14,28 @@ export function BlogHistoryCard({ blog }) {
         <CardMedia
           sx={{ height: 250 }}
           component="img"
-          image={blog.img}
+          image={`http://localhost:3000/${blog.images[0]}`}
           alt="media"
         />
       </CardContent>
 
       <CardContent sx={{ bgcolor: "secondary.main" }}>
         <Link
-          to={`/blog-details/${blog.id}`}
+          to={`/blog-details/${blog._id}`}
           style={{ textDecoration: "none", color: "black" }}
         >
           <Typography noWrap variant="h6" marginTop={-1}>
-            {blog.title}
+            {blog.heading}
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <Box sx={{ display: "flex", flexDirection: "row", flexGrow: 1 }}>
                 <FavoriteIcon color="primary" />
-                <Typography>{blog.like}</Typography>
+                <Typography>{blog.likeRefId.length}</Typography>
               </Box>
               <Box sx={{ display: "flex", flexDirection: "row" }}>
                 <CommentIcon color="primary" />
-                <Typography>{blog.comments}</Typography>
+                <Typography>{blog.comments.length}</Typography>
               </Box>
               <Typography
                 sx={{
