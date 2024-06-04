@@ -8,9 +8,6 @@ import { apiGetTemplate } from "../../services/api";
 export function CoachingHistory() {
   const { refId } = useParams();
   const [createdEvent, setCreatedEvent] = useState([]);
-  const [joinedEvent, setJoinedEvent] = useState([]);
-  // const [createdEventSet, setCreatedEventSet] = useState();
-  // const [joinedEventSet, setJoinedEventSet] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -33,7 +30,6 @@ export function CoachingHistory() {
 
     if (refId) {
       fetchCreatedEventHistory();
-      // fetchJoinedEventHistory();
     }
   }, [refId]);
 
