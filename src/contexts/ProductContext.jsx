@@ -7,7 +7,7 @@ export const ProductContextProvider = (props) => {
   const [contextLoading, setContextLoading] = useState(true);
 
   const profile = JSON.parse(localStorage.getItem("profile"));
-  const refId = profile.refId;
+  const refId = profile?.refId || "";
 
   useEffect(() => {
     fetchProducts();

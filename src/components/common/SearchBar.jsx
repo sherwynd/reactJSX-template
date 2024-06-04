@@ -3,8 +3,10 @@ import { styled, alpha } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { apiGetTemplate } from "../../services/api";
+
+import { ProductContext } from "../../contexts/ProductContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,13 +53,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export function SearchBar({ setResult }) {
   const [item, setItem] = useState();
+  const { products, fetchProducts } = useContext(ProductContext);
 
   const fetchData = async (value) => {
-    const method = "GET";
-    const controller = "discover/";
-    const data = await apiGetTemplate(method, controller);
+    // const method = "GET";
+    // const controller = "discover/";
+    // const data = await apiGetTemplate(method, controller);
+    fetchProducts();
+    const data = products;
     const result = data.filter((item) => {
-      return item && item.title && item.title.toLowerCase().includes(value);
+      return item && item.title && item.title.toLowerCase().includes(value.toLowerCase());
     });
     setResult(result);
   };
