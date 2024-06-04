@@ -3,6 +3,8 @@ import { styled, alpha } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
+import { apiGetTemplate } from "../../services/api";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -13,6 +15,7 @@ const Search = styled("div")(({ theme }) => ({
   },
   marginLeft: 0,
   width: "100%",
+  border: `1px solid ${theme.palette.common.black}`,
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(1),
     width: "auto",
@@ -46,17 +49,46 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export function SearchBar({ onSearch }) {
+export function SearchBar({ setResult }) {
+  const [item, setItem] = useState();
+
+  const fetchData = async (value) => {
+    const method = "GET";
+    const controller = "discover/";
+    const data = await apiGetTemplate(method, controller);
+    const result = data.filter((item) => {
+      return item && item.title && item.title.toLowerCase().includes(value);
+    });
+    setResult(result);
+  };
+  const handleSearchChange = (value) => {
+    setItem(value);
+    fetchData(value);
+  };
   return (
-    <Container sx={{ flexGrow: 1, minWidth: "100px", mr: 3 }}>
+    <Container
+      sx={{
+        display: "flex",
+        flexGrow: 1,
+        minWidth: "600px",
+        mr: 3,
+        justifyContent: "center",
+      }}
+    >
       <Search>
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
-          onChange={(e) => onSearch(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
         />
       </Search>
     </Container>
