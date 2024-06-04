@@ -92,7 +92,6 @@ const ProductDetail = () => {
 
   const fetchCreatorRating = async (creatorRefId) => {
     try {
-      console.log(creatorProfile)
       const response = await fetch(`http://localhost:3000/rating/averageRatingOfAUser/${creatorRefId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -121,7 +120,6 @@ const ProductDetail = () => {
   }, [favouriteProducts])
 
   const updateFavouriteProductsinDatabase = async (userId, favouriteProducts) => {
-    console.log(refId)
     const response = await fetch(`http://localhost:3000/auth/editAccount/${userId}`, {
       method: 'PATCH',
       headers: {
@@ -218,10 +216,10 @@ const ProductDetail = () => {
             </Link>
 
             <Box>
-              <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
+              {product.creatorId != refId && <Button aria-label="Love" onClick={handleFavourite} sx={{ mx: 2, py: .9, borderRadius: 3 }} variant='outlined'>
                 {favourite === false ? <FavoriteIcon /> : <FavoriteIcon color='warning' />}
                 <Typography>{favouriteCounter}</Typography>
-              </Button>
+              </Button>}
             </Box>
 
           </Grid>
@@ -289,7 +287,6 @@ const ProductDetail = () => {
                   Contact
                 </Typography>
                 <Typography>
-                  {/* {product.profile.phone} */}
                   {creatorProfile.email}
                 </Typography>
               </Grid>

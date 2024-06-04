@@ -20,7 +20,7 @@ export function Discover() {
   };
 
   // Categories
-  const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
+  const categories = ['All', 'Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
 
   // Filter products based on category
   const [filteredProducts, setFilteredProducts] = useState([...products]);
@@ -37,7 +37,6 @@ export function Discover() {
   }, [products, result]);
 
   const filterProducts = (category) => {
-    console.log(filteredProducts);
     if (category === "All") {
       setFilteredProducts(products);
     } else {
@@ -73,7 +72,7 @@ export function Discover() {
     <Box>
       <SearchBar setResult={setResult} />
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h3" sx={{ mt: 3, ml: 1 }}>
+        <Typography variant="h3" sx={{ mt: 4, ml: 1 }}>
           Discover
         </Typography>
         <Box
@@ -82,6 +81,7 @@ export function Discover() {
             width: "40%",
             height: "10vh",
             mb: 3,
+            mt: 1,
             justifyContent: "flex-end",
           }}
         >
@@ -110,7 +110,6 @@ export function Discover() {
           </Button>
         </Box>
       </Box>
-
       <Box
         sx={{
           display: "flex",
