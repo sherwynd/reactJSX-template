@@ -29,7 +29,6 @@ export const BlogPost = () => {
       const filteredBlogs = data.filter(
         (blog) => !blog.muteBy.includes(currentId)
       );
-      console.log(filteredBlogs);
       setBlogs(filteredBlogs);
       setFilteredBlogs(filteredBlogs);
     } catch (error) {
@@ -122,11 +121,9 @@ export const BlogPost = () => {
   };
 
   const handleSearch = (value) => {
-    console.log("value", value);
     const filtered = blogs.filter((blog) =>
       blog.heading.toLowerCase().includes(value.toLowerCase())
     );
-    console.log(filtered);
     setFilteredBlogs(filtered);
   };
 
