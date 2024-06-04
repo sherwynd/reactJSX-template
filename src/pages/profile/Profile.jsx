@@ -51,12 +51,55 @@ export function Profile() {
         setLoading(false);
       }
     };
+    const fetchRatingHistory = async () => {
+      try {
+        const method = "GET";
+        const controller = `rating/allcommentsOfAUser/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (!data) {
+          setReviewValue(0);
+        } else if (data.error) {
+          throw new Error(data.error);
+        } else {
+          setReviewValue(data.length);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchAverageRateHistory = async () => {
+      try {
+        const method = "GET";
+        const controller = `rating/averageRatingOfAUser/${refId}`;
+        const data = await apiGetTemplate(method, controller);
+        if (!data) {
+          setRatingStarValue(0);
+        } else if (data.error) {
+          throw new Error(data.error);
+        } else {
+          setRatingStarValue(data);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     const checkSetting = async () => {
       if (currentRefId === refId) return setVisibleSetting(true);
       else return setVisibleSetting(false);
     };
-    fetchProfile();
-    checkSetting();
+
+    if (refId) {
+      fetchProfile();
+      checkSetting();
+      fetchRatingHistory();
+      fetchAverageRateHistory();
+    }
   }, [refId]);
 
   if (loading) {
