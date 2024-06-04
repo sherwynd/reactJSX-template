@@ -199,10 +199,7 @@ export function NavBar(props) {
                 alignItems: "center",
                 flexGrow: 1,
               }}
-            >
-              {(location.pathname.includes("/discover") ||
-                location.pathname.includes("/blog")) && <SearchBar />}
-            </Box>
+            ></Box>
             <Box
               sx={{
                 display: "flex",
