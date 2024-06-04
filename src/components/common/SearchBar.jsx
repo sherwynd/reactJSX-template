@@ -73,9 +73,10 @@ export function SearchBar({ setResult }) {
   return (
     <Container
       sx={{
-        display: "flex",
+        display: "flex-inline",
         flexGrow: 1,
         minWidth: "600px",
+        width: "100%",
         mr: 3,
         justifyContent: "center",
       }}

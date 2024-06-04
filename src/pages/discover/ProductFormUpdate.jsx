@@ -1,4 +1,4 @@
-import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Grid, Box, Paper, Input, FormLabel } from '@mui/material';
+import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Grid, Box, Paper, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ProductContext } from '../../contexts/ProductContext';
@@ -17,6 +17,8 @@ const ProductFormUpdate = () => {
   const [condition, setCondition] = useState('');
   const [acquisition, setAcquisition] = useState('');
   const [imgs, setImgs] = useState([]);
+
+  const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -77,73 +79,86 @@ const ProductFormUpdate = () => {
       console.error('Error updating product:', error);
       setError(error.message);
     }
+
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    await updateDatabase();
-    navigate('/discover');
+    if (isNaN(price) || price < 1) {
+      setError('Price must be a number above -1');
+    } else if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+      setError('The input must be a valid price (e.g., 10.99)');
+    } else {
+      setError('');
+      await updateDatabase();
+      navigate('/discover');
+    }
   };
 
 
-  const handleRemove = async (e) => {
+  const handleConfirm = async (e) => {
     e.preventDefault();
-    if (confirm("Are you sure you want to remove this item?")) {
-      try {
-        removeProduct(id);
-        navigate('/discover');
-      } catch (error) {
-        setError(error.message);
-      }
-    }
-    else {
-      console.log("Product is not deleted");
+    try {
+      removeProduct(id);
+      navigate('/discover');
+    } catch (error) {
+      setError(error.message);
     }
   }
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const handleImageChange = (e) => {
-    if (e.target.files) {
-
-      const newFiles = Array.from(e.target.files);
-      console.log(newFiles)
-      setImgs((prevImgs) => [...prevImgs, ...newFiles]);
-      console.log(imgs)
-
-      const filesArray = Array.from(e.target.files).map((file) =>
-        URL.createObjectURL(file)
-      );
-
-      setSelectedFiles((prevImages) => prevImages.concat(filesArray));
-      Array.from(e.target.files).map(
-        (file) => URL.revokeObjectURL(file)
-      );
-    }
+  const [open, setOpen] = useState(false);
+  const handleOpen = (e) => {
+    e.preventDefault();
+    setOpen(true);
   };
-  const loadImages = (imgs) => {
-    const filesArray = Array.from(imgs).map((file) =>
-      URL.createObjectURL(file)
-    );
-    setSelectedFiles((prevImages) => prevImages.concat(filesArray));
-    Array.from(imgs).map(
-      (file) => URL.revokeObjectURL(file)
-    );
+  const handleClose = (e) => {
+    e.preventDefault();
+    setOpen(false);
   };
 
-  const renderPhotos = (source) => {
-    if (source.length === 0) {
-      return (
-        <Typography variant="h6" sx={{ m: 2 }}>No images selected</Typography>
-      )
-    }
-    return source.map((photo, index) => {
-      return (
-        <Grid item lg={2} key={index}>
-          <Box component="img" src={photo} key={photo} sx={{ width: "20vh", height: "20vh", m: 1, objectFit: "contain" }} alt="" />
-        </Grid>
-      )
-    });
-  };
+  // const [selectedFiles, setSelectedFiles] = useState([]);
+  // const handleImageChange = (e) => {
+  //   if (e.target.files) {
+
+  //     const newFiles = Array.from(e.target.files);
+  //     console.log(newFiles)
+  //     setImgs((prevImgs) => [...prevImgs, ...newFiles]);
+  //     console.log(imgs)
+
+  //     const filesArray = Array.from(e.target.files).map((file) =>
+  //       URL.createObjectURL(file)
+  //     );
+
+  //     setSelectedFiles((prevImages) => prevImages.concat(filesArray));
+  //     Array.from(e.target.files).map(
+  //       (file) => URL.revokeObjectURL(file)
+  //     );
+  //   }
+  // };
+  // const loadImages = (imgs) => {
+  //   const filesArray = Array.from(imgs).map((file) =>
+  //     URL.createObjectURL(file)
+  //   );
+  //   setSelectedFiles((prevImages) => prevImages.concat(filesArray));
+  //   Array.from(imgs).map(
+  //     (file) => URL.revokeObjectURL(file)
+  //   );
+  // };
+
+  // const renderPhotos = (source) => {
+  //   if (source.length === 0) {
+  //     return (
+  //       <Typography variant="h6" sx={{ m: 2 }}>No images selected</Typography>
+  //     )
+  //   }
+  //   return source.map((photo, index) => {
+  //     return (
+  //       <Grid item lg={2} key={index}>
+  //         <Box component="img" src={photo} key={photo} sx={{ width: "20vh", height: "20vh", m: 1, objectFit: "contain" }} alt="" />
+  //       </Grid>
+  //     )
+  //   });
+  // };
 
   if (product.title === '') {
     return <Typography>Loading...</Typography>;
@@ -174,7 +189,10 @@ const ProductFormUpdate = () => {
                 label="price"
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
+                type='text'
+                error={!!error}
               />
+              <FormHelperText sx={{ color: 'red' }}>{error}</FormHelperText>
             </FormControl>
 
             <TextField
@@ -229,9 +247,11 @@ const ProductFormUpdate = () => {
                     label="Category"
                     onChange={(e) => setCategory(e.target.value)}
                   >
-                    <MenuItem value="Racquets">Racquets</MenuItem>
-                    <MenuItem value="Sport Shoes">Sport Shoes</MenuItem>
-                    <MenuItem value="Balls">Balls</MenuItem>
+                    {categories.map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
@@ -288,14 +308,30 @@ const ProductFormUpdate = () => {
 
             <Box sx={{ display: "flex", width: "50%" }}>
               <Button variant="outlined" color="success" type="submit" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Save and Update</Button>
-              <Button onClick={handleRemove} variant="outlined" color="warning" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Remove Item</Button>
+              <Button onClick={handleOpen} variant="outlined" color="warning" sx={{ m: 1, width: "100%", borderRadius: 3 }}>Remove Item</Button>
             </Box>
           </Stack >
+          <PopUp open={open} onClose={(e) => handleClose(e)} title="Confirmation" content="Are you sure you want to remove?" onConfirm={handleConfirm} />
         </form>
       </Paper>
     </>
 
   )
 }
+
+const PopUp = ({ open, onClose, title, content, onConfirm }) => {
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        <Typography>{content}</Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose} color="primary">Cancel</Button>
+        <Button onClick={onConfirm} color="primary">Confirm</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
 
 export default ProductFormUpdate;

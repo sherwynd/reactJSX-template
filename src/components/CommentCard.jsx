@@ -14,14 +14,12 @@ export function CommentCard({ rating }) {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                console.log(rating.raterRefId);
                 const response = await fetch(`http://localhost:3000/auth/getAccount/${rating.raterRefId}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const json = await response.json();
                 setUser(json);
-                console.log(json);
                 setLoading(false); 
             } catch (error) {
                 console.error('Error fetching user:', error);
@@ -57,7 +55,7 @@ export function CommentCard({ rating }) {
                                 value={rating.ratingValue}
                                 precision={0.5}
                                 readOnly />
-                            <Typography>{rating.ratingDate}</Typography>
+                            <Typography>{rating.ratingDate.substring(0, 10)}</Typography>
                         </Box>
                     }
                 />
