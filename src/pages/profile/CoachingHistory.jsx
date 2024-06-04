@@ -2,7 +2,7 @@ import { Box, Typography, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { CoachingHistoryCard } from "../../components/CoachingHistoryCard.jsx";
+import { CoachingHistoryCard } from "../../components/CoachingHistoryCard";
 import { apiGetTemplate } from "../../services/api";
 
 export function CoachingHistory() {
@@ -24,36 +24,33 @@ export function CoachingHistory() {
           throw new Error(data.error);
         }
         setCreatedEvent(data);
-        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
-      console.log(createdEvent);
     };
 
-    const fetchJoinedEventHistory = async () => {
-      try {
-        const method = "GET";
-        const controller = `invoice/findAllInvoiceWithEventByUser/${refId}`;
-        const data = await apiGetTemplate(method, controller);
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        setJoinedEvent(data);
-        console.log(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-      console.log(createdEvent);
-    };
+    // const fetchJoinedEventHistory = async () => {
+    //   try {
+    //     const method = "GET";
+    //     const controller = `invoice/findAllInvoiceWithEventByUser/${refId}`;
+    //     const data = await apiGetTemplate(method, controller);
+    //     if (data.error) {
+    //       throw new Error(data.error);
+    //     }
+    //     setJoinedEvent(data);
+    //     console.log(data);
+    //   } catch (err) {
+    //     setError(err.message);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
 
     if (refId) {
       fetchCreatedEventHistory();
-      fetchJoinedEventHistory();
+      // fetchJoinedEventHistory();
     }
   }, [refId]);
 
@@ -65,23 +62,14 @@ export function CoachingHistory() {
         {loading && <Typography>Loading...</Typography>}
         {error && <Typography>Error: {error}</Typography>}
         {!loading && !error && (
-          <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+          <Grid container spacing={1}>
             {createdEvent.map((coaching) => (
-              <Grid
-                item
-                xs={6}
-                key={coaching._id}
-                sx={{
-                  display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <CoachingHistoryCard coaching={coaching} />
+              <Grid item xs={4} key={coaching._id}>
+                <CoachingHistoryCard event={coaching} />
               </Grid>
             ))}
 
-            {joinedEvent.map((coaching) => (
+            {/* {joinedEvent.map((coaching) => (
               <Grid
                 item
                 xs={6}
@@ -94,7 +82,7 @@ export function CoachingHistory() {
               >
                 <CoachingHistoryCard coaching={coaching} />
               </Grid>
-            ))}
+            ))} */}
           </Grid>
         )}
       </Box>

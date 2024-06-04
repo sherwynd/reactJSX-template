@@ -30,8 +30,9 @@ export function Profile() {
     { id: 0, label: "Product", route: "productHistory" },
     { id: 1, label: "Blog", route: "blogHistory" },
     { id: 2, label: "Coaching", route: "coachingHistory" },
-    { id: 3, label: "Rating", route: "ratingHistory" },
-    { id: 4, label: "Purchased", route: "purchaseHistory" },
+    { id: 3, label: "Event", route: "eventHistory" },
+    { id: 4, label: "Rating", route: "ratingHistory" },
+    { id: 5, label: "Purchased", route: "purchaseHistory" },
   ];
 
   useEffect(() => {
@@ -102,14 +103,6 @@ export function Profile() {
     }
   }, [refId]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error fetching profile: {error.message}</p>;
-  }
-
   const handleSetting = () => {
     navigate(`/setting/${profile.refId}`);
   };
@@ -117,115 +110,120 @@ export function Profile() {
   return (
     <>
       <Box sx={{ my: 2, display: "flex", flexDirection: "row" }}>
-        <Box
-          sx={{
-            flexDirection: "column",
-            p: 2,
-            maxWidth: "300px",
-          }}
-        >
-          <Avatar
-            sx={{
-              display: "flex",
-              width: 200,
-              height: 200,
-              m: 2,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            src={profile.profilePicture || ""}
-          />
-          {/* can be into contexts */}
-          <Typography
-            sx={{
-              my: 0.7,
-            }}
-            variant="h5"
-          >
-            {profile.nickname || profile.username || "Loading nickname..."}
-          </Typography>
-          <Typography
-            sx={{
-              my: 0.7,
-            }}
-          >
-            @{profile.username || "Loading username..."}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
-            <Typography sx={{ mx: 1, pt: 0.2 }}>
-              {profile.ratingStarValue || ratingStarValue}
-            </Typography>
-            <Rating
-              name="read-only"
-              value={profile.ratingStarValue || ratingStarValue}
-              precision={0.5}
-              readOnly
-            />
-            <Typography sx={{ mx: 0.3, pt: 0.2 }}>
-              ({profile.reviewValue || reviewValue})
-            </Typography>
-          </Box>
-          <Typography
-            sx={{
-              my: 0.7,
-            }}
-          >
-            {profile.phoneNumber || "No Phone Number"}
-          </Typography>
-          <Typography
-            sx={{
-              my: 0.7,
-            }}
-          >
-            {profile.description || "No description"}
-          </Typography>
-        </Box>
-
-        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-          {" "}
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <List sx={{ display: "flex" }}>
-              {mainNavbarProfileHistory.map((item, index) => (
-                <ListItem
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                  key={item.id}
-                  disablePadding
-                >
-                  <ListItemButton component={Link} to={item.route}>
-                    <ListItemText
-                      sx={{
-                        display: "flex",
-                        width: 40,
-                        justifyContent: "center",
-                      }}
-                      primary={item.label}
-                    />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
+        {loading && <Typography>Loading...</Typography>}
+        {error && <Typography>Error: {error}</Typography>}
+        {!loading && !error && (
+          <>
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                alignItems: "center",
-                flexGrow: 1,
+                flexDirection: "column",
+                p: 2,
+                maxWidth: "300px",
               }}
             >
-              {visibleSetting && (
-                <Button sx={{ maxHeight: "50px" }} onClick={handleSetting}>
-                  Edit Profile
-                </Button>
-              )}
+              <Avatar
+                sx={{
+                  display: "flex",
+                  width: 200,
+                  height: 200,
+                  m: 2,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                src={profile.profilePicture || ""}
+              />
+              {/* can be into contexts */}
+              <Typography
+                sx={{
+                  my: 0.7,
+                }}
+                variant="h5"
+              >
+                {profile.nickname || profile.username || "Loading nickname..."}
+              </Typography>
+              <Typography
+                sx={{
+                  my: 0.7,
+                }}
+              >
+                @{profile.username || "Loading username..."}
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", my: 0.7 }}>
+                <Typography sx={{ mx: 1, pt: 0.2 }}>
+                  {profile.ratingStarValue || ratingStarValue}
+                </Typography>
+                <Rating
+                  name="read-only"
+                  value={profile.ratingStarValue || ratingStarValue}
+                  precision={0.5}
+                  readOnly
+                />
+                <Typography sx={{ mx: 0.3, pt: 0.2 }}>
+                  ({profile.reviewValue || reviewValue})
+                </Typography>
+              </Box>
+              <Typography
+                sx={{
+                  my: 0.7,
+                }}
+              >
+                {profile.phoneNumber || "No Phone Number"}
+              </Typography>
+              <Typography
+                sx={{
+                  my: 0.7,
+                }}
+              >
+                {profile.description || "No description"}
+              </Typography>
             </Box>
-          </Box>
-          <Paper sx={{ display: "flex", flexGrow: 1 }}>
-            <Outlet />
-          </Paper>
-        </Box>
+            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+              {" "}
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <List sx={{ display: "flex" }}>
+                  {mainNavbarProfileHistory.map((item, index) => (
+                    <ListItem
+                      sx={{
+                        display: "flex",
+                        justifyContent: "flex-start",
+                      }}
+                      key={item.id}
+                      disablePadding
+                    >
+                      <ListItemButton component={Link} to={item.route}>
+                        <ListItemText
+                          sx={{
+                            display: "flex",
+                            width: 40,
+                            justifyContent: "center",
+                          }}
+                          primary={item.label}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  ))}
+                </List>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    flexGrow: 1,
+                  }}
+                >
+                  {visibleSetting && (
+                    <Button sx={{ maxHeight: "50px" }} onClick={handleSetting}>
+                      Edit Profile
+                    </Button>
+                  )}
+                </Box>
+              </Box>
+              <Paper sx={{ display: "flex", flexGrow: 1 }}>
+                <Outlet />
+              </Paper>
+            </Box>
+          </>
+        )}
       </Box>
       {/* E comm */}
       <Chart />

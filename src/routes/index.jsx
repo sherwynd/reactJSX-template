@@ -9,6 +9,7 @@ import { ProductHistory } from "../pages/profile/ProductHistory";
 import { PurchaseHistory } from "../pages/profile/PurchaseHistory";
 import { BlogHistory } from "../pages/profile/BlogHistory";
 import { CoachingHistory } from "../pages/profile/CoachingHistory";
+import { EventHistory } from "../pages/profile/EventHistory";
 import { RatingHistory } from "../pages/profile/RatingHistory";
 import { Setting } from "../pages/profile/Setting";
 
@@ -53,6 +54,10 @@ const routes = [
           {
             path: "coachingHistory",
             element: <CoachingHistory />,
+          },
+          {
+            path: "eventHistory",
+            element: <EventHistory />,
           },
           {
             path: "ratingHistory",
