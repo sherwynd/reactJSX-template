@@ -25,7 +25,6 @@ export function RatingHistory() {
         } else if (data.error) {
           throw new Error(data.error);
         } else {
-          console.log(data);
           setRatingHistory(data);
           setReviewValue(data.length);
         }
@@ -76,7 +75,7 @@ export function RatingHistory() {
           sx={{ display: "flex", justifyContent: "center" }}
           variant="h5"
         >
-          {reviewValue}
+          {ratingStarHistoryValue}
         </Typography>
         <Rating
           name="read-only"
