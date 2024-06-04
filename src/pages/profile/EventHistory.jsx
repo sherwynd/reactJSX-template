@@ -21,7 +21,6 @@ export function EventHistory() {
           throw new Error(data.error);
         }
         setJoinedEvent(data);
-        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {

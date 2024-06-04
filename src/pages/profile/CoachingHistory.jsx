@@ -31,23 +31,6 @@ export function CoachingHistory() {
       }
     };
 
-    // const fetchJoinedEventHistory = async () => {
-    //   try {
-    //     const method = "GET";
-    //     const controller = `invoice/findAllInvoiceWithEventByUser/${refId}`;
-    //     const data = await apiGetTemplate(method, controller);
-    //     if (data.error) {
-    //       throw new Error(data.error);
-    //     }
-    //     setJoinedEvent(data);
-    //     console.log(data);
-    //   } catch (err) {
-    //     setError(err.message);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
     if (refId) {
       fetchCreatedEventHistory();
       // fetchJoinedEventHistory();
@@ -68,99 +51,9 @@ export function CoachingHistory() {
                 <CoachingHistoryCard event={coaching} />
               </Grid>
             ))}
-
-            {/* {joinedEvent.map((coaching) => (
-              <Grid
-                item
-                xs={6}
-                key={coaching._id}
-                sx={{
-                  display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <CoachingHistoryCard coaching={coaching} />
-              </Grid>
-            ))} */}
           </Grid>
         )}
       </Box>
-      {/* <Grid container spacing={2}>
-        {joinedEventSet && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexGrow: 1,
-              flexDirection: "column",
-            }}
-          >
-            <Typography
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexGrow: 1,
-              }}
-              variant="h4"
-            >
-              Joined
-            </Typography>
-
-            {coachings.map((coaching) => (
-              <Box
-                key={coaching.id}
-                sx={{
-                  mx: 2,
-                  my: 1,
-                  display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <CoachingHistoryCard coaching={coaching} />
-              </Box>
-            ))}
-          </Box>
-        )}
-
-        {createdEventSet && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              flexGrow: 1,
-              flexDirection: "column",
-            }}
-          >
-            <Typography
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexGrow: 1,
-              }}
-              variant="h4"
-            >
-              Created
-            </Typography>
-            {createdEvent.map((coaching) => (
-              <Grid
-                key={coaching._id}
-                sx={{
-                  mx: 2,
-                  my: 1,
-                  display: "flex",
-                  flexGrow: 1,
-                  justifyContent: "center",
-                }}
-              >
-                <CoachingHistoryCard coaching={createdEvent} />
-              </Grid>
-            ))}
-          </Box>
-        )}
-      </Grid> */}
     </>
   );
 }
