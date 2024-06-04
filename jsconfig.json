@@ -9,6 +9,5 @@
             "@services/": ["services/*"],
             "@stores/": ["stores/*"],
         },
-        "types": ["vitest/globals"]
     }
 }
