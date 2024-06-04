@@ -14,7 +14,9 @@ export function BlogCard({ post, onToggleLike, onMutePost, currentId }) {
   const navigate = useNavigate();
   const [creatorProfile, setCreatorProfile] = useState({});
   const [loading, setLoading] = useState(true);
-  const [favourite, setFavourite] = useState(post.likeRefId.includes(currentId));
+  const [favourite, setFavourite] = useState(
+    post.likeRefId.includes(currentId)
+  );
   const [favouriteCount, setFavouriteCount] = useState(post.likeRefId.length);
 
   useEffect(() => {
@@ -74,12 +76,8 @@ export function BlogCard({ post, onToggleLike, onMutePost, currentId }) {
           {creatorProfile.username && creatorProfile.username.charAt(0)}
         </Avatar>
         <Box sx={{ m: 2, flexDirection: "column" }}>
-          <Typography variant="subtitle1">
-            {creatorProfile.username}
-          </Typography>
-          <Typography variant="subtitle2">
-            {formattedDate}
-          </Typography>
+          <Typography variant="subtitle1">{creatorProfile.username}</Typography>
+          <Typography variant="subtitle2">{formattedDate}</Typography>
         </Box>
         <Box sx={{ display: "flex", justifyContent: "flex-end", flexGrow: 1 }}>
           <IconButton
@@ -94,7 +92,7 @@ export function BlogCard({ post, onToggleLike, onMutePost, currentId }) {
       </Box>
       <Box sx={{ mx: 3, display: "flex", flexDirection: "column" }}>
         <Typography variant="h5" sx={{ mx: 8 }}>
-          {post.description}
+          {post.heading}
         </Typography>
         <Carousel>
           {post.images.map((img, i) => (
@@ -103,7 +101,7 @@ export function BlogCard({ post, onToggleLike, onMutePost, currentId }) {
               src={`http://localhost:3000/${img}`} // Adjust the path to match your server setup
               alt={`Image ${i + 1}`}
               onClick={() => handleNavigateToDetails(post._id)}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
             />
           ))}
         </Carousel>
@@ -114,11 +112,7 @@ export function BlogCard({ post, onToggleLike, onMutePost, currentId }) {
               onClick={handleToggleLikeClick}
               style={{ marginRight: "8px" }}
             >
-              {favourite ? (
-                <FavoriteIcon color="warning" />
-              ) : (
-                <FavoriteIcon />
-              )}
+              {favourite ? <FavoriteIcon color="warning" /> : <FavoriteIcon />}
             </IconButton>
             <Typography variant="body2" style={{ display: "inline" }}>
               {favouriteCount}
