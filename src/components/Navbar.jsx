@@ -189,7 +189,7 @@ export function NavBar(props) {
                 noWrap
                 component="div"
               >
-                Sport IndirectMou
+                Sport Indirect
               </Typography>
             </Box>
             <Box
