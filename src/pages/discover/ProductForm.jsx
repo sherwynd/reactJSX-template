@@ -1,14 +1,11 @@
-import { Label } from '@mui/icons-material';
-import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Box, Grid, Paper, Input, FormLabel } from '@mui/material';
-import { useState, useContext, useRef } from 'react';
-import { ProductContext } from '../../contexts/ProductContext';
+import { TextField, Typography, Button, FormControl, InputLabel, InputAdornment, OutlinedInput, Select, MenuItem, Stack, Box, Grid, Paper, Input, FormLabel, FormHelperText, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { useState, useRef } from 'react';
 
 const ProductForm = () => {
-    const { addProduct } = useContext(ProductContext);
     const creatorId = JSON.parse(localStorage.getItem('profile')).refId;
 
     const [title, setTitle] = useState('');
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
     const [brand, setBrand] = useState('');
@@ -20,9 +17,27 @@ const ProductForm = () => {
     const [error, setError] = useState(null);
     const isFirstRender = useRef(true);
 
-    const handleSubmit = async (e) => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = (e) => {
         e.preventDefault();
+        if (isNaN(price) || price < 1) {
+            setError('Price must be a positive number');
+            setOpen(false);
+        } else if (!/^\d+(\.\d{1,2})?$/.test(price)) {
+            setError('The input must be a valid price (e.g., 10.99)');
+            setOpen(false);
+        } else {
+            setError('');
+            setOpen(true);
+        }
+    };
+    const handleClose = (e) => {
+        e.preventDefault();
+        setOpen(false);
+    };
 
+    const handleConfirm = async (e) => {
+        e.preventDefault();
         if (isFirstRender.current) {
             isFirstRender.current = false;
             return;
@@ -52,11 +67,9 @@ const ProductForm = () => {
             setError(json.message);
         }
         if (response.ok) {
-            addProduct(json);
-            alert("A new product is created.");
 
             setTitle('');
-            setPrice(0);
+            setPrice('');
             setDescription('');
             setCategory('');
             setBrand('');
@@ -68,6 +81,7 @@ const ProductForm = () => {
             setError(null);
             renderPhotos(selectedFiles);
         }
+        setOpen(false);
     }
 
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -76,7 +90,6 @@ const ProductForm = () => {
 
             const newFiles = Array.from(e.target.files);
             setImgs((prevImgs) => [...prevImgs, ...newFiles]);
-            console.log(imgs)
 
             const filesArray = Array.from(e.target.files).map((file) =>
                 URL.createObjectURL(file)
@@ -109,7 +122,7 @@ const ProductForm = () => {
         <>
             <Paper elevation={2} sx={{ bgcolor: "secondary.main", p: 5 }}>
                 <Typography variant='h4' sx={{ m: 2 }}>Sell your Item</Typography>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={(e) => handleOpen(e)}>
                     <Stack spacing={2} sx={{ justifyContent: "center", alignItems: "center", display: "flex", mb: 5 }}>
 
                         <FormControl required sx={{ m: 1, width: "50%" }} >
@@ -130,7 +143,10 @@ const ProductForm = () => {
                                 label="price"
                                 onChange={(e) => setPrice(e.target.value)}
                                 value={price}
+                                type='text'
+                                error={!!error}
                             />
+                            <FormHelperText sx={{ color: 'red' }}>{error}</FormHelperText>
                         </FormControl>
 
                         <TextField
@@ -235,12 +251,29 @@ const ProductForm = () => {
 
                         <Button variant="outlined" color="primary" type="submit" sx={{ m: 1, width: "50%", borderRadius: 3 }}>Submit</Button>
                     </Stack >
+                    <PopUp open={open} onClose={(e) => handleClose(e)} title="Confirmation" content="Are you sure you want to submit?" onConfirm={handleConfirm} />
                 </form>
             </Paper>
         </>
 
     )
 }
+
+
+const PopUp = ({ open, onClose, title, content, onConfirm }) => {
+    return (
+        <Dialog open={open} onClose={onClose}>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogContent>
+                <Typography>{content}</Typography>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose} color="primary">Cancel</Button>
+                <Button onClick={onConfirm} color="primary">Confirm</Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
 
 
 

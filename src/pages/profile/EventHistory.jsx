@@ -1,26 +1,26 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
+import { CoachingHistoryCard } from "../../components/CoachingHistoryCard";
 import { apiGetTemplate } from "../../services/api";
-import { BlogHistoryCard } from "../../components/BlogHistoryCard";
 
-export function BlogHistory() {
+export function EventHistory() {
   const { refId } = useParams();
-  const [blogHistory, setBlogHistory] = useState([]);
+  const [joinedEvent, setJoinedEvent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBlogHistory = async () => {
+    const fetchJoinedEventHistory = async () => {
       try {
         const method = "GET";
-        const controller = `blogs/blogsHistory/${refId}`;
+        const controller = `invoice/findAllInvoiceWithEventByUser/${refId}`;
         const data = await apiGetTemplate(method, controller);
         if (data.error) {
           throw new Error(data.error);
         }
-        setBlogHistory([data]);
+        setJoinedEvent(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -29,7 +29,7 @@ export function BlogHistory() {
     };
 
     if (refId) {
-      fetchBlogHistory();
+      fetchJoinedEventHistory();
     }
   }, [refId]);
 
@@ -42,9 +42,9 @@ export function BlogHistory() {
         {error && <Typography>Error: {error}</Typography>}
         {!loading && !error && (
           <Grid container spacing={1}>
-            {blogHistory.map((blog) => (
-              <Grid item xs={4} key={blog._id}>
-                <BlogHistoryCard blog={blog} />
+            {joinedEvent.map((coaching) => (
+              <Grid item xs={4} key={coaching._id}>
+                <CoachingHistoryCard event={coaching} />
               </Grid>
             ))}
           </Grid>

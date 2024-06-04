@@ -104,7 +104,7 @@ export function Login() {
               style={{ maxWidth: "150px" }}
             />
             <Typography variant="h5" component="h1" sx={{ mt: 1 }}>
-              Sport Mou
+              Sport Indirect
             </Typography>
           </Box>
           <TextField

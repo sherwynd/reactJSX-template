@@ -3,10 +3,6 @@ import { styled, alpha } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState, useContext } from "react";
-import { apiGetTemplate } from "../../services/api";
-
-import { ProductContext } from "../../contexts/ProductContext";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -17,7 +13,7 @@ const Search = styled("div")(({ theme }) => ({
   },
   marginLeft: 0,
   width: "100%",
-  border: `1px solid ${theme.palette.common.black}`,
+  border: `1px solid ${theme.palette.common.black}`, // Added border for visibility
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(1),
     width: "auto",
@@ -39,7 +35,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     [theme.breakpoints.up("sm")]: {
@@ -51,32 +46,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export function SearchBar({ setResult }) {
-  const [item, setItem] = useState();
-  const { products, fetchProducts } = useContext(ProductContext);
+export function BlogSearchBar({ onSearch }) {
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    onSearch(value);
+  };
 
-  const fetchData = async (value) => {
-    // const method = "GET";
-    // const controller = "discover/";
-    // const data = await apiGetTemplate(method, controller);
-    fetchProducts();
-    const data = products;
-    const result = data.filter((item) => {
-      return item && item.title && item.title.toLowerCase().includes(value.toLowerCase());
-    });
-    setResult(result);
-  };
-  const handleSearchChange = (value) => {
-    setItem(value);
-    fetchData(value);
-  };
   return (
     <Container
       sx={{
-        display: "flex-inline",
+        display: "flex",
         flexGrow: 1,
         minWidth: "600px",
-        width: "100%",
         mr: 3,
         justifyContent: "center",
       }}
@@ -94,7 +75,7 @@ export function SearchBar({ setResult }) {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onChange={handleSearchChange}
         />
       </Search>
     </Container>

@@ -189,7 +189,7 @@ export function NavBar(props) {
                 noWrap
                 component="div"
               >
-                Sport Mou
+                Sport Indirect
               </Typography>
             </Box>
             <Box
@@ -199,10 +199,7 @@ export function NavBar(props) {
                 alignItems: "center",
                 flexGrow: 1,
               }}
-            >
-              {(location.pathname.includes("/discover") ||
-                location.pathname.includes("/blog")) && <SearchBar />}
-            </Box>
+            ></Box>
             <Box
               sx={{
                 display: "flex",
