@@ -20,19 +20,7 @@ export function Discover() {
   };
 
   // Categories
-  const categories = [
-    "All",
-    "Running",
-    "Shirts",
-    "Badminton",
-    "Football",
-    "Swimming",
-    "Basketball",
-    "Table Tennis",
-    "Tennis",
-    "Squash",
-    "Hockey",
-  ];
+  const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
 
   // Filter products based on category
   const [filteredProducts, setFilteredProducts] = useState([...products]);

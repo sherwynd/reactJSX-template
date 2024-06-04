@@ -20,7 +20,6 @@ import CoachingCreate from "../pages/coaching/CoachingCreate.jsx";
 import ProductDetail from "../pages/discover/ProductDetail.jsx";
 import ProductFormUpdate from "../pages/discover/ProductFormUpdate.jsx";
 import ProductForm from "../pages/discover/ProductForm.jsx";
-import PaymentPage from "../pages/discover/PaymentPage.jsx";
 import { BlogPost } from "../pages/blog/Blog";
 import { Favorites } from "../pages/favourites/Favourites";
 import { Rate } from "../pages/rating/Rating";

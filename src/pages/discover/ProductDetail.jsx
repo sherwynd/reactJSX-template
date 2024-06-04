@@ -28,23 +28,21 @@ const ProductDetail = () => {
   const favouriteProducts = profile.favourites || [];
   const [loading, setLoading] = useState(true);
   const [loadingRating, setLoadingRating] = useState(true);
+  const [creatorRating, setCreatorRating] = useState(0);
 
-  useEffect(() => {
-    const fetchRating = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/rating/product/${id}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const json = await response.json();
-        setRatings(json);
-      } catch (error) {
-        console.error('Error fetching ratings:', error);
-        setLoadingRating(false);
+  const fetchRating = async (creatorRefId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/rating/allcommentsOfAUser/${creatorRefId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    };
-    fetchRating()
-  }, [id]);
+      const json = await response.json();
+      setRatings(json);
+    } catch (error) {
+      console.error('Error fetching ratings:', error);
+      setLoadingRating(false);
+    }
+  };
 
   useEffect(() => {
     setLoadingRating(false);
@@ -85,10 +83,26 @@ const ProductDetail = () => {
       const json = await response.json();
       setCreatorProfile(json);
       setLoading(false);
+      fetchCreatorRating(json.refId);
+      fetchRating(json.refId);
     }
     fetchCreatorProfile();
+
   }, [product.creatorId])
 
+  const fetchCreatorRating = async (creatorRefId) => {
+    try {
+      console.log(creatorProfile)
+      const response = await fetch(`http://localhost:3000/rating/averageRatingOfAUser/${creatorRefId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const json = await response.json();
+      setCreatorRating(json);
+    } catch (error) {
+      console.error('Error fetching ratings:', error);
+    }
+  };
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -106,8 +120,9 @@ const ProductDetail = () => {
     updateFavouriteProductsinDatabase(userId, favouriteProducts);
   }, [favouriteProducts])
 
-  const updateFavouriteProductsinDatabase = async (refId, favouriteProducts) => {
-    const response = await fetch(`http://localhost:3000/auth/editAccount/${refId}`, {
+  const updateFavouriteProductsinDatabase = async (userId, favouriteProducts) => {
+    console.log(refId)
+    const response = await fetch(`http://localhost:3000/auth/editAccount/${userId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -191,8 +206,7 @@ const ProductDetail = () => {
             <Rating
               sx={{ my: .3, mx: 2 }}
               name="user-rating"
-              // value={product.profile.rating}
-              value={profile.rating}
+              value={creatorRating}
               precision={0.5}
               readOnly />
             <div>
@@ -295,7 +309,7 @@ const ProductDetail = () => {
                   {ratings.map(rating => {
                     return (
                       <Grid item key={rating._id} xs={12} sx={{ mr: 5 }}>
-                        <CommentCard comment={rating} />
+                        <CommentCard rating={rating} />
                       </Grid>
                     )
                   })}

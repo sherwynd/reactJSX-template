@@ -103,7 +103,7 @@ const ProductForm = () => {
         });
     };
 
-    const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey',];
+    const categories = ['Running', 'Shirts', 'Badminton', 'Football', 'Swimming', 'Basketball', 'Table Tennis', 'Tennis', 'Squash', 'Hockey', 'Others'];
 
     return (
         <>
