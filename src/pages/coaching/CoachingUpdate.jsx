@@ -8,9 +8,14 @@ import {
   TextField,
   Typography,
   Tooltip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   DatePicker,
   LocalizationProvider,
@@ -38,6 +43,7 @@ export default function CoachingUpdate() {
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -90,8 +96,7 @@ export default function CoachingUpdate() {
     }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     try {
       const response = await fetch(`http://localhost:3000/event/${id}`, {
         method: "PATCH",
@@ -111,6 +116,17 @@ export default function CoachingUpdate() {
     }
   };
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = (confirm) => {
+    setOpenDialog(false);
+    if (confirm) {
+      handleSubmit();
+    }
+  };
+
   if (loading) return <Typography>Loading...</Typography>;
   if (error) return <Typography>Error: {error}</Typography>;
 
@@ -122,7 +138,7 @@ export default function CoachingUpdate() {
         </Typography>
         <Card sx={{ mx: 10, borderRadius: 5, boxShadow: 2 }}>
           <CardContent>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => { e.preventDefault(); handleOpenDialog(); }}>
               <Grid container spacing={3}>
                 {/* Event Details */}
                 <Grid item xs={12}>
@@ -193,19 +209,6 @@ export default function CoachingUpdate() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="participant-limit"
-                    name="participantLimit"
-                    label="Set Participant Limit"
-                    variant="outlined"
-                    value={formData.participantLimit}
-                    onChange={handleChange}
-                  />
-                </Grid>
-
-                {/* Activity Details with Rating Icons for Intensity and Complexity */}
                 {formData.activities.map((activity, index) => (
                   <React.Fragment key={index}>
                     <Grid item xs={12} sm={6}>
@@ -292,11 +295,40 @@ export default function CoachingUpdate() {
                 >
                   Update Event
                 </Button>
+                <Link to={`/coaching/${id}`} style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    sx={{ mt: 5, width: "100%" }}
+                  >
+                    Cancel Edit
+                  </Button>
+                </Link>
               </Box>
             </form>
           </CardContent>
         </Card>
       </Box>
+
+      <Dialog
+        open={openDialog}
+        onClose={() => handleCloseDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Update Event"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to update this event?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleCloseDialog(true)} autoFocus>
+            Yes
+          </Button>
+          <Button onClick={() => handleCloseDialog(false)}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }
