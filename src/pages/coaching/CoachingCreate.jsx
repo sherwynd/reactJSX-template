@@ -192,7 +192,7 @@ export default function CoachingCreate() {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     fullWidth
                     id="participant-limit"
@@ -202,7 +202,7 @@ export default function CoachingCreate() {
                     value={formData.participantLimit}
                     onChange={handleChange}
                   />
-                </Grid>
+                </Grid> */}
 
                 {/* Activity Details with Rating Icons for Intensity and Complexity */}
                 {formData.activities.map((activity, index) => (
