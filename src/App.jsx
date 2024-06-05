@@ -37,12 +37,10 @@ export default function App() {
   const alertOpen = location.state?.alertOpen;
   return (
     <>
-      {/* <ThemeProvider theme={outerTheme}> */}
       <CssBaseline />
       <NavBar>
         <Outlet />
       </NavBar>
-      {/* </ThemeProvider> */}
     </>
   );
 }

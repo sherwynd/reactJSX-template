@@ -226,7 +226,7 @@ export function Profile() {
         )}
       </Box>
       {/* E comm */}
-      <Chart />
+      {/* <Chart /> */}
     </>
   );
 }

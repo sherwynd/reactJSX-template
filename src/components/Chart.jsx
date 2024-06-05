@@ -19,6 +19,20 @@ export default function Chart() {
     "Nov",
     "Dec",
   ];
+  const XAgeLabels = [
+    18,
+    50,
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   return (
     <>
       <Box
@@ -94,6 +108,29 @@ export default function Chart() {
           ]}
           width={900}
           height={500}
+          margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
+        />
+        <Typography
+          sx={{
+            my: 1,
+          }}
+        >
+          Age and quantity event joined
+        </Typography>
+        <BarChart
+          series={[
+            {
+              data: [2, 1, 2, 8, 4, 6, 4, 6, 2, 3, 3, 9],
+              label: "Event Joined",
+            },
+            {
+              data: [2, 0, 1, 0, 1, 1, 2, 3, 5, 4, 3, 2],
+              label: "Event Created",
+            },
+          ]}
+          width={900}
+          height={500}
+          xAxis={[{ scaleType: "band", data: XAgeLabels }]}
           margin={{ top: 10, bottom: 30, left: 40, right: 10 }}
         />
       </Box>
