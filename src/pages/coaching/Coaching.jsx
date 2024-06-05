@@ -47,6 +47,7 @@ export function Coaching() {
   const userData = JSON.parse(localStorage.getItem("profile"));
   const refId = userData.refId;
   const [value, setValue] = useState(0);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -95,10 +96,10 @@ export function Coaching() {
           aria-label="basic tabs example"
         >
           <Tab label="My Events" {...a11yProps(0)} />
-          <Tab label="Other Events" {...a11yProps(1)} />
+          <Tab label="Subscribed Events" {...a11yProps(1)} />
+          <Tab label="Other Events" {...a11yProps(2)} />
         </Tabs>
       </Box>
-
       <CustomTabPanel value={value} index={0}>
         <Grid container spacing={4}>
           {events
@@ -113,6 +114,17 @@ export function Coaching() {
       <CustomTabPanel value={value} index={1}>
         <Grid container spacing={4}>
           {events
+            .filter((event) => event.subscribers.includes(refId))
+            .map((event) => (
+              <Grid key={event._id} item xs={12} sm={6} md={4}>
+                <EventCard event={event} />
+              </Grid>
+            ))}
+        </Grid>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <Grid container spacing={4}>
+          {events
             .filter((event) => refId !== event.createdBy)
             .map((event) => (
               <Grid key={event._id} item xs={12} sm={6} md={4}>
@@ -121,6 +133,7 @@ export function Coaching() {
             ))}
         </Grid>
       </CustomTabPanel>
+
       <Outlet />
     </ThemeProvider>
   );
